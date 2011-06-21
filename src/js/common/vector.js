@@ -33,7 +33,6 @@ function Vector() {
                 n.data = this.data.slice();
                 return n.doScale(f);
         }
-        // TODO function to scale a vector (doScale & scale)
         this.toString = function() { return this.data.toString(); }
 }
 
