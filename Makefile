@@ -12,7 +12,7 @@ all: html js
 
 html: build/html/simulation.html
 
-js: build/js/cypress.js
+js: build/js/cypress.js build/js/select.js
 
 build:
 	${MKDIR} build
@@ -20,6 +20,8 @@ build/js: build
 	${MKDIR} build/js
 build/js/cypress.js: build/js ${JSFILES}
 	cat ${JSFILES} > $@
+build/js/select.js: build/js src/js/select.js
+	cp src/js/select.js $@
 build/html: build
 	${MKDIR} build/html
 build/html/simulation.html: build/html src/html/simulation.html
