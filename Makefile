@@ -19,7 +19,9 @@ build/js/cypress.js: build/js ${JSFILES}
 
 doc:
 
+.SILENT: test
 test:
+	echo Open tests/index.html in a browser to run unit tests
 
 clean:
 	for r in `cat .hgignore`;do find * -regex $$r -delete;done
