@@ -1,8 +1,7 @@
 COMMON_JSFILES := \
 	vector.js
 
-JSFILES_ := $(addprefix common/,${COMMON_JSFILES})
-JSFILES := $(addprefix src/js/,${JSFILES_})
+JSFILES := $(wildcard src/js/common/*.js)
 
 MKDIR := mkdir -p
 
