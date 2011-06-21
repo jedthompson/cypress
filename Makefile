@@ -33,5 +33,6 @@ test:
 
 .SILENT: clean
 clean:
-	for r in `cat .hgignore`;do find * -regex $$r -exec echo rm -rf \{\} \; -delete;done
+	for r in `cat .hgignore`;\
+	do find * -regex $$r -exec echo rm -rf \{\} \; -delete;done
 
