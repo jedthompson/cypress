@@ -4,18 +4,26 @@ COMMON_JSFILES := \
 JSFILES_ := $(addprefix common/,${COMMON_JSFILES})
 JSFILES := $(addprefix src/js/,${JSFILES_})
 
+MKDIR := mkdir -p
+
 .PHONY: all doc js test clean
 
-all: js
+all: html js
+
+html: build/html/simulation.html
 
 js: build/js/cypress.js
 
 build:
-	mkdir build
+	${MKDIR} build
 build/js: build
-	mkdir build/js
+	${MKDIR} build/js
 build/js/cypress.js: build/js ${JSFILES}
 	cat ${JSFILES} > $@
+build/html: build
+	${MKDIR} build/html
+build/html/simulation.html: build/html src/html/simulation.html
+	cp src/html/simulation.html $@
 
 doc:
 
@@ -23,6 +31,7 @@ doc:
 test:
 	echo Open tests/index.html in a browser to run unit tests
 
+.SILENT: clean
 clean:
-	for r in `cat .hgignore`;do find * -regex $$r -delete;done
+	for r in `cat .hgignore`;do find * -regex $$r -exec echo rm -rf \{\} \; -delete;done
 
