@@ -5,15 +5,31 @@ JSSIMULATIONS := $(wildcard src/js/simulations/*/*.js)
 OUT_SIMDIRS := $(foreach sim,${SIMULATIONCATS},build/js/simulations/${sim}/)
 OUT_JSSIMULATIONS := $(subst src/js/simulations,build/js/simulations,${JSSIMULATIONS})
 
+SRC_GR := $(wildcard src/gr/*.gr)
+OUT_GR := $(subst src/gr,build/gr,${SRC_GR})
+
+SRC_CSS := $(wildcard src/css/*.css)
+OUT_CSS := $(subst src/css,build/css,${SRC_CSS})
+
 MKDIR := mkdir -p
 
 .PHONY: all doc js test clean
 
-all: html js
+all: html js css gr
 
 html: build/html/simulation.html
 
 js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
+
+css: ${OUT_CSS}
+
+${OUT_CSS}: build/css
+	cp $(subst build/css,src/css,$@) $@
+
+gr: ${OUT_GR}
+
+${OUT_GR}: build/gr
+	cp $(subst build/gr,src/gr,$@) $@
 
 build:
 	${MKDIR} $@
