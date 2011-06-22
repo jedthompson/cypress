@@ -8,7 +8,7 @@ function select_simulation() {
 				="Could not load simulation";
 			return;
 		} else {
-			alert("Loaded");
+			run_simulation(simulation);
 		}
 	}
 	document.getElementsByTagName("head")[0].appendChild(script);

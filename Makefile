@@ -1,4 +1,4 @@
-JSCOMMON := $(wildcard src/js/common/*.js)
+JSCOMMON := $(shell find src/js/common -type f -regex .*\.js)
 SIMULATIONCATS := $(subst src/js/simulations/,,$(wildcard src/js/simulations/*))
 JSSIMULATIONS := $(wildcard src/js/simulations/*/*.js)
 
@@ -33,7 +33,7 @@ js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
 
 css: ${OUT_CSS}
 
-${OUT_CSS}: build/css
+${OUT_CSS}: build/css ${SRC_CSS}
 	cp $(subst build/css,src/css,$@) $@
 
 gr: ${OUT_GR}
