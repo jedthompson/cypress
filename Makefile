@@ -16,7 +16,7 @@ OUT_TESTS := $(foreach t,${TESTS},build/${t})
 TEST_DIRS := $(shell find tests -type d)
 OUT_TEST_DIRS := $(foreach t,${TEST_DIRS},build/${t})
 
-MKDIR := mkdir -p
+MKDIR := @mkdir -p
 
 .PHONY: all doc js test tests clean
 
@@ -24,7 +24,7 @@ all: html js css gr tests
 
 tests: ${OUT_TESTS}
 ${OUT_TESTS}: build/tests
-	mkdir -p $(shell dirname $@)
+	${MKDIR} $(shell dirname $@)
 	cp $(subst build/,,$@) $@
 
 html: build/html/simulation.html
