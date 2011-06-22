@@ -11,11 +11,21 @@ OUT_GR := $(subst src/gr,build/gr,${SRC_GR})
 SRC_CSS := $(wildcard src/css/*.css)
 OUT_CSS := $(subst src/css,build/css,${SRC_CSS})
 
+TESTS := $(shell find tests -type f)
+OUT_TESTS := $(foreach t,${TESTS},build/${t})
+TEST_DIRS := $(shell find tests -type d)
+OUT_TEST_DIRS := $(foreach t,${TEST_DIRS},build/${t})
+
 MKDIR := mkdir -p
 
-.PHONY: all doc js test clean
+.PHONY: all doc js test tests clean
 
-all: html js css gr
+all: html js css gr tests
+
+tests: ${OUT_TESTS}
+${OUT_TESTS}: build/tests
+	mkdir -p $(shell dirname $@)
+	cp $(subst build/,,$@) $@
 
 html: build/html/simulation.html
 
@@ -33,7 +43,7 @@ ${OUT_GR}: build/gr
 
 build:
 	${MKDIR} $@
-build/js build/css build/html build/gr: build
+build/js build/css build/html build/gr build/tests: build
 	${MKDIR} $@
 build/js/cypress.js: build/js ${JSCOMMON}
 	cat ${JSCOMMON} > $@
@@ -52,7 +62,7 @@ ${OUT_JSSIMULATIONS}: ${OUT_SIMDIRS} ${JSSIMULATIONS}
 doc:
 
 .SILENT: test
-test:
+test: tests
 	echo Open tests/index.html in a browser to run unit tests
 
 .SILENT: clean
