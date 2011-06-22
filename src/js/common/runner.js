@@ -10,9 +10,12 @@ function run_simulation(sim) {
 	display = document.getElementById("display");
 	content.innerHTML = display.innerHTML;
 
+	tabs = document.getElementById("tabs");
+	tabsHeight = parseInt(getComputedStyle(tabs).height);
+
 	canvas = document.getElementById("c");
-	canvas.width = width;
-	canvas.height = height;
+	//canvas.width = width;
+	canvas.style.height = height - tabsHeight;
 
 	description = document.getElementById("description");
 	description.innerHTML = sim.description;
