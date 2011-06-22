@@ -4,6 +4,8 @@ var height = window.innerHeight;
 var width = window.innerWidth;
 
 function run_simulation(sim) {
+	document.title = "Cypress : "+sim.name;
+
 	content = document.getElementById("content");
 	content.innerHTML='<canvas id="c" width="'+width+'" height="'+height+'"></canvas>';
 	
