@@ -7,10 +7,13 @@ function run_simulation(sim) {
 	document.title = "Cypress : "+sim.name;
 
 	content = document.getElementById("content");
-	content.innerHTML='<canvas id="c" width="'+width+'" height="'+height+'"></canvas>';
-	
+	display = document.getElementById("display");
+	content.innerHTML = display.innerHTML;
+
 	canvas = document.getElementById("c");
-	canvas.innerHTML="<p>Please download a modern browser.</p>";
+	canvas.width = width;
+	canvas.height = height;
+
 	sim.canvas = canvas;
 	sim.start();
 }
