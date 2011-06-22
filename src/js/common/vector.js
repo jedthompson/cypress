@@ -43,13 +43,10 @@ function vBO(f) {
         }
 }
 
-function add(a, b) {
-        return a+b;
-}
+var addv = vBO(function (a,b) {
+	return a+b;
+});
+var subv = vBO(function (a,b) {
+	return a-b;
+});
 
-function sub(a, b) {
-        return a-b;
-}
-
-var addv = vBO(add);
-var subv = vBO(sub);
