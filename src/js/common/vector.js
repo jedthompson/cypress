@@ -1,11 +1,3 @@
-function curry(fn) {
-        var slice = Array.prototype.slice;
-        var args = slice.apply(arguments, [1]);
-        return function () {
-                return fn.apply(null, args.concat(slice.apply(arguments)));
-        };
-}
-
 function Vector() {
         this.data = [];
         for(var i=0; i<arguments.length; i++) {
