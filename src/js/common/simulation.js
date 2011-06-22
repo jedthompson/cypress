@@ -1,0 +1,4 @@
+function Simulation(name, description) {
+
+}
+
