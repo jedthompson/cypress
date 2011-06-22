@@ -23,7 +23,7 @@ MKDIR := @mkdir -p
 all: html js css gr tests
 
 tests: ${OUT_TESTS}
-${OUT_TESTS}: build/tests
+${OUT_TESTS}:
 	${MKDIR} $(shell dirname $@)
 	cp $(subst build/,,$@) $@
 
@@ -33,7 +33,8 @@ js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
 
 css: ${OUT_CSS}
 
-${OUT_CSS}: build/css ${SRC_CSS}
+${OUT_CSS}: ${SRC_CSS}
+	${MKDIR} build/css
 	cp $(subst build/css,src/css,$@) $@
 
 gr: ${OUT_GR}
@@ -41,20 +42,21 @@ gr: ${OUT_GR}
 ${OUT_GR}: build/gr
 	cp $(subst build/gr,src/gr,$@) $@
 
-build:
-	${MKDIR} $@
-build/js build/css build/html build/gr build/tests: build
-	${MKDIR} $@
-build/js/cypress.js: build/js ${JSCOMMON}
+build/js/cypress.js: ${JSCOMMON}
+	${MKDIR} build/js
 	cat ${JSCOMMON} > $@
-build/js/select.js: build/js src/js/select.js
+build/js/select.js: src/js/select.js
+	${MKDIR} build/js
 	cp src/js/select.js $@
-build/html/simulation.html: build/html src/html/simulation.html
+build/html/simulation.html: src/html/simulation.html
+	${MKDIR} build/html
 	cp src/html/simulation.html $@
 
-build/js/simulations: build/js
+build/js/simulations:
+	${MKDIR} build/js
 	${MKDIR} $@
 ${OUT_SIMDIRS}: build/js/simulations
+	${MKDIR} build/js
 	${MKDIR} $@
 ${OUT_JSSIMULATIONS}: ${OUT_SIMDIRS} ${JSSIMULATIONS}
 	cp $(subst build/js/simulations,src/js/simulations,$@) $@
