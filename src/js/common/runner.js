@@ -14,6 +14,9 @@ function run_simulation(sim) {
 	canvas.width = width;
 	canvas.height = height;
 
+	description = document.getElementById("description");
+	description.innerHTML = sim.description;
+
 	sim.canvas = canvas;
 	sim.start();
 }

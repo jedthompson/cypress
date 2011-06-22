@@ -15,20 +15,21 @@ function Simulation(name) {
 	this.render2d = null;
 	this.render3d = null;
 
-	this.renderSimulation = function(s, c, w, h) {
-		this.render2d(s, c, w, h)
+	this.renderSimulation = function (s, c, w, h) {
+		this.render2d(s, c, w, h);
 	}
-	this.renderDescription = function() {
-		// TODO this should probably use some library
+	this.renderDescription = function (s, c, w, h) {
+		// just clear the canvas to expose the description
+		c.clearRect(0, 0, w, h);
 	}
-	this.renderSettings = function() {
+	this.renderSettings = function(s, c, w, h) {
 
 	}
 
 	this.tabs = {
-		Simulation: this.renderSimulation,
-		Description: this.renderDescription,
-		Settings: this.renderSettings,
+		Simulation: this.renderSimulation.bind(this),
+		Description: this.renderDescription.bind(this),
+		Settings: this.renderSettings.bind(this),
 	}
 
 	this.currentTab = "Simulation";
@@ -46,7 +47,11 @@ function Simulation(name) {
 	this.run = function () {
 		setTimeout(this.run.bind(this), this.dt);
 		this.state = this.step(this.settings, this.state);
-		this.renderSimulation(
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.fillStyle='white';
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.fillStyle='black';
+		this.tabs[this.currentTab](
 			this.state,
 			this.context,
 			this.canvas.width, this.canvas.height);

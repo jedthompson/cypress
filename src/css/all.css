@@ -4,7 +4,20 @@ body {
 }
 
 canvas#c {
+	position: absolute;
+	z-index: 10;
 	margin: 0;
 	padding: 0;
+	left: 0px;
+	right: 0px;
+}
+
+div#description {
+	z-index: 5;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 }
 
