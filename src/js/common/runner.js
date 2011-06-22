@@ -3,6 +3,8 @@
 var height = window.innerHeight;
 var width = window.innerWidth;
 
+// Runs the given simulation, settings up the screen with the necessary
+// elements in the process.
 function run_simulation(sim) {
 	document.title = "Cypress : "+sim.name;
 
