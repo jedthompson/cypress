@@ -3,7 +3,7 @@
 var height = window.innerHeight;
 var width = window.innerWidth;
 
-// Runs the given simulation, settings up the screen with the necessary
+// Runs the given simulation, setting up the screen with the necessary
 // elements in the process.
 function run_simulation(sim) {
 	document.title = "Cypress : "+sim.name;
@@ -16,7 +16,6 @@ function run_simulation(sim) {
 	tabsHeight = parseInt(getComputedStyle(tabs).height);
 
 	canvas = document.getElementById("c");
-	//canvas.width = width;
 	canvas.style.height = height - tabsHeight;
 
 	description = document.getElementById("description");
