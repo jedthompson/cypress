@@ -23,6 +23,7 @@ OUT_TEST_DIRS := $(foreach t,${TEST_DIRS},build/${t})
 
 MKDIR := @mkdir -p
 XSLTPROC := xsltproc
+CP := @cp
 
 .PHONY: all doc js test tests clean
 
@@ -31,7 +32,7 @@ all: html js css gr data tests
 tests: ${OUT_TESTS}
 ${OUT_TESTS}:
 	${MKDIR} $(shell dirname $@)
-	cp $(subst build/,,$@) $@
+	${CP} $(subst build/,,$@) $@
 
 html: build/html/simulation.html
 
@@ -40,29 +41,29 @@ js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
 data: ${OUT_DATA} build/html/simulations.xhtml
 ${OUT_DATA}: ${SRC_DATA}
 	${MKDIR} build/data
-	cp $(subst build/data,src/data,$@) $@
+	${CP} $(subst build/data,src/data,$@) $@
 build/html/simulations.xhtml: $(subst src/data,build/data,$(wildcard src/data/simulations.*))
 	${XSLTPROC} build/data/simulations.xsl build/data/simulations.xml > build/html/simulations.xhtml
 
 css: ${OUT_CSS}
 ${OUT_CSS}: ${SRC_CSS}
 	${MKDIR} build/css
-	cp $(subst build/css,src/css,$@) $@
+	${CP} $(subst build/css,src/css,$@) $@
 
 gr: ${OUT_GR}
 ${OUT_GR}: ${SRC_GR}
 	${MKDIR} $(shell dirname $@)
-	cp $(subst build/gr,src/gr,$@) $@
+	${CP} $(subst build/gr,src/gr,$@) $@
 
 build/js/cypress.js: ${JSCOMMON}
 	${MKDIR} build/js
 	cat ${JSCOMMON} > $@
 build/js/select.js: src/js/select.js
 	${MKDIR} build/js
-	cp src/js/select.js $@
+	${CP} src/js/select.js $@
 build/html/simulation.html: src/html/simulation.html
 	${MKDIR} build/html
-	cp src/html/simulation.html $@
+	${CP} src/html/simulation.html $@
 
 build/js/simulations:
 	${MKDIR} build/js
@@ -71,16 +72,15 @@ ${OUT_SIMDIRS}: build/js/simulations
 	${MKDIR} build/js
 	${MKDIR} $@
 ${OUT_JSSIMULATIONS}: ${OUT_SIMDIRS} ${JSSIMULATIONS}
-	cp $(subst build/js/simulations,src/js/simulations,$@) $@
+	${CP} $(subst build/js/simulations,src/js/simulations,$@) $@
 
 doc:
 
-.SILENT: test
 test: tests
-	echo Open tests/index.html in a browser to run unit tests
+	@echo Open tests/index.html in a browser to run unit tests
 
 .SILENT: clean
 clean:
 	for r in `cat .hgignore`;\
-	do find * -regex $$r -exec echo rm -rf \{\} \; -delete;done
+	do find * -regex $$r -delete;done
 
