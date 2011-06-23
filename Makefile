@@ -13,6 +13,9 @@ OUT_GR := $(subst src/gr,build/gr,${SRC_GR})
 SRC_CSS := $(wildcard src/css/*.css)
 OUT_CSS := $(subst src/css,build/css,${SRC_CSS})
 
+SRC_DATA := $(wildcard src/data/*)
+OUT_DATA := $(subst src/data,build/data,${SRC_DATA})
+
 TESTS := $(shell find tests -type f)
 OUT_TESTS := $(foreach t,${TESTS},build/${t})
 TEST_DIRS := $(shell find tests -type d)
@@ -22,7 +25,7 @@ MKDIR := @mkdir -p
 
 .PHONY: all doc js test tests clean
 
-all: html js css gr tests
+all: html js css gr data tests
 
 tests: ${OUT_TESTS}
 ${OUT_TESTS}:
@@ -32,6 +35,12 @@ ${OUT_TESTS}:
 html: build/html/simulation.html
 
 js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
+
+data: ${OUT_DATA}
+
+${OUT_DATA}: ${SRC_DATA}
+	${MKDIR} build/data
+	cp $(subst build/data,src/data,$@) $@
 
 css: ${OUT_CSS}
 
