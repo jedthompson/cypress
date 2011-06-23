@@ -7,7 +7,7 @@ JSSIMULATIONS := $(wildcard src/js/simulations/*/*.js)
 OUT_SIMDIRS := $(foreach sim,${SIMULATIONCATS},build/js/simulations/${sim}/)
 OUT_JSSIMULATIONS := $(subst src/js/simulations,build/js/simulations,${JSSIMULATIONS})
 
-SRC_GR := $(wildcard src/gr/*.gr)
+SRC_GR := $(shell find src/gr -type f)
 OUT_GR := $(subst src/gr,build/gr,${SRC_GR})
 
 SRC_CSS := $(wildcard src/css/*.css)
@@ -50,7 +50,8 @@ ${OUT_CSS}: ${SRC_CSS}
 	cp $(subst build/css,src/css,$@) $@
 
 gr: ${OUT_GR}
-${OUT_GR}: build/gr
+${OUT_GR}: ${SRC_GR}
+	${MKDIR} $(shell dirname $@)
 	cp $(subst build/gr,src/gr,$@) $@
 
 build/js/cypress.js: ${JSCOMMON}
