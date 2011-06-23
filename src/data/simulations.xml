@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <simulations>
 	<category path="mechanics">
-		<name>Mechanics</name>
+		<name>Classical Mechanics</name>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="friction">
