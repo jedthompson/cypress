@@ -29,8 +29,8 @@ function Simulation(name) {
 	}
 
 	this.tabs = {
-		Simulation: this.renderSimulation.bind(this),
 		Description: this.renderDescription.bind(this),
+		Simulation: this.renderSimulation.bind(this),
 		Settings: this.renderSettings.bind(this),
 	}
 
