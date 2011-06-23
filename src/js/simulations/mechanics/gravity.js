@@ -29,6 +29,10 @@ function force12() {
 simulation.step = function(state) {
 	a1 = force12()/mass1;
 	a2 = force12()/mass2;
+
+	state.vel1 += a1;
+	state.vel2 += a2;
+
 	return state;
 }
 simulation.render2d = function(state, c, w, h) {
