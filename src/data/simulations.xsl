@@ -17,19 +17,26 @@
               <div class="category-name">
                 <xsl:value-of select="name" />
               </div>
-              <xsl:for-each select="simulation">
-                <div class="simulation">
-                  <div class="simulation-name" onclick="window.location='simulation.html?{../@path}/{@path}'">
+              <xsl:for-each select="subcategory">
+                <div class="subcategory">
+                  <div class="subcategory-name">
                     <xsl:value-of select="name" />
                   </div>
-                  <div class="simulation-tags">
-                    Tags: 
-                    <xsl:for-each select="tagset/tag">
-                    <div class="tag">
-                      <xsl:value-of select="." />
+                  <xsl:for-each select="simulation">
+                    <div class="simulation">
+                      <div class="simulation-name" onclick="window.location='simulation.html?{../../@path}/{../@path}/{@path}'">
+                        <xsl:value-of select="name" />
+                      </div>
+                      <div class="simulation-tags">
+                        Tags: 
+                        <xsl:for-each select="tagset/tag">
+                        <div class="tag">
+                          <xsl:value-of select="." />
+                        </div>
+                        </xsl:for-each>
+                      </div>
                     </div>
-                    </xsl:for-each>
-                  </div>
+                  </xsl:for-each>
                 </div>
               </xsl:for-each>
             </div>

@@ -2,42 +2,45 @@
 <simulations>
 	<category path="mechanics">
 		<name>Mechanics</name>
-		<simulation path="gravity">
-			<name>Gravity</name>
-			<tagset>
-				<tag>gravity</tag>
-			</tagset>
-		</simulation>
-		<simulation path="friction">
-			<name>Friction</name>
-			<tagset>
-				<tag>friction</tag>
-				<tag>block</tag>
-				<tag>ramp</tag>
-			</tagset>
-		</simulation>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="friction">
+				<name>Friction</name>
+				<tagset>
+					<tag>friction</tag>
+					<tag>block</tag>
+					<tag>ramp</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 	</category>
 	
 	<category path="em">
 		<name>Electricity and Magnetism</name>
-		<simulation path="charge-mf">
-			<name>Charged Particle in Magnetic Field</name>
-			<tagset>
-				<tag>charge</tag>
-				<tag>magnet</tag>
-				<tag>field</tag>
-			</tagset>
-		</simulation>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="charge-mf">
+				<name>Charged Particle in Magnetic Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>magnet</tag>
+					<tag>field</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 	</category>
 
 	<category path="thermodynamics">
 		<name>Thermodynamics</name>
-		<simulation path="diffusion">
-			<name>Diffusion</name>
-			<tagset>
-				<tag>entropy</tag>
-			</tagset>
-		</simulation>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="diffusion">
+				<name>Diffusion</name>
+				<tagset>
+					<tag>entropy</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 	</category>
 </simulations>
 
