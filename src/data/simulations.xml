@@ -4,6 +4,9 @@
 		<name>Mechanics</name>
 		<simulation path="gravity">
 			<name>Gravity</name>
+			<tagset>
+				<tag>gravity</tag>
+			</tagset>
 		</simulation>
 	</category>
 </simulations>
