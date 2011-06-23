@@ -45,6 +45,7 @@ h1 {
 .simulation-name {
 	display: inline;
 	cursor: pointer;
+	text-decoration: underline;
 }
 
 .simulation-tags {
