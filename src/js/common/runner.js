@@ -53,8 +53,12 @@ function run_simulation(sim) {
 function createTab(name) {
 	s = document.createElement('div');
 	s.id = name+"Tab";
+	s.name = name;
 	s.className = "tab";
 	s.innerHTML = name;
+	s.onclick = function() {
+		alert(sim.currentTab = this.name);
+	}
 	return s;
 }
 
