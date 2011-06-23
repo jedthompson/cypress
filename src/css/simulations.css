@@ -7,34 +7,52 @@ body {
 }
 
 h1 {
+	text-align: center;
+}
 
+#container {
+	display: block;
+	width: 750px;
+	font-family: helvetica, arial, sans-serif;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #simulations {
-
+	display: block;
+	font-family: helvetica, arial, sans-serif;
+	letter-spacing: 0.4px;
 }
 
 .category {
-	margin-left: 5px;
+	margin-left: 10px;
+	font-size: 115%;
+	padding: 5px;
+	width: 100%;
 }
 
 .category-name {
-
+	font-weight: bold;
 }
 
 .simulation {
-
+	margin-left: 10px;
+	font-size: 90%;
+	padding: 2px;
+	width: 100%;
 }
 
 .simulation-name {
-
+	display: inline;
 }
 
 .simulation-tags {
-
+	float: right;
+	width: 300px;
+	font-size: 80%;
 }
 
 .tag {
-
+	display: inline;
 }
 

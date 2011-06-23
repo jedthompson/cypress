@@ -8,6 +8,26 @@
 				<tag>gravity</tag>
 			</tagset>
 		</simulation>
+		<simulation path="friction">
+			<name>Friction</name>
+			<tagset>
+				<tag>friction</tag>
+				<tag>block</tag>
+				<tag>ramp</tag>
+			</tagset>
+		</simulation>
+	</category>
+	
+	<category path="em">
+		<name>Electricity and Magnetism</name>
+		<simulation path="charge-mf">
+			<name>Charged Particle in Magnetic Field</name>
+			<tagset>
+				<tag>charge</tag>
+				<tag>magnet</tag>
+				<tag>field</tag>
+			</tagset>
+		</simulation>
 	</category>
 </simulations>
 
