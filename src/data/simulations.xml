@@ -29,5 +29,15 @@
 			</tagset>
 		</simulation>
 	</category>
+
+	<category path="thermodynamics">
+		<name>Thermodynamics</name>
+		<simulation path="diffusion">
+			<name>Diffusion</name>
+			<tagset>
+				<tag>entropy</tag>
+			</tagset>
+		</simulation>
+	</category>
 </simulations>
 
