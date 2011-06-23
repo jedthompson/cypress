@@ -5,7 +5,7 @@
   <html>
     <head>
       <title>Cypress : Simulations</title>
-      <link rel="stylesheet" type="text/css" href="simulations.css" />
+      <link rel="stylesheet" type="text/css" href="../css/simulations.css" />
     </head>
     <body>
       <div id="simulations">
