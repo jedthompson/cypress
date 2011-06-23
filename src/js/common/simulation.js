@@ -7,16 +7,26 @@ function Simulation(name) {
 	// the space in milliseconds between invocations of 'step'
 	this.dt = 20;
 
-	this.settings = {};
-	this.state = null;
-	this.step = function(settings, state) {
+	this.state = {
+		settings: {},
+	}
+
+	this.step = function(state) {
 		return state;
 	}
 	this.render2d = null;
 	this.render3d = null;
 
 	this.renderSimulation = function (s, c, w, h) {
+		c.save();
+		c.translate(w/2, h/2);
+		if (w>h) {
+			c.scale(h/100, h/100);
+		} else {
+			c.scale(w/100, w/100);
+		}
 		this.render2d(s, c, w, h);
+		c.restore();
 	}
 	this.renderDescription = function (s, c, w, h) {
 		// just clear the canvas to expose the description
@@ -46,15 +56,15 @@ function Simulation(name) {
 	// recursive function to run step() and render()
 	this.run = function () {
 		setTimeout(this.run.bind(this), this.dt);
-		this.state = this.step(this.settings, this.state);
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.state = this.step(this.state);
+		this.context.clearRect(0, 0, this.width, this.height);
 		this.context.fillStyle='white';
-		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.fillRect(0, 0, this.width, this.height);
 		this.context.fillStyle='black';
 		this.tabs[this.currentTab](
 			this.state,
 			this.context,
-			this.canvas.width, this.canvas.height);
+			this.width, this.height);
 	}
 }
 
