@@ -24,6 +24,16 @@ div#description {
 }
 
 div#tabs {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	left: 0px;
+	bottom: 0px;
 	height: 26px;
+}
+
+div.tab {
+	float: left;
+	width: 80px;
 }
 
