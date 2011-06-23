@@ -22,7 +22,7 @@ function Simulation(name) {
 	}
 	this.renderDescription = function (s, c, w, h) {
 		// just clear the canvas to expose the description
-		c.clearRect(0, 0, w, h);
+		c.clearRect(-w/2, -h/2, w/2, h/2);
 	}
 	this.renderSettings = function(s, c, w, h) {
 
@@ -60,12 +60,9 @@ function Simulation(name) {
 		c.save();
 		this.context.lineWidth=0.4;
 		c.translate(w/2, h/2);
-		if (w>h) {
-			c.scale(h/100, h/100);
-		} else {
-			c.scale(w/100, w/100);
-		}
-		this.tabs[this.currentTab](this.state, c, w, h);
+		sf = (w>h)?(h/100):(w/100);
+		c.scale(sf,sf);
+		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
 		c.restore();
 	}
 }

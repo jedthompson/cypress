@@ -57,7 +57,7 @@ function createTab(name) {
 	s.className = "tab";
 	s.innerHTML = name;
 	s.onclick = function() {
-		alert(sim.currentTab = this.name);
+		sim.currentTab = this.name;
 	}
 	return s;
 }
