@@ -37,19 +37,16 @@ html: build/html/simulation.html
 js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
 
 data: ${OUT_DATA}
-
 ${OUT_DATA}: ${SRC_DATA}
 	${MKDIR} build/data
 	cp $(subst build/data,src/data,$@) $@
 
 css: ${OUT_CSS}
-
 ${OUT_CSS}: ${SRC_CSS}
 	${MKDIR} build/css
 	cp $(subst build/css,src/css,$@) $@
 
 gr: ${OUT_GR}
-
 ${OUT_GR}: build/gr
 	cp $(subst build/gr,src/gr,$@) $@
 
