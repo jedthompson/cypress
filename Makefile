@@ -22,6 +22,7 @@ TEST_DIRS := $(shell find tests -type d)
 OUT_TEST_DIRS := $(foreach t,${TEST_DIRS},build/${t})
 
 MKDIR := @mkdir -p
+XSLTPROC := xsltproc
 
 .PHONY: all doc js test tests clean
 
@@ -36,10 +37,12 @@ html: build/html/simulation.html
 
 js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
 
-data: ${OUT_DATA}
+data: ${OUT_DATA} build/data/simulations.xhtml
 ${OUT_DATA}: ${SRC_DATA}
 	${MKDIR} build/data
 	cp $(subst build/data,src/data,$@) $@
+build/data/simulations.xhtml: $(subst src/data,build/data,$(wildcard src/data/simulations.*))
+	${XSLTPROC} build/data/simulations.xsl build/data/simulations.xml > build/data/simulations.html
 
 css: ${OUT_CSS}
 ${OUT_CSS}: ${SRC_CSS}

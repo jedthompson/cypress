@@ -5,8 +5,12 @@
   <html>
     <head>
       <title>Cypress : Simulations</title>
+      <link rel="stylesheet" type="text/css" href="simulations.css" />
     </head>
     <body>
+      <div id="simulations">
+
+      </div>
     </body>
   </html>
 </xsl:template>
