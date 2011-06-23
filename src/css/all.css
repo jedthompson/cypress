@@ -34,6 +34,8 @@ div#tabs {
 
 div.tab {
 	float: left;
-	width: 80px;
+	padding: 0 10px;
+	cursor: pointer;
+	border: 1px solid black;
 }
 
