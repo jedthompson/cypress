@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<simulations>
+	<category path="mechanics">
+		<name>Mechanics</name>
+		<simulation path="gravity">
+			<name>Gravity</name>
+		</simulation>
+	</category>
+</simulations>
+
