@@ -63,3 +63,17 @@ var subv = vBO(function (a,b) {
 	return a-b;
 });
 
+// Compute the length of a vector
+function vlen(v) {
+	len = 0;
+	for(var i=0; i<v.data.length; i++) {
+		len += Math.pow(v.data[i], 2);
+	}
+	return Math.sqrt(len);
+}
+
+// Compute the distance between two vectors (interpreted as points)
+function dist(a, b) {
+	return vlen(subv(a, b));
+}
+

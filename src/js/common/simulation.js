@@ -18,15 +18,7 @@ function Simulation(name) {
 	this.render3d = null;
 
 	this.renderSimulation = function (s, c, w, h) {
-		c.save();
-		c.translate(w/2, h/2);
-		if (w>h) {
-			c.scale(h/100, h/100);
-		} else {
-			c.scale(w/100, w/100);
-		}
 		this.render2d(s, c, w, h);
-		c.restore();
 	}
 	this.renderDescription = function (s, c, w, h) {
 		// just clear the canvas to expose the description
@@ -61,10 +53,20 @@ function Simulation(name) {
 		this.context.fillStyle='white';
 		this.context.fillRect(0, 0, this.width, this.height);
 		this.context.fillStyle='black';
-		this.tabs[this.currentTab](
-			this.state,
-			this.context,
-			this.width, this.height);
+
+		c = this.context;
+		w = this.width;
+		h = this.height;
+		c.save();
+		this.context.lineWidth=0.4;
+		c.translate(w/2, h/2);
+		if (w>h) {
+			c.scale(h/100, h/100);
+		} else {
+			c.scale(w/100, w/100);
+		}
+		this.tabs[this.currentTab](this.state, c, w, h);
+		c.restore();
 	}
 }
 

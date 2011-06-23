@@ -1,4 +1,6 @@
-JSCOMMON := $(shell find src/js/common -type f -regex .*\.js)
+JSCOMMONNAMES := vector graphics runner simulation util
+JSCOMMON := $(foreach n,${JSCOMMONNAMES},src/js/common/${n}.js)
+#JSCOMMON := $(shell find src/js/common -type f -regex .*\.js)
 SIMULATIONCATS := $(subst src/js/simulations/,,$(wildcard src/js/simulations/*))
 JSSIMULATIONS := $(wildcard src/js/simulations/*/*.js)
 
