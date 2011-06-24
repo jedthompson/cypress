@@ -22,9 +22,10 @@ function init_state(state) {
 	state.thetaR = state.thetaD*2*Math.PI/360;
 	
 	//Calculate initial position
-	state.xPos = 90-(60/Math.tan(state.thetaR));
-	if(state.xPos < 10) {state.xPos = 10;}
-	state.yPos = 80-((90-state.xPos)*Math.tan(state.thetaR));
+	state.xPos = 40-(60/Math.tan(state.thetaR));
+	if(state.xPos < -40) {state.xPos = -40;}
+	state.yPos = 30-((40-state.xPos)*Math.tan(state.thetaR));
+	//alert("xPos is " + xPos + " and yPos is " + yPos);
 	state.xInit = state.xPos;
 	state.yInit = state.yPos;
 	
@@ -45,32 +46,35 @@ simulation.step = function(state) {
 	state.xPos = state.xInit + (0.5*state.xAcc*state.t*state.t);
 	state.yPos = state.yInit + (0.5*state.yAcc*state.t*state.t);
 	
-	if(state.yPos > 80) {
+	if(state.yPos > 30) {
 		state = init_state(state);
 	}
 	return state;
 }
 
 simulation.render2d = function(state, c, w, h) {
+	
+	//c.strokeWidth = .2;
+	
 	//Code to draw the inclined plane
 	c.beginPath();
-	c.moveTo(10,80);
-	c.lineTo(90,80);
+	c.moveTo(-40,30);
+	c.lineTo(40,30);
 	c.lineTo(state.xInit,state.yInit);
-	c.lineTo(10,80);
+	c.lineTo(-40,30);
 	c.strokeStyle="#000";
 	c.stroke();
 	
 	//Code to draw the box
 	c.beginPath();
-	var x1=state.xPos-3*Math.cos(state.thetaR);
-	var y1=state.yPos-3*Math.sin(state.thetaR);
-	var x2=x1+6*Math.sin(state.thetaR);
-	var y2=y1-6*Math.cos(state.thetaR);
-	var x3=x2+6*Math.cos(state.thetaR);
-	var y3=y2+6*Math.sin(state.thetaR);
-	var x4=state.xPos+3*Math.cos(state.thetaR);
-	var y4=state.yPos+3*Math.sin(state.thetaR);
+	var x1=state.xPos-2*Math.cos(state.thetaR);
+	var y1=state.yPos-2*Math.sin(state.thetaR);
+	var x2=x1+4*Math.sin(state.thetaR);
+	var y2=y1-4*Math.cos(state.thetaR);
+	var x3=x2+4*Math.cos(state.thetaR);
+	var y3=y2+4*Math.sin(state.thetaR);
+	var x4=state.xPos+2*Math.cos(state.thetaR);
+	var y4=state.yPos+2*Math.sin(state.thetaR);
 	c.moveTo(x1,y1);
 	c.lineTo(x2,y2);
 	c.lineTo(x3,y3);
@@ -82,19 +86,19 @@ simulation.render2d = function(state, c, w, h) {
 	if(state.displayForceVectors) {
 		var xC = (x3+x1)/2;
 		var yC = (y3+y1)/2;
-		drawVector(xC,yC,state.g*5,90,c);
-		drawVector(xC,yC,state.g*5*Math.cos(state.thetaR),270+(state.thetaD),c);
+		drawVector(xC,yC,state.g*2,90,c);
+		drawVector(xC,yC,state.g*2*Math.cos(state.thetaR),270+(state.thetaD),c);
 		if(state.mu != 0) {
-			if(state.acc <= 0) {drawVector(xC,yC,state.g*5*Math.sin(state.thetaR),180+(state.thetaD),c);}
-			if(state.acc <= 0) {drawVector(xC,yC,state.g*5*Math.sin(state.thetaR),180+(state.thetaD),c);}
-			else {drawVector(xC,yC,state.mu*state.g*5*Math.cos(state.thetaR),180+(state.thetaD),c);}
+			if(state.acc <= 0) {drawVector(xC,yC,state.g*2*Math.sin(state.thetaR),180+(state.thetaD),c);}
+			if(state.acc <= 0) {drawVector(xC,yC,state.g*2*Math.sin(state.thetaR),180+(state.thetaD),c);}
+			else {drawVector(xC,yC,state.mu*state.g*2*Math.cos(state.thetaR),180+(state.thetaD),c);}
 		}
 	}
 }
 
 function drawVector(a,b,c,d,context) {
 	//if(c < 0.2) {return;}
-	var x1=a;
+	/*var x1=a;
 	var y1=b;
 	var len=c;
 	var phi=d*2*Math.PI/360;
@@ -103,8 +107,8 @@ function drawVector(a,b,c,d,context) {
 	var ctx=context;
 
 	var arrowLength = len/6;
-	if(arrowLength > 10) {arrowLength = 10;}
-	if(arrowLength < 5) {arrowLength = 5;}
+	if(arrowLength > 4) {arrowLength = 4;}
+	if(arrowLength < 2) {arrowLength = 2;}
 
 	var xC=x2+arrowLength*(Math.cos(phi-(135*2*Math.PI/360)));
 	var yC=y2+arrowLength*(Math.sin(phi-(135*2*Math.PI/360)));
@@ -118,5 +122,6 @@ function drawVector(a,b,c,d,context) {
 	ctx.moveTo(x2,y2);
 	ctx.lineTo(xCC,yCC);
 	ctx.strokeStyle="#000";
-	ctx.stroke();
+	ctx.stroke();*/
+	vector2dAtAngle(a,b,c,(360-d),context);
 }
