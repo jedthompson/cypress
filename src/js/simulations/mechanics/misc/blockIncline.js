@@ -1,8 +1,8 @@
 var simulation_name = "Block on an Inclined Plane";
 
 var simulation = new Simulation(simulation_name);
+simulation.description = "The block on an inclined plane is a classic physics demonstration that illustrates friction, gravity, and the normal force, among other concepts.  As the incline gets steeper, the normal force grows smaller due to gravity being pointed less and less towards the inclined plane.  As the normal force decreases in magnitude, so does the frictional force, and so the block accelerates faster.  The block also accelerates faster if the coefficient of kinetic friction is decreased.";
 simulation.dt = 20;
-simulation.description = "The block on an inclined plane displays friction, gravity, forces, etc.";
 
 function init_state(state) {
 	//Initialize variables

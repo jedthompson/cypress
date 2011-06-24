@@ -42,6 +42,7 @@ function vector2dAtAngle(xStart, yStart, length, angle, context) {
 	ctx.lineTo(xC,yC);
 	ctx.moveTo(x2,y2);
 	ctx.lineTo(xCC,yCC);
+	ctx.closePath();
 	ctx.strokeStyle="#000";
 	ctx.stroke();
 }
