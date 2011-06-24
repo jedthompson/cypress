@@ -4,11 +4,13 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
 
 function init_state(state) {
+	state.history = {};
 	state.pc = 100;
 	state.hl = 30;
 	state.dc = Math.LN2/state.hl;
 	state.t = 0;
 	state.pd = state.dc;
+	state.history[state.t] = state.pc;
 
 	state.decayed = new Array(10);
 	for (var x=0; x<10; x++) {
@@ -32,8 +34,9 @@ simulation.step = function(state) {
 			}
 		}
 	}
+	state.history[state.t] = state.pc;
 
-	if (state.t > 500) { // TODO put a reset button somewhere
+	if (state.t > 400) { // TODO put a reset button somewhere
 		state = init_state(state);
 	}
 	return state;
@@ -54,16 +57,19 @@ simulation.render2d = function(state, c, w, h) {
 }
 
 simulation.renderGraph = function(state, c, w, h) {
-	c.fillRect(5,5,5,5);
-	/*gc.clearRect(0, 0, c.width, c.height);
-	gc.beginPath();
-	gc.moveTo(20, 20);
-	gc.lineTo(20, 280);
-	gc.lineTo(280, 280);
-	gc.stroke();*/
+	c.beginPath();
+	c.moveTo(-40, -40);
+	c.lineTo(-40, 40);
+	c.lineTo(40, 40);
+	c.stroke();
 
-	//gc.lineTo(20+t, 280-pc*2);
-	//gc.stroke();
+	c.beginPath();
+	c.moveTo(-40, 0);
+	for (var t=0; t<=Math.min(state.t,400); t++) {
+		c.lineTo(-40+t/5, 40-state.history[t]*0.6);
+	}
+	//c.lineTo(20+t, 280-pc*2);
+	c.stroke();
 }
 
 simulation.addTab('Graph', simulation.renderGraph);
