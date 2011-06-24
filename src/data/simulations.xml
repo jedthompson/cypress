@@ -2,8 +2,8 @@
 <simulations>
 	<category path="mechanics">
 		<name>Classical Mechanics</name>
-		<subcategory path="misc">
-			<name>Miscellaneous</name>
+		<subcategory path="friction">
+			<name>Friction</name>
 			<simulation path="blockIncline">
 				<name>Block on an Inclined Plane</name>
 				<tagset>
@@ -35,10 +35,11 @@
 		<name>Thermodynamics</name>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
-			<simulation path="diffusion">
-				<name>Diffusion</name>
+			<simulation path="gasDiffusion">
+				<name>Gas Diffusion</name>
 				<tagset>
 					<tag>entropy</tag>
+					<tag>gas</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
