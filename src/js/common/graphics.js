@@ -16,3 +16,9 @@ function vector2dTowards(c, v1, v2, len) {
 	c.stroke();
 }
 
+function getImage(src) {
+	img = new Image();
+	img.src = "../gr/"+src;
+	return img;
+}
+

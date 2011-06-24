@@ -7,12 +7,6 @@ var the_sim;
 
 window.onresize = sizeCanvas;
 
-function getImage(src) {
-	img = new Image();
-	img.src = "../gr/"+src;
-	return img;
-}
-
 window.images = {
 	"particle-red": getImage("all/particle-red.png"),
 	"particle-blue": getImage("all/particle-blue.png"),
