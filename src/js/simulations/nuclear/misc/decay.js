@@ -68,7 +68,6 @@ simulation.renderGraph = function(state, c, w, h) {
 	for (var t=0; t<=Math.min(state.t,400); t++) {
 		c.lineTo(-40+t/5, 40-state.history[t]*0.6);
 	}
-	//c.lineTo(20+t, 280-pc*2);
 	c.stroke();
 }
 
