@@ -23,15 +23,15 @@ function init_state(state) {
 	//Calculate initial position
 	state.xPos = 90-(60/Math.tan(state.thetaR));
 	if(state.xPos < 10) {state.xPos = 10;}
-	state.yPos = 80-((90-state.xPos)*Math.tan(thetaR));
+	state.yPos = 80-((90-state.xPos)*Math.tan(state.thetaR));
 	state.xInit = state.xPos;
 	state.yInit = state.yPos;
 	
 	//Calculate acceleration
-	state.acc = (state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(thetaR));
+	state.acc = (state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(state.thetaR));
 	if(state.acc <= 0) {state.acc = 0;}
-	state.xAcc = state.acc*Math.cos(thetaR);
-	state.yAcc = state.acc*Math.sin(thetaR);
+	state.xAcc = state.acc*Math.cos(state.thetaR);
+	state.yAcc = state.acc*Math.sin(state.thetaR);
 	
 	return state;
 }
@@ -82,11 +82,11 @@ simulation.render2d = function(state, c, w, h) {
 		var xC = (x3+x1)/2;
 		var yC = (y3+y1)/2;
 		drawVector(xC,yC,state.g*5,90,c);
-		drawVector(xC,yC,state.g*5*Math.cos(thetaR),270+(state.thetaD*360/(2*Math.PI)),c);
+		drawVector(xC,yC,state.g*5*Math.cos(state.thetaR),270+(state.thetaD*360/(2*Math.PI)),c);
 		if(state.mu != 0) {
 			if(state.acc <= 0) {drawVector(xC,yC,state.g*5*Math.sin(state.thetaR),180+(state.thetaD*360/(2*Math.PI)),c);}
 			if(state.acc <= 0) {drawVector(xC,yC,state.g*5*Math.sin(state.thetaR),180+(state.thetaD*360/(2*Math.PI)),c);}
-			else {drawVector(xC,yC,state.mu*state.state.g*5*Math.cos(state.thetaR),180+(state.thetaD*360/(2*Math.PI)),c);}
+			else {drawVector(xC,yC,state.mu*state.g*5*Math.cos(state.thetaR),180+(state.thetaD*360/(2*Math.PI)),c);}
 		}
 	}
 }
