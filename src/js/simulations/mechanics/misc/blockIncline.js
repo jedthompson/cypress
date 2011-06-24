@@ -2,6 +2,7 @@ var simulation_name = "Block on an Inclined Plane";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
+simulation.description = "The block on an inclined plane displays friction, gravity, forces, etc.";
 
 function init_state(state) {
 	//Initialize variables
@@ -53,23 +54,23 @@ simulation.step = function(state) {
 simulation.render2d = function(state, c, w, h) {
 	//Code to draw the inclined plane
 	c.beginPath();
-	c.moveTo(40,260);
-	c.lineTo(440,260);
+	c.moveTo(10,80);
+	c.lineTo(90,80);
 	c.lineTo(state.xInit,state.yInit);
-	c.lineTo(40,260);
+	c.lineTo(10,80);
 	c.strokeStyle="#000";
 	c.stroke();
 	
 	//Code to draw the box
 	c.beginPath();
-	var x1=state.xPos-10*Math.cos(state.thetaR);
-	var y1=state.yPos-10*Math.sin(state.thetaR);
-	var x2=x1+20*Math.sin(state.thetaR);
-	var y2=y1-20*Math.cos(state.thetaR);
-	var x3=x2+20*Math.cos(state.thetaR);
-	var y3=y2+20*Math.sin(state.thetaR);
-	var x4=state.xPos+10*Math.cos(state.thetaR);
-	var y4=state.yPos+10*Math.sin(state.thetaR);
+	var x1=state.xPos-3*Math.cos(state.thetaR);
+	var y1=state.yPos-3*Math.sin(state.thetaR);
+	var x2=x1+6*Math.sin(state.thetaR);
+	var y2=y1-6*Math.cos(state.thetaR);
+	var x3=x2+6*Math.cos(state.thetaR);
+	var y3=y2+6*Math.sin(state.thetaR);
+	var x4=state.xPos+3*Math.cos(state.thetaR);
+	var y4=state.yPos+3*Math.sin(state.thetaR);
 	c.moveTo(x1,y1);
 	c.lineTo(x2,y2);
 	c.lineTo(x3,y3);
