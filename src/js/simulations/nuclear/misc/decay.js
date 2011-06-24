@@ -2,6 +2,7 @@ var simulation_name = "Nuclear Decay";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
+simulation.description = "Nuclear decay simulation";
 
 function init_state(state) {
 	state.history = {};
