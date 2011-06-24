@@ -38,6 +38,10 @@ function Simulation(name) {
 
 	this.currentTab = "Simulation";
 
+	this.addTab = function(name, render) {
+		this.tabs[name] = render.bind(this);
+	}
+
 	this.start = function() {
 		if (this.canvas == null) {
 			alert("Error!");
