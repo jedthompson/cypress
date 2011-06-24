@@ -1,11 +1,8 @@
 #JSCOMMONNAMES := vector graphics runner simulation util
 #JSCOMMON := $(foreach n,${JSCOMMONNAMES},src/js/common/${n}.js)
 JSCOMMON := $(shell find src/js/common -type f -regex .*\.js)
-SIMULATIONCATS := $(subst src/js/simulations/,,$(wildcard src/js/simulations/*))
-JSSIMULATIONS := $(wildcard src/js/simulations/*/*.js)
-
-OUT_SIMDIRS := $(foreach sim,${SIMULATIONCATS},build/js/simulations/${sim}/)
-OUT_JSSIMULATIONS := $(subst src/js/simulations,build/js/simulations,${JSSIMULATIONS})
+JSSIMULATIONS := $(wildcard src/js/simulations/*/*/*.js)
+OUT_JSSIMULATIONS := $(subst src/js/,build/js/,${JSSIMULATIONS})
 
 SRC_GR := $(shell find src/gr -type f)
 OUT_GR := $(subst src/gr,build/gr,${SRC_GR})
@@ -71,7 +68,8 @@ build/js/simulations:
 ${OUT_SIMDIRS}: build/js/simulations
 	${MKDIR} build/js
 	${MKDIR} $@
-${OUT_JSSIMULATIONS}: ${OUT_SIMDIRS} ${JSSIMULATIONS}
+${OUT_JSSIMULATIONS}: ${JSSIMULATIONS}
+	${MKDIR} $(shell dirname $@)
 	${CP} $(subst build/js/simulations,src/js/simulations,$@) $@
 
 doc:
