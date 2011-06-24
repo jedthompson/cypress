@@ -127,7 +127,7 @@ function drawVector(a,b,c,d,context) {
 }
 
 function drawVectorColor(a,b,c,d,context,color) {
-	vector2dAtAngleColor(a,b,c,(360-d),context,color);
+	vector2dAtAngle(a,b,c,(360-d),context,color);
 }
 
 simulation.renderForceDiagram = function(state, c, w, h) {
