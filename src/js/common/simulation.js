@@ -18,7 +18,9 @@ function Simulation(name) {
 	this.render3d = null;
 
 	this.renderSimulation = function (s, c, w, h) {
-		this.render2d(s, c, w, h);
+		if (this.render2d != null) {
+			this.render2d(s, c, w, h);
+		}
 	}
 	this.renderDescription = function (s, c, w, h) {
 		// just clear the canvas to expose the description
