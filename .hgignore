@@ -4,3 +4,4 @@
 ^\.DS_Store$
 ^src/android/bin.*$
 ^\.project$
+^.*.blend[0-9]$
