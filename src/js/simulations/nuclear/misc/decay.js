@@ -1,3 +1,7 @@
+var simulation_name = "Nuclear Decay";
+
+var simulation = new Simulation(simulation_name);
+
 function begin_simulation() {
 	var pc = 100;
 	var hl = 30; // half-life
