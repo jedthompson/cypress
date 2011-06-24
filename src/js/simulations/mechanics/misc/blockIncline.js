@@ -1,7 +1,7 @@
 var simulation_name = "Block on an Inclined Plane";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 50;
+simulation.dt = 20;
 simulation.description = "The block on an inclined plane displays friction, gravity, forces, etc.";
 
 function init_state(state) {
@@ -41,7 +41,7 @@ function init_state(state) {
 simulation.state = init_state(simulation.state);
 
 simulation.step = function(state) {
-	state.t += 0.05;
+	state.t += 0.001 * simulation.dt;
 	
 	state.xPos = state.xInit + (0.5*state.xAcc*state.t*state.t);
 	state.yPos = state.yInit + (0.5*state.yAcc*state.t*state.t);
