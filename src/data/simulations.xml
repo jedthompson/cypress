@@ -4,12 +4,13 @@
 		<name>Classical Mechanics</name>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
-			<simulation path="friction">
-				<name>Friction</name>
+			<simulation path="blockIncline">
+				<name>Block on an Inclined Plane</name>
 				<tagset>
 					<tag>friction</tag>
 					<tag>block</tag>
 					<tag>ramp</tag>
+					<tag>gravity</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
