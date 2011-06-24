@@ -24,7 +24,7 @@ function Simulation(name) {
 	}
 	this.renderDescription = function (s, c, w, h) {
 		// just clear the canvas to expose the description
-		c.clearRect(-w/2, -h/2, w/2, h/2);
+		c.clearRect(-w, -h, w*2, h*2);
 	}
 	this.renderSettings = function(s, c, w, h) {
 
