@@ -125,3 +125,73 @@ function drawVector(a,b,c,d,context) {
 	ctx.stroke();*/
 	vector2dAtAngle(a,b,c,(360-d),context);
 }
+
+function drawVectorColor(a,b,c,d,context,color) {
+	vector2dAtAngleColor(a,b,c,(360-d),context,color);
+}
+
+simulation.renderForceDiagram = function(state, c, w, h) {
+	//Code to draw the box
+	var ctx = c;
+	var SIDELENGTH = 6;
+	
+	var xC = 0;
+	var yC = 0;
+	ctx.beginPath();
+	var x1=xC-(SIDELENGTH/2)*Math.sin(state.thetaR)-(SIDELENGTH/2)*Math.cos(state.thetaR);
+	var y1=yC+(SIDELENGTH/2)*Math.cos(state.thetaR)-(SIDELENGTH/2)*Math.sin(state.thetaR);
+	var x2=x1+SIDELENGTH*Math.sin(state.thetaR);
+	var y2=y1-SIDELENGTH*Math.cos(state.thetaR);
+	var x3=x2+SIDELENGTH*Math.cos(state.thetaR);
+	var y3=y2+SIDELENGTH*Math.sin(state.thetaR);
+	var x4=xC-(SIDELENGTH/2)*Math.sin(state.thetaR)+(SIDELENGTH/2)*Math.cos(state.thetaR);
+	var y4=yC+(SIDELENGTH/2)*Math.cos(state.thetaR)+(SIDELENGTH/2)*Math.sin(state.thetaR);
+	ctx.moveTo(x1,y1);
+	ctx.lineTo(x2,y2);
+	ctx.lineTo(x3,y3);
+	ctx.lineTo(x4,y4);
+	ctx.lineTo(x1,y1);
+	ctx.stroke();
+
+	//Code to display coordinate system
+	drawVector(-40,-40,5,(state.thetaD),ctx);
+	drawVector(-40,-40,5,270+(state.thetaD),ctx);
+	ctx.fillStyle="#000";
+	//ctx.font="12pt Verdana";
+	//ctx.fillText("x",120-50*Math.sin(theta), 40+50*Math.sin(theta));
+	//ctx.fillText("y",50+50*Math.sin(theta), 10+50*Math.sin(theta));
+
+	//Code to display force vectors
+	//var xC = (x3+x1)/2;
+	//var yC = (y3+y1)/2;
+	drawVector(xC,yC,state.g*3,90,ctx);
+	drawVector(xC,yC,state.g*3*Math.cos(state.thetaR),270+(state.thetaD),ctx);
+	if(state.mu != 0) {
+		if(state.acc <= 0) {drawVector(xC,yC,state.g*3*Math.sin(state.thetaR),180+(state.thetaD),ctx);}
+		else {drawVector(xC,yC,state.mu*state.g*3*Math.cos(state.thetaR),180+(state.thetaD),ctx);}
+	}
+
+	var yComp = 0;
+	var xComp = 0;
+	var isXZero = false;
+	var isYZero = false;
+	//var acc=(g*Math.sin(theta))-(mu*g*Math.cos(theta));
+	if(state.acc <= 0) {yComp = 0;(state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR) + (state.g*3*Math.sin(state.thetaR))*Math.sin(state.thetaR) - state.g*3;}
+	else {yComp = (state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR) + (state.mu*state.g*3*Math.cos(state.thetaR))*Math.sin(state.thetaR) - state.g*3;}
+	if(yComp > -0.05) {yComp = 0; isYZero = true;}
+
+	if(state.acc <= 0) {xComp = (state.g*3*Math.cos(state.thetaR))*Math.sin(state.thetaR) - (state.g*3*Math.sin(state.thetaR))*Math.cos(state.thetaR);}
+	else {xComp = (state.g*3*Math.cos(state.thetaR))*Math.sin(state.thetaR) - (state.mu*state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR);}
+	if(xComp <= 0.05) {xComp = 0; isXZero = true;}
+
+	
+	if(!isYZero || !isXZero) {
+		var compSum = Math.sqrt(xComp*xComp + yComp*yComp);
+		var compAngle = 360-Math.atan(yComp/xComp)*360/(2*Math.PI);
+		drawVectorColor(xC,yC,xComp,0,ctx,"rgb(0,0,255)");
+		drawVectorColor(xC+xComp,yC,0-yComp,90,ctx,"rgb(0,0,255)");
+		drawVectorColor(xC,yC,compSum,compAngle,ctx,"rgb(255,0,0)");
+	}
+}
+
+simulation.addTab('Force Diagram', simulation.renderForceDiagram);
