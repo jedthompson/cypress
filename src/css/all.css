@@ -1,0 +1,41 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+canvas#c {
+	position: absolute;
+	z-index: 10;
+	margin: 0;
+	padding: 0;
+	left: 0px;
+	right: 0px;
+	width:100%;
+	height:100%;
+}
+
+div#description {
+	z-index: 5;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+div#tabs {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	left: 0px;
+	bottom: 0px;
+	height: 26px;
+}
+
+div.tab {
+	float: left;
+	padding: 0 10px;
+	cursor: pointer;
+	border: 1px solid black;
+}
+

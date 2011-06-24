@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<simulations>
+	<category path="mechanics">
+		<name>Classical Mechanics</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="blockIncline">
+				<name>Block on an Inclined Plane</name>
+				<tagset>
+					<tag>friction</tag>
+					<tag>block</tag>
+					<tag>ramp</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="em">
+		<name>Electricity and Magnetism</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="charge-mf">
+				<name>Charged Particle in Magnetic Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>magnet</tag>
+					<tag>field</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="thermodynamics">
+		<name>Thermodynamics</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="diffusion">
+				<name>Diffusion</name>
+				<tagset>
+					<tag>entropy</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="nuclear">
+		<name>Nuclear Physics</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="decay">
+				<name>Nuclear Decay</name>
+				<tagset>
+					<tag>exponential</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+</simulations>
+
