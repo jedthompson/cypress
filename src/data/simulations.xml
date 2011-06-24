@@ -42,5 +42,18 @@
 			</simulation>
 		</subcategory>
 	</category>
+
+	<category path="nuclear">
+		<name>Nuclear Physics</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="decay">
+				<name>Nuclear Decay</name>
+				<tagset>
+					<tag>exponential</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
 </simulations>
 
