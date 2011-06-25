@@ -1,3 +1,5 @@
+# Makefile for Cypress
+
 #JSCOMMONNAMES := vector graphics runner simulation util
 #JSCOMMON := $(foreach n,${JSCOMMONNAMES},src/js/common/${n}.js)
 JSCOMMON := $(shell find src/js/common -type f -regex .*\.js)
