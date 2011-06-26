@@ -35,7 +35,7 @@ ${OUT_TESTS}:
 
 html: build/html/simulation.html
 
-js: build/js/cypress.js build/js/select.js ${OUT_JSSIMULATIONS}
+js: build/js/cypress.js build/js/select.js build/js/platform.js ${OUT_JSSIMULATIONS}
 
 data: ${OUT_DATA} build/html/simulations.xhtml
 ${OUT_DATA}: ${SRC_DATA}
@@ -60,6 +60,9 @@ build/js/cypress.js: ${JSCOMMON}
 build/js/select.js: src/js/select.js
 	${MKDIR} build/js
 	${CP} src/js/select.js $@
+build/js/platform.js: src/js/platform.js
+	${MKDIR} build/js
+	${CP} src/js/platform.js $@
 build/html/simulation.html: src/html/simulation.html
 	${MKDIR} build/html
 	${CP} src/html/simulation.html $@
