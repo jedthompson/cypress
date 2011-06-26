@@ -72,6 +72,11 @@ function vlen(v) {
 	return Math.sqrt(len);
 }
 
+// Take the magnitude of a vector, just an alias of vlen to avoid breaking past code but to fit with new naming scheme
+function magV(v) {
+	return vlen(v);
+}
+
 // Take the cross product of two vectors
 function crossV(m, n) {
 	if(m.data.length != 3 || n.data.length != 3)
