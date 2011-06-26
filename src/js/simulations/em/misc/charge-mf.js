@@ -5,76 +5,53 @@ simulation.dt = 20;
 simulation.description = "Charged particle in a magnetic field simulation";
 
 function init_state(state) {
-	state.pos = new Vector(20,0,0);
-	state.vel = new Vector(0, -20, 0);
+	//Some of these are state values because they pertain directly to the state and might be used in another tab
+	state.vel = new Vector(0, 10, 0);
 	state.charge = 1;
-	state.mass = 1;
+	state.mass = 3;
 	state.BField = new Vector(0, 0, 1);
 	
-	//TODO Add checks to make sure variables are valid
+	//Establish base values to avoid dividing by zero and to avoid variables too small to see the motion
+	if(state.mass <= 1) {state.mass = 1;}
+	if(magV(state.BField) <= 1) {state.BField = new Vector(0, 0, 1);}
+	if(Math.abs(state.charge) < 1) {state.charge = 1;}
 	
+	//Calculate radius of rotation
+	state.radRot = Math.abs(state.mass)*magV(state.vel)/(Math.abs(state.charge)*magV(state.BField));
 	
-	//state.acc = state.charge*state.BField*vLen(state.vel)/state.mass;
+	//Calculate acceleration
+	var acc = (crossV(state.vel, state.BField)).scale(state.charge/state.mass);
 	
+	//Calculate angle to initial position assuming center of rotation is at center (0, 0)
+	if(acc.data[1] != 0 && acc.data[0] != 0) {var phiInit = Math.PI+Math.atan((acc).data[1]/(acc).data[0]);}
+	else if(acc.data[1] == 0) {if(acc.data[0] > 0) {var phiInit = Math.PI;} else {var phiInit = 0;}}
+	else {if(acc.data[1] > 0) {var phiInit = Math.PI*3/2;} else {var phiInit = Math.PI/2;}}
 	
+	//Set current angular position to initial angular position
+	state.phi = phiInit;
+	
+	//Calculate current position based on current angular position
+	state.pos = new Vector((state.radRot*Math.cos(phiInit)), (state.radRot*Math.sin(phiInit)), 0);
+	
+	//Check whether rotation is in a positive or negative direction and set phiStep accordingly
+	if(crossV(state.pos, state.vel).data[2] > 0) {state.phiStep = .001*simulation.dt;} else {state.phiStep = -.001*simulation.dt;}
+		
 	return state;
 }
 simulation.state = init_state(simulation.state);
 
 simulation.step = function(state) {
-	var acc = (crossV(state.vel, state.BField)).scale(state.charge/state.mass);
-	state.vel = addV(state.vel, (acc.scale(.001*simulation.dt)));
-	state.pos = addV(state.pos, addV(state.vel.scale(.001*simulation.dt), acc.scale(.5*Math.pow(.001*simulation.dt, 2))));
+	state.phi += state.phiStep;
+	state.pos = new Vector((state.radRot*Math.cos(state.phi)), (state.radRot*Math.sin(state.phi)));
+	
+	//TODO Increment velocity as well as position for use in another tab
+	
 	return state;
 }
 
 simulation.render2d = function(state, c, w, h) {
-	c.drawImage(window.images["particle-red"], state.pos.data[0], state.pos.data[1], 8, 8);
+	vector2dAtAngle(state.pos.data[0], -1*state.pos.data[1], state.radRot, 180+(state.phi*180/Math.PI), c);
+	
+	//The '-1' is used to convert the cartesian coordinate system to the actual coordinate system used to display graphics
+	c.drawImage(window.images["particle-red"], state.pos.data[0]-4, -1*state.pos.data[1]-4, 8, 8);
 }
-
-
-
-
-
-
-
-
-/*var addv = vBO(add);
-var subv = vBO(sub);
-
-function begin_simulation() {
-	var charge = 0.02;
-	var pos = new Vector(150,150);
-	var vel = new Vector(0.2, 0);
-	run_simulation();
-
-	function run_simulation() {
-		// really, just a hack around step() to avoid cluttering step with setTimeout
-		step();
-		setTimeout(run_simulation, 20);
-	}
-
-	function step() {
-		// calculate the force vector
-		var force = vel.scale(charge); // TODO take the magnetic field into account
-		force = new Vector(-force.data[1], force.data[0]);
-		// update velocity
-		vel = addv(vel, force);
-		// update position
-		pos = addv(pos, vel);
-		
-		// draw the particle
-		var c = document.getElementById("c");
-		var gc = c.getContext("2d");
-		gc.clearRect(0, 0, c.width, c.height);
-		gc.fillRect(pos.data[0]-3, pos.data[1]-3, 6, 6);
-
-		// draw the force vector
-		gc.beginPath();
-		gc.moveTo(pos.data[0], pos.data[1]);
-		gc.lineTo(pos.data[0] + force.data[0]*3000, pos.data[1] + force.data[1]*3000);
-		gc.stroke();
-	}
-
-}*/
-
