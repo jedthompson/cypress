@@ -6,12 +6,14 @@ simulation.description = "Nuclear decay simulation";
 
 function init_state(state) {
 	state.history = {};
+	state.actual = {};
 	state.pc = 100;
 	state.hl = 30;
 	state.dc = Math.LN2/state.hl;
 	state.t = 0;
 	state.pd = state.dc;
 	state.history[state.t] = state.pc;
+	state.actual[state.t] = state.pc;
 
 	state.decayed = new Array(10);
 	for (var x=0; x<10; x++) {
@@ -27,15 +29,17 @@ simulation.state = init_state(simulation.state);
 simulation.step = function(state) {
 	state.t++;
 	state.pc = state.pc*(1-state.pd);
-
+	count = 0;
 	for (var x=0; x<10; x++) {
 		for (var y=0; y<10; y++) {
 			if (Math.random() < state.pd) {
 				state.decayed[x][y] = true;
-			}
+			} else if (!state.decayed[x][y])
+				count++;
 		}
 	}
 	state.history[state.t] = state.pc;
+	state.actual[state.t] = count;
 
 	if (state.t > 400) { // TODO put a reset button somewhere
 		state = init_state(state);
@@ -67,9 +71,19 @@ simulation.renderGraph = function(state, c, w, h) {
 	c.beginPath();
 	c.moveTo(-40, 0);
 	for (var t=0; t<=Math.min(state.t,400); t++) {
+		c.lineTo(-40+t/5, 40-state.actual[t]*0.6);
+	}
+	c.stroke();
+
+	c.strokeStyle = "#f00";
+	c.lineWidth="0.2";
+	c.beginPath();
+	c.moveTo(-40, 0);
+	for (var t=0; t<=Math.min(state.t,400); t++) {
 		c.lineTo(-40+t/5, 40-state.history[t]*0.6);
 	}
 	c.stroke();
+	c.strokeStyle = "#000";
 }
 
 simulation.addTab('Graph', simulation.renderGraph);
