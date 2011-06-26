@@ -6,9 +6,9 @@ window.resources = {
 		image("particle-grey", "all/particle-grey.png"),
 	],
 	"iOS": [
-		image("IOSSliderWhite", "iPhone/GenericSlider/SliderWhite.png"),
-		image("IOSSliderBlue", "iPhone/GenericSlider/SliderBlue.png"),
-		image("IOSSliderCenter", "iPhone/GenericSlider/SliderCenter.png"),
+		image("IOSSliderWhite", "iOS/GenericSlider/SliderWhite.png"),
+		image("IOSSliderBlue", "iOS/GenericSlider/SliderBlue.png"),
+		image("IOSSliderCenter", "iOS/GenericSlider/SliderCenter.png"),
 	],
 	"android": [
 	],
