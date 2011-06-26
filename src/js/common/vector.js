@@ -55,11 +55,11 @@ function vBO(f) {
 }
 
 // Add two vectors.
-var addv = vBO(function (a,b) {
+var addV = vBO(function (a,b) {
 	return a+b;
 });
 // Subtracts the second vector from the first.
-var subv = vBO(function (a,b) {
+var subV = vBO(function (a,b) {
 	return a-b;
 });
 
@@ -76,11 +76,14 @@ function vlen(v) {
 function crossV(a, b) {
 	var m = new Vector(0,0,0);
 	var n = new Vector(0,0,0);
+	if(a.data.length > 3 || b.data.length > 3) {
+		throw "TooManyDimensions";
+	}
 	
-	for(var i = 0; i < (a.data.length>3?3:a.data.length); i++) {
+	for(var i = 0; i < Math.min(3, a.data.length); i++) {
 		m.data[i] = a.data[i];
 	}
-	for(var i = 0; i < (b.data.length>3?3:b.data.length); i++) {
+	for(var i = 0; i < (Math.min(3, b.data.length)); i++) {
 		n.data[i] = b.data[i];
 	}
 	
@@ -91,6 +94,6 @@ function crossV(a, b) {
 
 // Compute the distance between two vectors (interpreted as points)
 function dist(a, b) {
-	return vlen(subv(a, b));
+	return vlen(subV(a, b));
 }
 

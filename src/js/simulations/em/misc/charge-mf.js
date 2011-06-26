@@ -6,7 +6,7 @@ simulation.description = "Charged particle in a magnetic field simulation";
 
 function init_state(state) {
 	state.pos = new Vector(20,0,0);
-	state.vel = new Vector(0.2, 0, 0);
+	state.vel = new Vector(0, -20, 0);
 	state.charge = 1;
 	state.mass = 1;
 	state.BField = new Vector(0, 0, 1);
@@ -24,7 +24,7 @@ simulation.state = init_state(simulation.state);
 simulation.step = function(state) {
 	var acc = (crossV(state.vel, state.BField)).scale(state.charge/state.mass);
 	state.vel = addV(state.vel, (acc.scale(.001*simulation.dt)));
-	state.pos = addV(state.pos, addV(state.vel.scale(.001*simulation.dt), state.acc.scale(.5*Math.pow(.001*simulation.dt, 2))));
+	state.pos = addV(state.pos, addV(state.vel.scale(.001*simulation.dt), acc.scale(.5*Math.pow(.001*simulation.dt, 2))));
 	return state;
 }
 
