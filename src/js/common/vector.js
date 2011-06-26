@@ -73,23 +73,14 @@ function vlen(v) {
 }
 
 // Take the cross product of two vectors
-function crossV(a, b) {
-	var m = new Vector(0,0,0);
-	var n = new Vector(0,0,0);
-	if(a.data.length > 3 || b.data.length > 3) {
+function crossV(m, n) {
+	if(m.data.length != 3 || n.data.length != 3)
 		throw "TooManyDimensions";
-	}
 	
-	for(var i = 0; i < Math.min(3, a.data.length); i++) {
-		m.data[i] = a.data[i];
-	}
-	for(var i = 0; i < (Math.min(3, b.data.length)); i++) {
-		n.data[i] = b.data[i];
-	}
-	
-	var retVec = new Vector((m.data[1]*n.data[2] - m.data[2]*n.data[1]), (m.data[2]*n.data[0] - m.data[0]*n.data[2]), (m.data[0]*n.data[1] - m.data[1]*n.data[0]));
-	
-	return retVec;
+	return new Vector(
+		(m.data[1]*n.data[2] - m.data[2]*n.data[1]),
+		(m.data[2]*n.data[0] - m.data[0]*n.data[2]),
+		(m.data[0]*n.data[1] - m.data[1]*n.data[0]));
 }
 
 // Compute the distance between two vectors (interpreted as points)
