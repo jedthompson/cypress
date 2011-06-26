@@ -64,17 +64,12 @@ var subV = vBO(function (a,b) {
 });
 
 // Compute the length of a vector
-function vlen(v) {
+function magV(v) {
 	len = 0;
 	for(var i=0; i<v.data.length; i++) {
 		len += Math.pow(v.data[i], 2);
 	}
 	return Math.sqrt(len);
-}
-
-// Take the magnitude of a vector, just an alias of vlen to avoid breaking past code but to fit with new naming scheme
-function magV(v) {
-	return vlen(v);
 }
 
 // Take the cross product of two vectors
@@ -90,6 +85,6 @@ function crossV(m, n) {
 
 // Compute the distance between two vectors (interpreted as points)
 function dist(a, b) {
-	return vlen(subV(a, b));
+	return magV(subV(a, b));
 }
 
