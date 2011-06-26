@@ -75,7 +75,7 @@ function vlen(v) {
 // Take the cross product of two vectors
 function crossV(m, n) {
 	if(m.data.length != 3 || n.data.length != 3)
-		throw "TooManyDimensions";
+		throw "crossV: wrong number of dimensions in vector (target: 3)";
 	
 	return new Vector(
 		(m.data[1]*n.data[2] - m.data[2]*n.data[1]),
