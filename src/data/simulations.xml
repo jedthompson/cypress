@@ -14,6 +14,20 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+		<subcategory path="oscillations">
+			<name>Oscillations</name>
+			<simulation path="simplePendulum">
+				<name>Simple Pendulum</name>
+				<tagset>
+					<tag>pendulum</tag>
+					<tag>simple</tag>
+					<tag>oscillation</tag>
+					<tag>harmonic</tag>
+					<tag>bob</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="gravity">
