@@ -83,6 +83,15 @@ function crossV(m, n) {
 		(m.data[0]*n.data[1] - m.data[1]*n.data[0]));
 }
 
+// Take the dot product of two vectors
+function dotV(m, n) {
+	var ret = 0;
+	for(var i = 0; i < Math.min(m.data.length, n.data.length); i++) {
+		retVec += m.data[i]*n.data[i];
+	}
+	return ret;
+}
+
 // Compute the distance between two vectors (interpreted as points)
 function dist(a, b) {
 	return magV(subV(a, b));
