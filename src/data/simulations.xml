@@ -66,6 +66,7 @@
 				<tagset>
 					<tag>entropy</tag>
 					<tag>gas</tag>
+					<tag>diffusion</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
