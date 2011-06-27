@@ -2,7 +2,7 @@ var simulation_name = "Charged Particle in a Magnetic Field";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
-simulation.description = "Charged particle in a magnetic field simulation";
+simulation.description = "When a moving particle with an electric charge is subjected to a magnetic field, it accelerates in the direction of the cross product of the particles velocity and the magnetic field.  Thus if the particle is moving perpendicular to a constant magnetic field, it will curve in a circular path.";
 
 function init_state(state) {
 	//Some of these are state values because they pertain directly to the state and might be used in another tab

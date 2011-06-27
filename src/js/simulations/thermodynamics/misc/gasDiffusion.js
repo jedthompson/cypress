@@ -2,7 +2,7 @@ var simulation_name = "Gas Diffusion";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
-simulation.description = "Gas Diffusion Simulation";
+simulation.description = "In this simulation, the two gases start on separate sides of the box, but gradually diffuse until each side has approximately the same number of blue gas particles and red gas particles as the other.";
 
 function init_state(state) {
 	state.numA = 50;
