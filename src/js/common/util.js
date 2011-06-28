@@ -21,5 +21,3 @@ function binarySearch(p, d, s, e) {
 	return v;
 }
 
-alert(binarySearch(function (x) {return x>2}, 10, 0, 4));
-
