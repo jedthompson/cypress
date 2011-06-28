@@ -62,6 +62,7 @@ simulation.render2d = function(state, c, w, h) {
 }
 
 simulation.renderGraph = function(state, c, w, h) {
+	c.scale(1, -1);
 	c.beginPath();
 	c.moveTo(-40, -40);
 	c.lineTo(-40, 40);
