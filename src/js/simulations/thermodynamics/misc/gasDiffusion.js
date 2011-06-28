@@ -125,17 +125,17 @@ function checkCollision(state) {
 simulation.render2d = function(state, ctx, w, h) {
 	//Code to draw the box
 	ctx.beginPath();
-	ctx.moveTo(-40,-40);
+	ctx.moveTo(-40,40);
+	ctx.lineTo(0,40);
+	ctx.lineTo(0,10);
+	ctx.moveTo(0,-10);
 	ctx.lineTo(0,-40);
-	ctx.lineTo(0,-10);
-	ctx.moveTo(0,10);
-	ctx.lineTo(0,40);
-	ctx.lineTo(-40,40);
 	ctx.lineTo(-40,-40);
-	ctx.moveTo(0,-40);
-	ctx.lineTo(40,-40);
+	ctx.lineTo(-40,40);
+	ctx.moveTo(0,40);
 	ctx.lineTo(40,40);
-	ctx.lineTo(0,40);
+	ctx.lineTo(40,-40);
+	ctx.lineTo(0,-40);
 	//ctx.closePath();
 	ctx.strokeStyle="#000";
 	ctx.stroke();
@@ -145,7 +145,7 @@ simulation.render2d = function(state, ctx, w, h) {
 	ctx.fillStyle="rgb(255,0,0)";
 	for(var i = 0; i<state.numA; i++) {
 		ctx.beginPath();
-		ctx.arc(state.pP[i].data[0],-1*state.pP[i].data[1],state.ballRad,0,Math.PI*2,true);
+		ctx.arc(state.pP[i].data[0],state.pP[i].data[1],state.ballRad,0,Math.PI*2,true);
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();
@@ -154,7 +154,7 @@ simulation.render2d = function(state, ctx, w, h) {
 	ctx.fillStyle="rgb(0,0,255)";
 	for(var i = state.numA; i<state.numA+state.numB; i++) {
 		ctx.beginPath();
-		ctx.arc(state.pP[i].data[0],-1*state.pP[i].data[1],state.ballRad,0,Math.PI*2,true);
+		ctx.arc(state.pP[i].data[0],state.pP[i].data[1],state.ballRad,0,Math.PI*2,true);
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fill();

@@ -90,8 +90,8 @@ simulation.step = function(state) {
 
 simulation.render2d = function(state, c, w, h) {
 	//vector2dAtAngle(state.topPos.data[0], -1*state.topPos.data[1], state.penLen, (state.phi*180/Math.PI), c, "#000");
-	var topPosition = new Vector(state.topPos.data[0], -1*state.topPos.data[1]);
-	var position = new Vector(state.topPos.data[0] + state.pos.data[0], -1*(state.topPos.data[1] + state.pos.data[1]));
+	var topPosition = new Vector(state.topPos.data[0], state.topPos.data[1]);
+	var position = new Vector(state.topPos.data[0] + state.pos.data[0], (state.topPos.data[1] + state.pos.data[1]));
 	c.beginPath();
 	c.moveTo(topPosition.data[0], topPosition.data[1]);
 	c.lineTo(position.data[0], position.data[1]);
