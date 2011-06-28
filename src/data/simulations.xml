@@ -55,6 +55,14 @@
 					<tag>force</tag>
 				</tagset>
 			</simulation>
+			<simulation path="momentum">
+				<name>Momentum</name>
+				<tagset>
+					<tag>momentum</tag>
+					<tag>conservation</tag>
+					<tag>motion</tag>
+				</tagset>
+			</simulation>
 		</subcategory>
 	</category>
 	

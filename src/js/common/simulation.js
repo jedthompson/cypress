@@ -67,7 +67,7 @@ function Simulation(name) {
 		this.context.lineWidth=0.4;
 		c.translate(w/2, h/2);
 		sf = (w>h)?(h/100):(w/100);
-		c.scale(sf,sf);
+		c.scale(sf,-sf);
 		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
 		c.restore();
 	}

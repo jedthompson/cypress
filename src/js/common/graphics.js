@@ -24,7 +24,7 @@ function vector2dAtAngle(xStart, yStart, length, angle, context, color) {
 	var x1=xStart;
 	var y1=yStart;
 	var len=length;
-	var phi=(360-angle)*2*Math.PI/360;
+	var phi=angle*2*Math.PI/360;
 	var x2=x1+(len*Math.cos(phi));
 	var y2=y1+(len*Math.sin(phi));
 	var ctx=context;

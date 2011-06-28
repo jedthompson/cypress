@@ -10,7 +10,7 @@ function init_state(state) {
 	state.pos1 = new Vector(0, 0);
 	state.vel1 = new Vector(-.1, 0);
 	state.pos2 = new Vector(0, 35);
-	state.vel2 = new Vector(.1, 0);
+	state.vel2 = new Vector(.25, 0);
 	state.t = 0;
 	return state;
 }
@@ -53,25 +53,26 @@ simulation.step = function(state) {
 	state.pos1 = addV(state.pos1, state.vel1.scale(simulation.dt*.01));
 	state.pos2 = addV(state.pos2, state.vel2.scale(simulation.dt*.01));
 	
-	//if(state.t > 200) {state = init_state(state);}
+	var zeroVector = new Vector(0, 0, 0);
+	if(state.t > 200) {state = init_state(state);}
 
 	return state;
 }
 simulation.render2d = function(state, c, w, h) {
 	var mass1 = simulation.state.settings.mass1;
 	var mass2 = simulation.state.settings.mass2;
-	var pos1 = new Vector(state.pos1.data[0], -1*state.pos1.data[1]);
-	var pos2 = new Vector(state.pos2.data[0], -1*state.pos2.data[1]);
+	var pos1 = new Vector(state.pos1.data[0], state.pos1.data[1]);
+	var pos2 = new Vector(state.pos2.data[0], state.pos2.data[1]);
 
 	var x1 = state.pos1.data[0];
-	var y1 = -1*state.pos1.data[1];
+	var y1 = state.pos1.data[1];
 	c.beginPath();
 	c.arc(x1, y1, state.settings.mass1/2, 0, 2*Math.PI, false);
 	c.closePath();
 	c.stroke();
 
 	var x2 = state.pos2.data[0];
-	var y2 = -1*state.pos2.data[1];
+	var y2 = state.pos2.data[1];
 	c.beginPath();
 	c.arc(x2, y2, state.settings.mass2/2, 0, 2*Math.PI, false);
 	c.closePath();
