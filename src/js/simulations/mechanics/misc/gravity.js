@@ -4,8 +4,6 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
 simulation.description="Gravity simulation TODO description";
 
-var simulation = new Simulation(simulation_name);
-
 function init_state(state) {
 	state.settings.mass1 = 10;
 	state.settings.mass2 = 3;
