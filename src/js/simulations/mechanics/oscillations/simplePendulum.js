@@ -19,6 +19,8 @@ function init_state(state) {
 	// This position is measured from topPos
 	state.pos = new Vector(state.penLen*Math.cos(state.phi), state.penLen*Math.sin(state.phi), 0);
 	
+	//Store mechanical energy to compensate for compounded error
+	state.ME = state.mass*state.g*(state.penLen+state.pos.data[1]);
 	
 	
 	return state;
@@ -52,6 +54,36 @@ simulation.step = function(state) {
 	
 	state.pos.data[0] = xPos;
 	state.pos.data[1] = yPos;
+	
+	//Error compensation
+	var U = state.mass*state.g*(state.penLen+state.pos.data[1]);
+	var KE = state.mass*Math.pow(magV(state.vel), 2)/2;
+	//Check to see if potential energy is too large
+	if(U > state.ME) {
+		var newU = state.ME;
+		var newY = newU/(state.mass*state.g)-state.penLen;
+		state.pos.data[1] = newY;
+		var newX = Math.abs(state.penLen*Math.cos(state.phiInit));
+		if(state.pos.data[0] > 0) {
+			state.pos.data[0] = newX;
+		} else {
+			state.pos.data[0] = -1*newX;
+		}
+		state.vel = new Vector(0, 0, 0);
+		if(yPos != 0 && xPos != 0) {state.phi = Math.atan(yPos/xPos);}
+		else if(yPos == 0) {if(xPos > 0) {state.phi = 0;} else {state.phi = Math.PI;}}
+		else {if(yPos > 0) {state.phi = Math.PI*1/2;} else {state.phi = -1*Math.PI/2;}}
+	
+		if(state.phi > 0 && state.phi < Math.PI) {state.phi += Math.PI;}
+	} else if(U+KE != state.ME){
+		//Get the unit vector of velocity
+		var velUnit = state.vel.scale(1/magV(state.vel));
+		
+		var newKE = state.ME-U;
+		var newVMag = Math.pow(2*newKE/(state.mass), .5);
+		state.vel = velUnit.scale(newVMag);
+	}
+	
 	
 	return state;
 }
