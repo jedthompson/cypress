@@ -50,7 +50,7 @@ simulation.step = function(state) {
 }
 
 simulation.render2d = function(state, c, w, h) {
-	vector2dAtAngle(state.pos.data[0], state.pos.data[1], state.radRot, 180-(state.phi*180/Math.PI), c);
+	vector2dAtAngle(state.pos.data[0], state.pos.data[1], state.radRot, 180+(state.phi*180/Math.PI), c);
 	
 	//The '-1' is used to convert the cartesian coordinate system to the actual coordinate system used to display graphics
 	c.image(window.images["particle-red"], state.pos.data[0]-4, state.pos.data[1]-4, 8, 8);
