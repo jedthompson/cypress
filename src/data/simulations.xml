@@ -28,6 +28,22 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+		<subcategory path="waves">
+			<name>Waves</name>
+			<simulation path="transverse">
+				<name>Transverse Waves</name>
+				<tagset>
+					<tag>light</tag>
+				</tagset>
+			</simulation>
+			<simulation path="longitudinal">
+				<name>Longitudinal Waves</name>
+				<tagset>
+					<tag>particle</tag>
+					<tag>sound</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="gravity">
