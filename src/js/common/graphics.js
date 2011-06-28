@@ -62,6 +62,20 @@ function vector2dAtAngle(xStart, yStart, length, angle, context, color) {
 	ctx.strokeStyle = oldcolor;
 }
 
+function drawVector(xStart, yStart, vector, context, color) {
+	if(!color) {var color = "#000";}
+	if(!vector.data[1]) {
+		throw "drawVector: Too few dimensions (need at least 2)";
+	}
+	var xDist = vector.data[0];
+	var yDist = vector.data[1];
+	var length = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+	if(yDist != 0 && xDist != 0) {if(xDist > 0) {var phi = Math.atan(yDist/xDist);} else {var phi = Math.PI+Math.atan(yDist/xDist);}}
+	else if(yDist == 0) {if(xDist > 0) {var phi = 0;} else {var phi = Math.PI;}}
+	else {if(yDist > 0) {var phi = Math.PI*1/2;} else {var phi = -1*Math.PI/2;}}
+	vector2dAtAngle(xStart, yStart, length, phi*180/Math.PI, context, color);
+}
+
 function getImage(src) {
 	img = new Image();
 	img.src = "../gr/"+src;
