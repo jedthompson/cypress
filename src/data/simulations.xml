@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<simulations>
+	<category path="mechanics">
+		<name>Classical Mechanics</name>
+		<subcategory path="friction">
+			<name>Friction</name>
+			<simulation path="blockIncline">
+				<name>Block on an Inclined Plane</name>
+				<tagset>
+					<tag>friction</tag>
+					<tag>block</tag>
+					<tag>ramp</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="oscillations">
+			<name>Oscillations</name>
+			<simulation path="simplePendulum">
+				<name>Simple Pendulum</name>
+				<tagset>
+					<tag>pendulum</tag>
+					<tag>simple</tag>
+					<tag>oscillation</tag>
+					<tag>harmonic</tag>
+					<tag>bob</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="waves">
+			<name>Waves</name>
+			<simulation path="transverse">
+				<name>Transverse Waves</name>
+				<tagset>
+					<tag>light</tag>
+				</tagset>
+			</simulation>
+			<simulation path="longitudinal">
+				<name>Longitudinal Waves</name>
+				<tagset>
+					<tag>particle</tag>
+					<tag>sound</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="gravity">
+				<name>Gravity</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>attraction</tag>
+					<tag>mass</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+			<simulation path="momentum">
+				<name>Momentum</name>
+				<tagset>
+					<tag>momentum</tag>
+					<tag>conservation</tag>
+					<tag>motion</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="em">
+		<name>Electricity and Magnetism</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="charge-mf">
+				<name>Charged Particle in Magnetic Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>magnet</tag>
+					<tag>field</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="thermodynamics">
+		<name>Thermodynamics</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="gasDiffusion">
+				<name>Gas Diffusion</name>
+				<tagset>
+					<tag>entropy</tag>
+					<tag>gas</tag>
+					<tag>diffusion</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="nuclear">
+		<name>Nuclear Physics</name>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="decay">
+				<name>Nuclear Decay</name>
+				<tagset>
+					<tag>exponential</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+</simulations>
+
