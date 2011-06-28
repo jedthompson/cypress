@@ -51,10 +51,10 @@ simulation.render2d = function(state, c, w, h) {
 	for (var x=0; x<10; x++) {
 		for (var y=0; y<10; y++) {
 			if (!state.decayed[x][y]) {
-				c.drawImage(window.images["particle-red"],
+				c.image(window.images["particle-red"],
 					(8*x)-40, (8*y)-40, 8, 8);
 			} else {
-				c.drawImage(window.images["particle-grey"],
+				c.image(window.images["particle-grey"],
 					(8*x)-40, (8*y)-40, 8, 8);
 			}
 		}

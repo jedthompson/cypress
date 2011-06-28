@@ -1,3 +1,14 @@
+CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd) {
+	xt = x + xd/2;
+	yt = y + yd/2;
+	this.save();
+	this.translate(xt, yt);
+	this.scale(1, -1);
+	this.translate(-xt, -yt);
+	this.drawImage(i, x, y, xd, yd);
+	this.restore();
+}
+
 function vector2dTowards(c, v1, v2, len) {
 	var x1 = v1.data[0];
 	var x2 = v2.data[0];
