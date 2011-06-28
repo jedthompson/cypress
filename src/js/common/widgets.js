@@ -22,5 +22,4 @@ function renderIOSSlider(xPosLeftOfBar, yPosTopOfBar, length, percentFull, conte
 	ctx.image(window.images["IOSSliderWhite"], (480-pLen+pCurLen), 0, pLen-pCurLen, 9, xTL+(curPos*len), yTL, (len-curPos*len), 9/4.8);
 	ctx.image(window.images["IOSSliderCenter"], xTL+(curPos*len)-12/4.8, yTL-(7/4.8), 23/4.8, 23/4.8);
 	
-	//TODO Display slider graphics
 }

@@ -100,6 +100,8 @@ simulation.render2d = function(state, c, w, h) {
 	c.closePath();
 	c.strokeStyle="#000";
 	c.stroke();
+	drawVector(position.data[0], position.data[1], state.vel, c, "#00f");
+	drawVector(position.data[0], position.data[1], netForce(state).scale(1), c, "#f00");
 	c.image(window.images["particle-red"], position.data[0]-4, position.data[1]-4, 8, 8);
 	//vector2dTowards(c, topPosition, position, state.penLen);
 }
