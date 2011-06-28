@@ -97,32 +97,6 @@ simulation.render2d = function(state, c, w, h) {
 }
 
 function drawVector(a,b,c,d,context) {
-	//if(c < 0.2) {return;}
-	/*var x1=a;
-	var y1=b;
-	var len=c;
-	var phi=d*2*Math.PI/360;
-	var x2=x1+(len*Math.cos(phi));
-	var y2=y1+(len*Math.sin(phi));
-	var ctx=context;
-
-	var arrowLength = len/6;
-	if(arrowLength > 4) {arrowLength = 4;}
-	if(arrowLength < 2) {arrowLength = 2;}
-
-	var xC=x2+arrowLength*(Math.cos(phi-(135*2*Math.PI/360)));
-	var yC=y2+arrowLength*(Math.sin(phi-(135*2*Math.PI/360)));
-	var xCC=x2+arrowLength*(Math.cos(phi+(135*2*Math.PI/360)));
-	var yCC=y2+arrowLength*(Math.sin(phi+(135*2*Math.PI/360)));
-
-	ctx.beginPath();
-	ctx.moveTo(x1,y1);
-	ctx.lineTo(x2,y2);
-	ctx.lineTo(xC,yC);
-	ctx.moveTo(x2,y2);
-	ctx.lineTo(xCC,yCC);
-	ctx.strokeStyle="#000";
-	ctx.stroke();*/
 	vector2dAtAngle(a,b,c,(360-d),context);
 }
 
@@ -175,7 +149,6 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 	var xComp = 0;
 	var isXZero = false;
 	var isYZero = false;
-	//var acc=(g*Math.sin(theta))-(mu*g*Math.cos(theta));
 	if(state.acc <= 0) {yComp = 0;(state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR) + (state.g*3*Math.sin(state.thetaR))*Math.sin(state.thetaR) - state.g*3;}
 	else {yComp = (state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR) + (state.mu*state.g*3*Math.cos(state.thetaR))*Math.sin(state.thetaR) - state.g*3;}
 	if(yComp > -0.05) {yComp = 0; isYZero = true;}
