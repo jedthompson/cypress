@@ -5,14 +5,22 @@ function renderIOSSlider(xPosLeftOfBar, yPosTopOfBar, length, percentFull, conte
 	var len = length;
 	var pLen = len*480/100;
 	var curPos = percentFull;
-	if(curPos > len) {curPos = len;}
+	if(curPos > 1) {curPos = 1;}
 	if(curPos < 0) {curPos = 0;}
 	var ctx = context;
 	
+	var pXTL = xTL*480/100;
+	var pYTL = yTL*320/100;
+	var pCurLen = curPos*pLen;
 	
-	/*ctx.drawImage(window.images["IOSSliderWhite"], 0, 0, curPos*pLen, 9, xTL, yTL, ((curPos*pLen))*100/480, 9/4.8);
-	ctx.drawImage(window.images["IOSSliderBlue"], (480-(pLen-curPos*pLen)), 0, pLen-(curPos*pLen), 9, xTL+(curPos*480), yTL, (pLen-(curPos*pLen)+12)*100/480, 9/4.8);
-	ctx.drawImage(window.images["IOSSliderCenter"], (xTL+curPos*pLen)-12/4.8, yTL-(7/4.8), 23/4.8, 23/4.8);*/
+	
+	
+	
+	
+	
+	ctx.drawImage(window.images["IOSSliderBlue"], 0, 0, pCurLen, 9, xTL, yTL, curPos*len, 9/4.8);
+	ctx.drawImage(window.images["IOSSliderWhite"], (480-pLen+pCurLen), 0, pLen-pCurLen, 9, xTL+(curPos*len), yTL, (len-curPos*len), 9/4.8);
+	ctx.drawImage(window.images["IOSSliderCenter"], xTL+(curPos*len)-12/4.8, yTL-(7/4.8), 23/4.8, 23/4.8);
 	
 	//TODO Display slider graphics
 }
