@@ -118,7 +118,7 @@ function checkCollision(state) {
     			state.pV[i] = new Vector(cosine * xVelFinal1 - sine * yVelFinal1, cosine * yVelFinal1 + sine * xVelFinal1);
     			state.pV[j] = new Vector(cosine * xVelFinal2 - sine * yVelFinal2, cosine * yVelFinal2 + sine * xVelFinal2);
   			}
-    	}
+    		}
 	}
 }
 
