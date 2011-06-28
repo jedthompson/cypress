@@ -1,4 +1,4 @@
-var simulation_name = "Test";
+var simulation_name = "Gravity";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 50;

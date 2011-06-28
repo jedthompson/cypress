@@ -9,22 +9,15 @@ CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd) {
 	this.restore();
 }
 
-function vector2dTowards(c, v1, v2, len) {
+function vector2dTowards(c, v1, v2, len, color) {
+	if(!color) {color = "#000";}
 	var x1 = v1.data[0];
 	var x2 = v2.data[0];
 	var y1 = v1.data[1];
 	var y2 = v2.data[1];
-
-	sx = x1;
-	sy = y1;
-	prop = len / dist(v1, v2);
-	dx = x1 + (x2 - x1)*prop;
-	dy = y1 + (y2 - y1)*prop;
-	c.beginPath();
-	c.moveTo(sx, sy);
-	c.lineTo(dx, dy);
-	c.closePath();
-	c.stroke();
+	var bridgeVec = new Vector(x2-x1, y2-y1);
+	var drawVec = bridgeVec.scale(len/magV(bridgeVec));
+	drawVector(x1, y1, drawVec, c, color);
 }
 
 //Angle measured COUNTERCLOCKWISE from positive x-axis
