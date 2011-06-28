@@ -14,7 +14,6 @@ function vector2dTowards(c, v1, v2, len) {
 	c.lineTo(dx, dy);
 	c.closePath();
 	c.stroke();
-	
 }
 
 //Angle measured COUNTERCLOCKWISE from positive x-axis
@@ -47,7 +46,6 @@ function vector2dAtAngle(xStart, yStart, length, angle, context, color) {
 	ctx.lineTo(xCC,yCC);
 	ctx.closePath();
 	var oldcolor = ctx.strokeStyle;
-	ctx.closePath();
 	ctx.strokeStyle=color;
 	ctx.stroke();
 	ctx.strokeStyle = oldcolor;
