@@ -14,7 +14,9 @@ function init_state(state) {
 	state.vel = new Vector(0, 0, 0);
 	state.t = 0;
 	
-	//TODO Make checks to see if values are valid
+	if(state.mass <= .1) {state.mass = .1;}
+	if(state.penLen <= 5) {state.penLen = 5;}
+	if(state.g <= 1) {state.g = 1;}
 	
 	// This position is measured from topPos
 	state.pos = new Vector(state.penLen*Math.cos(state.phi), state.penLen*Math.sin(state.phi), 0);
