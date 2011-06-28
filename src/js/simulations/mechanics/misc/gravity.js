@@ -54,7 +54,7 @@ simulation.step = function(state) {
 	state.pos2 = addV(state.pos2, state.vel2.scale(simulation.dt*.01));
 	
 	var zeroVector = new Vector(0, 0, 0);
-	if(state.t > 200) {state = init_state(state);}
+	if(state.t > 300) {state = init_state(state);}
 
 	return state;
 }
