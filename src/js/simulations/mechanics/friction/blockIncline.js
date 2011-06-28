@@ -113,13 +113,13 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 	var yC = 0;
 	ctx.beginPath();
 	var x1=xC-(SIDELENGTH/2)*Math.sin(state.thetaR)-(SIDELENGTH/2)*Math.cos(state.thetaR);
-	var y1=yC+(SIDELENGTH/2)*Math.cos(state.thetaR)-(SIDELENGTH/2)*Math.sin(state.thetaR);
+	var y1=yC-(SIDELENGTH/2)*Math.cos(state.thetaR)+(SIDELENGTH/2)*Math.sin(state.thetaR);
 	var x2=x1+SIDELENGTH*Math.sin(state.thetaR);
-	var y2=y1-SIDELENGTH*Math.cos(state.thetaR);
+	var y2=y1+SIDELENGTH*Math.cos(state.thetaR);
 	var x3=x2+SIDELENGTH*Math.cos(state.thetaR);
-	var y3=y2+SIDELENGTH*Math.sin(state.thetaR);
+	var y3=y2-SIDELENGTH*Math.sin(state.thetaR);
 	var x4=xC-(SIDELENGTH/2)*Math.sin(state.thetaR)+(SIDELENGTH/2)*Math.cos(state.thetaR);
-	var y4=yC+(SIDELENGTH/2)*Math.cos(state.thetaR)+(SIDELENGTH/2)*Math.sin(state.thetaR);
+	var y4=yC-(SIDELENGTH/2)*Math.cos(state.thetaR)-(SIDELENGTH/2)*Math.sin(state.thetaR);
 	ctx.moveTo(x1,y1);
 	ctx.lineTo(x2,y2);
 	ctx.lineTo(x3,y3);
@@ -128,8 +128,8 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 	ctx.stroke();
 
 	//Code to display coordinate system
-	drawVector(-40,-40,5,(state.thetaD),ctx);
-	drawVector(-40,-40,5,270+(state.thetaD),ctx);
+	drawVector(-40,40,5,(state.thetaD),ctx);
+	drawVector(-40,40,5,270+(state.thetaD),ctx);
 	ctx.fillStyle="#000";
 	//ctx.font="12pt Verdana";
 	//ctx.fillText("x",120-50*Math.sin(theta), 40+50*Math.sin(theta));
