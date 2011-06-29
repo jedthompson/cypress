@@ -20,7 +20,7 @@ simulation.step = function(state) {
 
 simulation.render2d = function(state, c, w, h) {
 	c.beginPath();
-	c.moveTo(-w/2, 0);
+	c.moveTo(-w/2, Math.sin(state.phase+(-w/2)/(w/16))*state.amp*h/2);
 	for (i=-w/2; i<=w/2; i++) {
 		c.lineTo(i, Math.sin(state.phase+i/(w/16))*state.amp*h/2); 
 	}
