@@ -71,5 +71,16 @@ function Simulation(name) {
 		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
 		c.restore();
 	}
-}
+	
+	this.getWidth = function () {
+		var sf = Math.min(this.height/100, this.width/100);
+		return this.width/sf;
+	}
+	
+	this.getHeight = function () {
+ 		var sf = Math.min(this.height/100, this.width/100);
+		return this.height/sf;
+	}
+ 
+ }
 
