@@ -14,6 +14,19 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+		<subcategory path="kinematics">
+			<name>Kinematics</name>
+			<simulation path="centerOfMassMotion">
+				<name>Center of Mass Motion</name>
+				<tagset>
+					<tag>center</tag>
+					<tag>mass</tag>
+					<tag>parabola</tag>
+					<tag>motion</tag>
+					<tag>projectile</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 		<subcategory path="oscillations">
 			<name>Oscillations</name>
 			<simulation path="simplePendulum">
