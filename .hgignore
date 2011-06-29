@@ -5,3 +5,4 @@
 ^src/android/bin.*$
 ^\.project$
 ^.*.blend[0-9]$
+^doc/writing.html$

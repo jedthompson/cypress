@@ -26,7 +26,7 @@ CP := @cp
 
 .PHONY: all doc js test tests clean
 
-all: html js css gr data tests
+all: html doc js css gr data tests
 
 tests: ${OUT_TESTS}
 ${OUT_TESTS}:
@@ -77,7 +77,10 @@ ${OUT_JSSIMULATIONS}: ${JSSIMULATIONS}
 	${MKDIR} $(shell dirname $@)
 	${CP} $(subst build/js/simulations,src/js/simulations,$@) $@
 
-doc:
+doc: doc/writing.html
+
+doc/writing.html: doc/writing.md
+	markdown doc/writing.md > $@
 
 test: tests
 	@echo Open tests/index.html in a browser to run unit tests
