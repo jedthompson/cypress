@@ -10,13 +10,13 @@ function curry(fn) {
 // true on the right.
 function binarySearch(p, d, s, e) {
 	v = (s+e)/2;
-	dist = (e-s)/4;
+	dst = (e-s)/4;
 	for (i=0; i<d; i++) {
 		if (p(v)) // move to the left
-			v -= dist;
+			v -= dst;
 		else // move to the right
-			v += dist;
-		dist /= 2;
+			v += dst;
+		dst /= 2;
 	}
 	return v;
 }

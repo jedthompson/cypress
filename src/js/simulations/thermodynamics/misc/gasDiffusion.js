@@ -51,7 +51,22 @@ simulation.step = function(state) {
 function checkCollision(state) {
 	for (i = 0; i < state.numA+state.numB; i++) {
 		for(j = 0; j < i; j++) {
-
+			// get the distance between the balls
+			var d = dist(state.pP[i], state.pP[j]);
+			// get the distance they can travel in dt*2 units
+			travDist = magV(addV(
+				state.pV[i].scale(simulation.dt*.005*2),
+				state.pV[j].scale(simulation.dt*.005*2)));
+			if (travDist > d) {
+				// find out when they will collide
+				// note that, although it is possible that they
+				// won't ever collide, the value of `t` will in
+				// that case be set to 100 forever, so no
+				// collision will ever be attempted.
+				p = collisionP_SS(state.ballRad, state.pP[i], state.pV[i],
+					state.ballRad, state.pP[j], state.pV[j]);
+				//t = binarySearch(p, 10, 0, simulation.dt*.005*2);
+			}
 		}
 	}
 	/*
