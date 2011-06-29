@@ -49,6 +49,12 @@ simulation.step = function(state) {
 }
 
 function checkCollision(state) {
+	for (i = 0; i < state.numA+state.numB; i++) {
+		for(j = 0; j < i; j++) {
+
+		}
+	}
+	/*
 	for(var i = 0; i < state.numA+state.numB; i++) {
 		for(var j = i+1; j < state.numA+state.numB; j++) {
 			var xPos1 = state.pP[i].data[0];
@@ -72,8 +78,8 @@ function checkCollision(state) {
    				var sine = Math.sin(theta);
     			var cosine = Math.cos(theta);
 
-    			/* bTemp will hold rotated ball positions. You 
-     			just need to worry about bTemp[1] position*/
+    			// bTemp will hold rotated ball positions. You 
+     			// just need to worry about bTemp[1] position
 				var xPosTemp1 = 0;
 				var yPosTemp1 = 0;
 				var xPosTemp2 = 0;
@@ -87,9 +93,9 @@ function checkCollision(state) {
     			var xVelTemp2  = cosine * xVel2 + sine * yVel2;
     			var yVelTemp2  = cosine * yVel2 - sine * xVel2;
 
-    			/* Now that velocities are rotated, you can use 1D
-     			conservation of momentum equations to calculate 
-     			the final velocity along the x-axis. */
+    			// Now that velocities are rotated, you can use 1D
+     			// conservation of momentum equations to calculate 
+     			// the final velocity along the x-axis.
 
     			// final rotated velocity for b[0]
     			var xVelFinal1 = xVelTemp2;
@@ -102,9 +108,9 @@ function checkCollision(state) {
     			xPosTemp1 += xVelFinal1;
     			xPosTemp2 += xVelFinal2;
 
-    			/* Rotate ball positions and velocities back
-     			Reverse signs in trig expressions to rotate 
-     			in the opposite direction */
+			// Rotate ball positions and velocities back
+     			// Reverse signs in trig expressions to rotate 
+     			// in the opposite direction
     			// rotate balls
     			var xPosFinal1 = cosine * xPosTemp1 - sine * yPosTemp1;
     			var yPosFinal1 = cosine * yPosTemp1 + sine * xPosTemp1;
@@ -118,8 +124,8 @@ function checkCollision(state) {
     			state.pV[i] = new Vector(cosine * xVelFinal1 - sine * yVelFinal1, cosine * yVelFinal1 + sine * xVelFinal1);
     			state.pV[j] = new Vector(cosine * xVelFinal2 - sine * yVelFinal2, cosine * yVelFinal2 + sine * xVelFinal2);
   			}
-    	}
-	}
+    		}
+	} */
 }
 
 simulation.render2d = function(state, ctx, w, h) {
