@@ -23,6 +23,7 @@ OUT_TEST_DIRS := $(foreach t,${TEST_DIRS},build/${t})
 MKDIR := @mkdir -p
 XSLTPROC := xsltproc
 CP := @cp
+MARKDOWN := perl tools/markdown/Markdown.pl
 
 .PHONY: all doc js test tests clean
 
@@ -80,7 +81,7 @@ ${OUT_JSSIMULATIONS}: ${JSSIMULATIONS}
 doc: doc/writing.html
 
 doc/writing.html: doc/writing.md
-	markdown doc/writing.md > $@
+	${MARKDOWN} doc/writing.md > $@
 
 test: tests
 	@echo Open tests/index.html in a browser to run unit tests
