@@ -62,22 +62,6 @@
 				</tagset>
 			</simulation>
 		</subcategory>
-		<subcategory path="waves">
-			<name>Waves</name>
-			<simulation path="transverse">
-				<name>Transverse Waves</name>
-				<tagset>
-					<tag>light</tag>
-				</tagset>
-			</simulation>
-			<simulation path="longitudinal">
-				<name>Longitudinal Waves</name>
-				<tagset>
-					<tag>particle</tag>
-					<tag>sound</tag>
-				</tagset>
-			</simulation>
-		</subcategory>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="momentum">
@@ -101,6 +85,38 @@
 					<tag>charge</tag>
 					<tag>magnet</tag>
 					<tag>field</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="optics">
+		<name>Optics</name>
+		<subcategory path="waves">
+			<name>Waves</name>
+			<simulation path="transverse">
+				<name>Transverse Waves</name>
+				<tagset>
+					<tag>light</tag>
+				</tagset>
+			</simulation>
+			<simulation path="longitudinal">
+				<name>Longitudinal Waves</name>
+				<tagset>
+					<tag>particle</tag>
+					<tag>sound</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="diffractionSlit">
+				<name>Diffraction Through a Thin Slit</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>diffraction</tag>
+					<tag>slit</tag>
+					<tag>pinhole</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
