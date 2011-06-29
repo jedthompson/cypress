@@ -11,3 +11,9 @@ function collisionP_SS(r1, p1, v1, r2, p2, v2) {
 	})(dist, r1, p1, v1, r2, p2, v2);
 }
 
+// Collision predicate for a sphere and an X-value
+// TODO
+
+// Collision predicate for a sphere and a Y-value
+// TODO
+
