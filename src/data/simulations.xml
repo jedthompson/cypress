@@ -14,6 +14,28 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+		<subcategory path="gravity">
+			<name>Gravity</name>
+			<simulation path="constantAccG">
+				<name>Constant Acceleration due to Gravity</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>constant</tag>
+					<tag>acceleration</tag>
+					<tag>falling</tag>
+					<tag>balls</tag>
+				</tagset>
+			</simulation>
+			<simulation path="gravity">
+				<name>Planetary Attraction</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>attraction</tag>
+					<tag>mass</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 		<subcategory path="kinematics">
 			<name>Kinematics</name>
 			<simulation path="centerOfMassMotion">
@@ -58,15 +80,6 @@
 		</subcategory>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
-			<simulation path="gravity">
-				<name>Gravity</name>
-				<tagset>
-					<tag>gravity</tag>
-					<tag>attraction</tag>
-					<tag>mass</tag>
-					<tag>force</tag>
-				</tagset>
-			</simulation>
 			<simulation path="momentum">
 				<name>Momentum</name>
 				<tagset>
