@@ -86,27 +86,24 @@ simulation.render2d = function(state, c, w, h) {
 	
 	c.beginPath();
 	c.moveTo(state.historyCM[0].data[0], state.historyCM[0].data[1]);
-	for (var i = 0; i <= state.t; i++) {
+	for (var i = 1; i <= state.t; i++) {
 		c.lineTo(state.historyCM[i].data[0], state.historyCM[i].data[1]); 
 	}
-	c.closePath();
 	c.stroke();
 	
 	c.beginPath();
 	c.moveTo(state.history1[0].data[0], state.history1[0].data[1]);
-	for (var i = 0; i <= state.t; i++) {
+	for (var i = 1; i <= state.t; i++) {
 		c.lineTo(state.history1[i].data[0], state.history1[i].data[1]); 
 	}
-	c.closePath();
 	c.strokeStyle = "#f00";
 	c.stroke();
 	
 	c.beginPath();
 	c.moveTo(state.history2[0].data[0], state.history2[0].data[1]);
-	for (var i = 0; i <= state.t; i++) {
+	for (var i = 1; i <= state.t; i++) {
 		c.lineTo(state.history2[i].data[0], state.history2[i].data[1]); 
 	}
-	c.closePath();
 	c.strokeStyle = "#00f";
 	c.stroke();
 }
