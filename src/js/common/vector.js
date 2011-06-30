@@ -54,6 +54,12 @@ function vBO(f) {
         }
 }
 
+//Return a vector given a magnitude in units and a direction measured in RADIANS counterclockwise from the positive x axis
+function vecMagDir(magnitude, theta) {
+	var v = new Vector(magnitude*Math.cos(theta), magnitude*Math.sin(theta));
+	return v;
+}
+
 // Add two vectors.
 var addV = vBO(function (a,b) {
 	return a+b;
