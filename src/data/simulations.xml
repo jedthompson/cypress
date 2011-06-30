@@ -38,6 +38,16 @@
 		</subcategory>
 		<subcategory path="kinematics">
 			<name>Kinematics</name>
+			<simulation path="ballisticMotion">
+				<name>Ballistic Motion</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>ballistic</tag>
+					<tag>parabola</tag>
+					<tag>motion</tag>
+					<tag>projectile</tag>
+				</tagset>
+			</simulation>
 			<simulation path="centerOfMassMotion">
 				<name>Center of Mass Motion</name>
 				<tagset>
