@@ -7,7 +7,7 @@ simulation.description = "According to Huygen's Propagation of Wavefronts Princi
 function init_state(state) {
 	state.xPos = [];
 	state.t = 0;
-	state.distBetWaves = 30; //How often a new wave is created, in units, equivalent to wavelength
+	state.distBetWaves = 40; //How often a new wave is created, in units, equivalent to wavelength
 	state.vel = 10; //Rate at which a wave propagates
 	state.slitSize = 10;
 	
@@ -39,18 +39,35 @@ simulation.render2d = function(state, c, w, h) {
 	c.strokeStyle="#000";
 	for(var i = 0; i <= state.num; i++) {
 		if(state.xPos[i] <= 0) {
+			c.strokeStyle="#f00";
 			c.beginPath();
 			c.moveTo(state.xPos[i], -h/2);
 			c.lineTo(state.xPos[i], h/2);
 			c.stroke();
+			c.strokeStyle="#000";
 		} else {
 			for(var j = -state.slitSize/2; j <= state.slitSize/2; j+= .5) {
 				c.beginPath();
 				c.arc(0, j, state.xPos[i], -Math.PI/2, Math.PI/2, false);
 				c.stroke();
 			}
+			c.strokeStyle="#f00";
+			c.beginPath();
+			c.arc(0, -state.slitSize/2, state.xPos[i], -Math.PI/2, 0, false);
+			//c.stroke();
+			//c.beginPath();
+			//c.moveTo(state.xPos[i], -state.slitSize/2-.1);
+			c.lineTo(state.xPos[i], state.slitSize/2+.1);
+			//c.stroke();
+			//c.beginPath();
+			c.arc(0, state.slitSize/2, state.xPos[i], 0, Math.PI/2, false);
+			c.stroke();
+			
+			
+			c.strokeStyle="#000";
 		}
 	}
+	
 	
 	//UNCOMMENT this stuff for COLOR MODE (a bit laggy though)
 	/*c.lineWidth=.6;
