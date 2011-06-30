@@ -58,6 +58,17 @@
 					<tag>projectile</tag>
 				</tagset>
 			</simulation>
+			<simulation path="cycloid">
+				<name>Cycloid</name>
+				<tagset>
+					<tag>rolling</tag>
+					<tag>ball</tag>
+					<tag>sphere</tag>
+					<tag>curve</tag>
+					<tag>circle</tag>
+					<tag>cycloid</tag>
+				</tagset>
+			</simulation>
 		</subcategory>
 		<subcategory path="oscillations">
 			<name>Oscillations</name>
@@ -118,8 +129,8 @@
 				</tagset>
 			</simulation>
 		</subcategory>
-		<subcategory path="misc">
-			<name>Miscellaneous</name>
+		<subcategory path="diffraction">
+			<name>Diffraction</name>
 			<simulation path="diffractionSlit">
 				<name>Diffraction Through a Thin Slit</name>
 				<tagset>
@@ -127,6 +138,41 @@
 					<tag>diffraction</tag>
 					<tag>slit</tag>
 					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+			<simulation path="doubleSlit">
+				<name>Double Slit Diffraction Interference</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>diffraction</tag>
+					<tag>slit</tag>
+					<tag>two</tag>
+					<tag>double</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+			<simulation path="huygensPrinciple">
+				<name>Huygen's Wavefront Propagation</name>
+				<tagset>
+					<tag>Huygen</tag>
+					<tag>light</tag>
+					<tag>slit</tag>
+					<tag>thin</tag>
+					<tag>diffraction</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="refraction">
+			<name>Refraction</name>
+			<simulation path="refraction">
+				<name>Refraction</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>speed</tag>
+					<tag>refraction</tag>
+					<tag>Snell</tag>
+					<tag>Law</tag>
 				</tagset>
 			</simulation>
 		</subcategory>

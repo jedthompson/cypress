@@ -1,7 +1,7 @@
 var simulation_name = "Ballistic Motion";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 100;   //time in milliseconds, which means 20ms per "tick"
+simulation.dt = 20;   //time in milliseconds, which means 20ms per "tick"
 simulation.description="Put a description here";
 
 // constructor here
@@ -13,12 +13,12 @@ function init_state(state) {
 	state.acc = new Vector(0,-9.8); //accel in x and y directions
 	
 	// path is delta-y vs delta-x 
-	state.path = [];
+	/*state.path = [];
 	var velratio = state.vel.data[1]/state.vel.data[0];
 	var gratio = 0.5*state.acc.data[1]/Math.pow(state.vel.data[0],2);
 	for (var i=0; i<100; i++) {
 		state.path[i] = (velratio*i)+gratio*i*i;
-	}
+	}*/
 	
 	state.patha = [];
 	state.t = 0;
@@ -41,6 +41,11 @@ simulation.step = function(state) {
 	state.t++;
 	state.patha[state.t] = new Vector(state.pos.data[0],state.pos.data[1]);
 	
+	
+	if(state.pos.data[1] < -100) {
+		state = init_state(state);
+	}
+	
 	return state;
 }
 
@@ -55,12 +60,12 @@ simulation.render2d = function(state, c, w, h) {
 	c.arc(state.pos.data[0],state.pos.data[1],1,0,2*Math.PI,false);
 	c.stroke();
 	
-	c.beginPath();
+	/*c.beginPath();
 	c.moveTo(state.initpos.data[0],state.initpos.data[1]);
 	for (var i=1; i<state.path.length; i++) {
 		c.lineTo(state.initpos.data[0]+i,state.initpos.data[1]+state.path[i]);
 	}
-	c.stroke();
+	c.stroke();*/
 	
 	c.beginPath();
 	c.moveTo(state.initpos.data[0],state.initpos.data[1]);
