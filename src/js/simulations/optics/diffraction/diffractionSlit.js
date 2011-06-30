@@ -91,7 +91,7 @@ simulation.render2d = function(state, c, w, h) {
 		}
 	}
 	c.lineWidth = .4;
-	c.strokeStyle="0f0"*/
+	c.strokeStyle="0f0"/**/
 	
 	c.beginPath();
 	c.moveTo(0, -h/2);
