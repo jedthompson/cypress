@@ -67,12 +67,14 @@ simulation.render2d = function(state, c, w, h) {
 	}
 	c.stroke();*/
 	
-	c.beginPath();
+	
+	drawPath(c, state.patha, "#000");
+	/*c.beginPath();
 	c.moveTo(state.initpos.data[0],state.initpos.data[1]);
 	for (var i=1; i<=state.t; i++) {
 		c.lineTo(state.patha[i].data[0],state.patha[i].data[1]);
 	}
 	c.strokeStyle = "#f00";
-	c.stroke();
+	c.stroke();*/
 }
 

@@ -69,6 +69,35 @@ function drawVector(xStart, yStart, vector, context, color) {
 	vector2dAtAngle(xStart, yStart, length, phi*180/Math.PI, context, color);
 }
 
+function drawGraph(xLowLeft, yLowLeft, width, height, context, arrayOfVectors, shouldDrawAxes, color) {
+	if(!color) {
+		color = "#000";
+	}
+	
+	context.strokeStyle = color;
+	
+	if(shouldDrawAxes) {
+		context.beginPath();
+		context.moveTo(xLowLeft, yLowLeft);
+		context.lineTo(xLowLeft+width, yLowLeft);
+		context.moveTo(xLowLeft, yLowLeft);
+		context.lineTo(xLowLeft, yLowLeft+height);
+		context.stroke();
+	}
+	
+	context.beginPath();
+	context.moveTo(xLowLeft+arrayOfVectors[0].data[0], yLowLeft+arrayOfVectors[0].data[1]);
+	for(var i = 1; i < arrayOfVectors.length; i++) {
+		context.lineTo(xLowLeft+arrayOfVectors[i].data[0], yLowLeft+arrayOfVectors[i].data[1]);
+	}
+	context.stroke();
+}
+
+function drawPath(context, arrayOfAbsolutePositionVectors, color) {
+	if(!color) {color="#000";}
+	drawGraph(0, 0, 100, 100, context, arrayOfAbsolutePositionVectors, false, color);
+}
+
 function getImage(src) {
 	img = new Image();
 	img.src = "../gr/"+src;

@@ -25,9 +25,9 @@ function init_state(state) {
 	var com = state.mass1*state.barLen/(state.mass1+state.mass2);
 	state.comToM1 = state.barLen-com;
 	
-	state.history1 = {};
-	state.history2 = {};
-	state.historyCM = {};
+	state.history1 = [];
+	state.history2 = [];
+	state.historyCM = [];
 	
 	state.historyCM[state.t] = state.pos;
 	state.history1[state.t] = addV(state.pos, (new Vector(state.comToM1*Math.cos(state.phiM1), state.comToM1*Math.sin(state.phiM1), 0)));
@@ -86,28 +86,8 @@ simulation.render2d = function(state, c, w, h) {
 	c.strokeStyle = "00f";
 	c.stroke();
 	
-	c.beginPath();
-	c.moveTo(state.historyCM[0].data[0], state.historyCM[0].data[1]);
-	for (var i = 1; i <= state.t; i++) {
-		c.lineTo(state.historyCM[i].data[0], state.historyCM[i].data[1]); 
-	}
-	c.strokeStyle = "#000";
-	c.stroke();
-	
-	c.beginPath();
-	c.moveTo(state.history1[0].data[0], state.history1[0].data[1]);
-	for (var i = 1; i <= state.t; i++) {
-		c.lineTo(state.history1[i].data[0], state.history1[i].data[1]); 
-	}
-	c.strokeStyle = "#f00";
-	c.stroke();
-	
-	c.beginPath();
-	c.moveTo(state.history2[0].data[0], state.history2[0].data[1]);
-	for (var i = 1; i <= state.t; i++) {
-		c.lineTo(state.history2[i].data[0], state.history2[i].data[1]); 
-	}
-	c.strokeStyle = "#00f";
-	c.stroke();
+	drawPath(c, state.historyCM, "#000");
+	drawPath(c, state.history1, "#f00");
+	drawPath(c, state.history2, "#00f");
 }
 
