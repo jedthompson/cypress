@@ -135,6 +135,12 @@
 					<tag>sound</tag>
 				</tagset>
 			</simulation>
+			<simulation path="doppler">
+				<name>Doppler Effect</name>
+				<tagset>
+					<tag>redshift</tag>
+				</tagset>
+			</simulation>
 		</subcategory>
 
 		<subcategory path="diffraction">
@@ -180,8 +186,8 @@
 					<tag>light</tag>
 					<tag>speed</tag>
 					<tag>refraction</tag>
-					<tag>Snell</tag>
-					<tag>Law</tag>
+					<tag>snell</tag>
+					<tag>wave</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
