@@ -2,6 +2,7 @@
 <simulations>
 	<category path="mechanics">
 		<name>Classical Mechanics</name>
+
 		<subcategory path="friction">
 			<name>Friction</name>
 			<simulation path="blockIncline">
@@ -14,6 +15,7 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
 		<subcategory path="gravity">
 			<name>Gravity</name>
 			<simulation path="constantAccG">
@@ -36,6 +38,7 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
 		<subcategory path="kinematics">
 			<name>Kinematics</name>
 			<simulation path="ballisticMotion">
@@ -70,6 +73,7 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
 		<subcategory path="oscillations">
 			<name>Oscillations</name>
 			<simulation path="simplePendulum">
@@ -83,6 +87,7 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="momentum">
@@ -98,6 +103,7 @@
 	
 	<category path="em">
 		<name>Electricity and Magnetism</name>
+
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="charge-mf">
@@ -113,6 +119,7 @@
 	
 	<category path="optics">
 		<name>Optics</name>
+
 		<subcategory path="waves">
 			<name>Waves</name>
 			<simulation path="transverse">
@@ -129,6 +136,7 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
 		<subcategory path="diffraction">
 			<name>Diffraction</name>
 			<simulation path="diffractionSlit">
@@ -163,6 +171,7 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
 		<subcategory path="refraction">
 			<name>Refraction</name>
 			<simulation path="refraction">
@@ -180,6 +189,7 @@
 
 	<category path="thermodynamics">
 		<name>Thermodynamics</name>
+
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="gasDiffusion">
@@ -195,6 +205,7 @@
 
 	<category path="nuclear">
 		<name>Nuclear Physics</name>
+
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="decay">
