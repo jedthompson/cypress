@@ -1,7 +1,7 @@
 var simulation_name = "Gravity";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 50;
+simulation.dt = 20;
 simulation.description="Gravity simulation TODO description";
 
 function init_state(state) {
@@ -34,7 +34,7 @@ function force12() {
 	var xDisp = pos2.data[0]-pos1.data[0];
 	var yDisp = pos2.data[1]-pos1.data[1];
 	
-	if(yDisp != 0 && xDisp != 0) {var phi = Math.atan(yDisp/xDisp);}
+	if(yDisp != 0 && xDisp != 0) {var phi = Math.atan2(yDisp,xDisp);}
 	else if(yDisp == 0) {if(xDisp > 0) {var phi = 0;} else {var phi = Math.PI;}}
 	else {if(yDisp > 0) {var phi = Math.PI/2;} else {var phi = Math.PI*3/2;}}
 	
@@ -43,9 +43,10 @@ function force12() {
 }
 
 simulation.step = function(state) {
+	state.force = force12();
 	state.t++;
-	var a1 = force12().scale(1/state.settings.mass1);
-	var a2 = force12().scale(-1/state.settings.mass2);
+	var a1 = state.force.scale(1/state.settings.mass1);
+	var a2 = state.force.scale(-1/state.settings.mass2);
 
 	state.vel1 = addV(state.vel1, a1.scale(simulation.dt*.01));
 	state.vel2 = addV(state.vel2, a2.scale(simulation.dt*.01));
@@ -53,8 +54,7 @@ simulation.step = function(state) {
 	state.pos1 = addV(state.pos1, state.vel1.scale(simulation.dt*.01));
 	state.pos2 = addV(state.pos2, state.vel2.scale(simulation.dt*.01));
 	
-	var zeroVector = new Vector(0, 0, 0);
-	if(state.t > 300) {state = init_state(state);}
+	//if(state.t > 600) {state = init_state(state);}
 
 	return state;
 }
@@ -79,8 +79,8 @@ simulation.render2d = function(state, c, w, h) {
 	c.stroke();
 	
 	// draw  vectors
-	var a1 = force12().scale(1/mass1);
-	var a2 = force12().scale(1/mass2);
+	var a1 = state.force.scale(1/mass1);
+	var a2 = state.force.scale(1/mass2);
 	
 	
 	vector2dTowards(c, pos1, pos2, magV(a1)*100);
