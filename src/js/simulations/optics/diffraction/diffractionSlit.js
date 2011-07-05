@@ -2,7 +2,7 @@ var simulation_name = "Diffraction Through a Slit";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
-simulation.description = "TODO Description";
+simulation.description = "Because light has wave-like qualities, when it passes through a thin slit, it diffracts in a radial pattern away from the slit.";
 
 function init_state(state) {
 	state.xPos = [];
@@ -50,8 +50,7 @@ simulation.render2d = function(state, c, w, h) {
 	}
 	
 	//UNCOMMENT this stuff for COLOR MODE (a bit laggy though)
-	/*c.lineWidth=.6;
-	for(var i = -70; i <= 100; i+=.5) {
+	/*for(var i = -70; i <= 100; i+=.5) {
 		if(i < 0) {
 			var dist = (Math.abs(i-state.xPos[0]))%state.distBetWaves;
 			var phi = dist*2*Math.PI/state.distBetWaves;

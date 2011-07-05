@@ -56,6 +56,19 @@ simulation.render2d = function(state, c, w, h) {
 	c.arc(state.initpos.data[0],state.pos.data[1],1,0,2*Math.PI,false);
 	c.stroke();
 	
+	var a = new Vector(state.vel.data[0], 0);
+	var b = new Vector(0, state.vel.data[1]);
+	
+	drawVector(state.pos.data[0], state.initpos.data[1], a, c);
+	drawVector(state.initpos.data[0], state.pos.data[1], b, c);
+	
+	/*c.beginPath();
+	c.moveTo(state.initpos.data[0], state.pos.data[1]);
+	c.lineTo(state.pos.data[0], state.pos.data[1]);
+	c.lineTo(state.pos.data[0], state.initpos.data[1]);
+	c.stroke();*/
+	
+	
 	drawPath(c, state.patha, "#000");
 }
 
