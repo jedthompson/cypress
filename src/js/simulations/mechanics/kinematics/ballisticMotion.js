@@ -2,7 +2,7 @@ var simulation_name = "Ballistic Motion";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;   //time in milliseconds, which means 20ms per "tick"
-simulation.description="Put a description here";
+simulation.description="Here, one can observe that gravity only affects the y component of the velocity and that the x component remains constant.  One can also see that gravity always induces a parabolic trajectory in a launched particle.";
 
 // constructor here
 function init_state(state) {
