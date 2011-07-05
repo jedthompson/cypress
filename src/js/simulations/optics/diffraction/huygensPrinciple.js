@@ -7,7 +7,7 @@ simulation.description = "According to Huygen's Propagation of Wavefronts Princi
 function init_state(state) {
 	state.xPos = [];
 	state.t = 0;
-	state.distBetWaves = 40; //How often a new wave is created, in units, equivalent to wavelength
+	state.distBetWaves = 20; //How often a new wave is created, in units, equivalent to wavelength
 	state.vel = 10; //Rate at which a wave propagates
 	state.slitSize = 10;
 	
@@ -46,7 +46,7 @@ simulation.render2d = function(state, c, w, h) {
 			c.stroke();
 			c.strokeStyle="#000";
 		} else {
-			for(var j = -state.slitSize/2; j <= state.slitSize/2; j+= .5) {
+			for(var j = -state.slitSize/2; j <= state.slitSize/2; j+= 2) {
 				c.beginPath();
 				c.arc(0, j, state.xPos[i], -Math.PI/2, Math.PI/2, false);
 				c.stroke();
