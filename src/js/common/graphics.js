@@ -57,7 +57,7 @@ function vector2dAtAngle(xStart, yStart, length, angle, context, color) {
 
 function drawVector(xStart, yStart, vector, context, color) {
 	if(!color) {var color = "#000";}
-	if(!vector.data[1]) {
+	if(vector.data.length < 2) {
 		throw "drawVector: Too few dimensions (need at least 2)";
 	}
 	var xDist = vector.data[0];
@@ -69,7 +69,7 @@ function drawVector(xStart, yStart, vector, context, color) {
 	vector2dAtAngle(xStart, yStart, length, phi*180/Math.PI, context, color);
 }
 
-function drawGraph(xLowLeft, yLowLeft, width, height, context, arrayOfVectors, shouldDrawAxes, color) {
+function drawHistogram(xLowLeft, yLowLeft, width, height, context, arrayOfVectors, shouldDrawAxes, color) {
 	if(!color) {
 		color = "#000";
 	}
@@ -95,7 +95,7 @@ function drawGraph(xLowLeft, yLowLeft, width, height, context, arrayOfVectors, s
 
 function drawPath(context, arrayOfAbsolutePositionVectors, color) {
 	if(!color) {color="#000";}
-	drawGraph(0, 0, 100, 100, context, arrayOfAbsolutePositionVectors, false, color);
+	drawHistogram(0, 0, 100, 100, context, arrayOfAbsolutePositionVectors, false, color);
 }
 
 function getImage(src) {
