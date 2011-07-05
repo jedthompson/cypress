@@ -238,7 +238,7 @@
 					<tag>exponential</tag>
 					<tag>decay</tag>
 					<tag>radioactive</tag>
-					<tag>halflife</tag>
+					<tag>half-life</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
