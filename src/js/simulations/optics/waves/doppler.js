@@ -50,8 +50,15 @@ simulation.render2d = function(state, c, w, h) {
 	for (var i=0; i<waves.length; i++) {
 		c.beginPath();
 		c.arc(waves[i].cx, waves[i].cy, waves[i].r, -1, 2*Math.PI, false);
-		c.strokeStyle = "rgba(0, 0, 0, 0.25)";
+		c.strokeStyle = "rgba(0, 0, 0, 0.35)";
 		c.stroke();
 	}
 }
+
+simulation.renderSettings = function(state, c, w, h) {
+}
+
+simulation.renderSettings.widgets = [
+
+];
 
