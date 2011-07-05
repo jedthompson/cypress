@@ -2,7 +2,7 @@ var simulation_name = "Double Slit Diffraction";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
-simulation.description = "TODO Description";
+simulation.description = "As shown in the famous Young experiment, light behaves like a wave in that it diffracts.  This means that when passed through two slits, collated light will create an interference pattern.";
 
 function init_state(state) {
 	state.xPos = [];
@@ -75,6 +75,8 @@ simulation.render2d = function(state, c, w, h) {
 		} else {
 			c.beginPath();
 			c.arc(0, -state.distBetSlits/2, state.xPos[i], -Math.PI/2, Math.PI/2, false);
+			c.stroke();
+			c.beginPath();
 			c.arc(0, state.distBetSlits/2, state.xPos[i], -Math.PI/2, Math.PI/2, false);
 			c.stroke();
 		}
@@ -84,7 +86,7 @@ simulation.render2d = function(state, c, w, h) {
 	c.beginPath();
 	c.moveTo(40, -h/2);
 	c.lineTo(40, h/2);
-	c.strokeStyle="000";
+	c.strokeStyle="#000";
 	c.stroke();
 	
 	for(var i = -h/2; i <= h/2; i += .3) {
@@ -95,9 +97,9 @@ simulation.render2d = function(state, c, w, h) {
 		c.stroke();
 	}
 	
+	//c.fillStyle="#fff";
+	//c.fillRect(-.3, -h/2, .6, h);
 
-	c.fillStyle="#fff";
-	c.fillRect(-.3, -h/2, .6, h);
 	
 	c.beginPath();
 	c.moveTo(0, -h/2);
