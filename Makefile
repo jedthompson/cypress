@@ -57,7 +57,7 @@ ${OUT_GR}: ${SRC_GR}
 
 build/js/cypress.js: ${JSCOMMON}
 	${MKDIR} build/js
-	cat ${JSCOMMON} > $@
+	java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5 $(foreach j,${JSCOMMON},--js ${j}) > $@
 build/js/select.js: src/js/select.js
 	${MKDIR} build/js
 	${CP} src/js/select.js $@
