@@ -126,6 +126,19 @@
 				<name>Transverse Waves</name>
 				<tagset>
 					<tag>light</tag>
+					<tag>amplitude</tag>
+					<tag>frequency</tag>
+				</tagset>
+			</simulation>
+			<simulation path="waveAddition">
+				<name>Interference of Two Waves</name>
+				<tagset>
+					<tag>wave</tag>
+					<tag>sound</tag>
+					<tag>light</tag>
+					<tag>interference</tag>
+					<tag>addition</tag>
+					<tag>oscilloscope</tag>
 				</tagset>
 			</simulation>
 			<simulation path="longitudinal">
@@ -133,12 +146,17 @@
 				<tagset>
 					<tag>particle</tag>
 					<tag>sound</tag>
+					<tag>collated</tag>
+					<tag>light</tag>
 				</tagset>
 			</simulation>
 			<simulation path="doppler">
 				<name>Doppler Effect</name>
 				<tagset>
 					<tag>redshift</tag>
+					<tag>blueshift</tag>
+					<tag>star</tag>
+					<tag>sound</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
@@ -218,6 +236,9 @@
 				<name>Nuclear Decay</name>
 				<tagset>
 					<tag>exponential</tag>
+					<tag>decay</tag>
+					<tag>radioactive</tag>
+					<tag>halflife</tag>
 				</tagset>
 			</simulation>
 		</subcategory>

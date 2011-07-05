@@ -1,7 +1,7 @@
 var simulation_name="Doppler Effect";
 var simulation = new Simulation(simulation_name);
 simulation.dt = 35;
-simulation.description = "TODO add description";
+simulation.description = "When a moving particle emits spherical waves, the waves undergo the Doppler effect.  This causes them to shift in frequency in front of and behind the particle.  This effect can be easily observed in reality when a sound source of constant frequency passes a stationary observer.";
 
 // Represents a circular wave
 var Wave = function(x, y) {

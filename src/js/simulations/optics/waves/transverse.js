@@ -4,7 +4,7 @@ var simulation_name = "Transverse Waves";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
-simulation.description = "Transverse waves simulation TODO description";
+simulation.description = "Transverse waves are akin to waves of light or standing waves on a string.  They have a frequency (number of waves per unit time), an amplitude (how \"tall\" the waves are), and a speed at which they propagate through space.";
 
 function init_state(state) {
 	state.phase = 0;
