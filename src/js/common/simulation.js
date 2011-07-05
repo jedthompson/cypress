@@ -16,6 +16,7 @@ function Simulation(name) {
 	}
 	this.render2d = null;
 	this.render3d = null;
+	this.renderSettings = null;
 
 	this.renderSimulation = function (s, c, w, h) {
 		if (this.render2d != null) {
@@ -26,14 +27,16 @@ function Simulation(name) {
 		// just clear the canvas to expose the description
 		c.clearRect(-w, -h, w*2, h*2);
 	}
-	this.renderSettings = function(s, c, w, h) {
-
+	this._renderSettings = function(s, c, w, h) {
+		if (this.renderSettings != null) {
+			this.renderSettings(s, c, w, h);
+		}
 	}
 
 	this.tabs = {
 		Description: this.renderDescription.bind(this),
 		Simulation: this.renderSimulation.bind(this),
-		Settings: this.renderSettings.bind(this),
+		Settings: this._renderSettings.bind(this),
 	}
 
 	this.currentTab = "Simulation";
@@ -82,5 +85,5 @@ function Simulation(name) {
 		return this.height/sf;
 	}
  
- }
+}
 
