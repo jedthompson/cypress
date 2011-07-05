@@ -84,6 +84,20 @@ function Simulation(name) {
  		var sf = Math.min(this.height/100, this.width/100);
 		return this.height/sf;
 	}
- 
+
+	// register mouse listeners
+	var canvas = this.canvas;
+	function mouseDownListener() {
+
+	}
+	this.mouseDownListener = mouseDownListener.bind(this);
+
+	function mouseUpListener() {
+
+	}
+	
+	function mouseMoveListener() {
+
+	}
 }
 
