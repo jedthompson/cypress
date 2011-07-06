@@ -149,7 +149,7 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 	var xComp = 0;
 	var isXZero = false;
 	var isYZero = false;
-	if(state.acc <= 0) {yComp = 0;(state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR) + (state.g*3*Math.sin(state.thetaR))*Math.sin(state.thetaR) - state.g*3;}
+	if(state.acc <= 0) {yComp = 0;}
 	else {yComp = (state.g*3*Math.cos(state.thetaR))*Math.cos(state.thetaR) + (state.mu*state.g*3*Math.cos(state.thetaR))*Math.sin(state.thetaR) - state.g*3;}
 	if(yComp > -0.05) {yComp = 0; isYZero = true;}
 
