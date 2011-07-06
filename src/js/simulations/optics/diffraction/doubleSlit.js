@@ -9,7 +9,7 @@ function init_state(state) {
 	state.t = 0;
 	state.distBetWaves = 5; //How often a new wave is created, in units, equivalent to wavelength
 	state.vel = 10; //Rate at which a wave propagates
-	state.distBetSlits = 10;
+	state.distBetSlits = 20;
 	
 	
 	state.xPos.push(-50);
@@ -17,6 +17,7 @@ function init_state(state) {
 	state.num = 0;
 	
 	state.colorTable = [];
+	state.xWaveTable = [];
 	
 	return state;
 }
@@ -54,6 +55,7 @@ simulation.step = function(state) {
 			var color = Math.floor(cosine*255);
 			var strokeStyle = 'rgb(' + color + ',0,0)';
 			state.colorTable[i] = strokeStyle;
+			state.xWaveTable[i] = 5*cosine;
 			/*c.stroke();*/
 		}
 	}
@@ -96,6 +98,22 @@ simulation.render2d = function(state, c, w, h) {
 		c.strokeStyle = state.colorTable[i];
 		c.stroke();
 	}
+	c.beginPath();
+	c.moveTo(40,-h/2);
+	for(var i = -h/2; i < h/2; i += .3) {
+		c.lineTo(40+state.xWaveTable[i], i);
+	}
+	c.strokeStyle = "#0f0";
+	c.stroke();
+	
+	/*for(var i = -h/2; i <= h/2; i += .3) {
+		var dist = (Math.sqrt(Math.pow(i-10, 2) + Math.pow(state.xPos[1],2)))%state.distBetWaves;
+		var phi = dist*2*Math.PI/state.distBetWaves;
+		var dist2 = (Math.sqrt(Math.pow(i+10, 2) + Math.pow(state.xPos[1],2)))%state.distBetWaves;
+		var phi2 = dist2*2*Math.PI/state.distBetWaves;
+		c.lineTo(45 + Math.cos(phi) + Math.cos(phi2), i);
+	}*/
+	
 	
 	//c.fillStyle="#fff";
 	//c.fillRect(-.3, -h/2, .6, h);
@@ -103,10 +121,10 @@ simulation.render2d = function(state, c, w, h) {
 	
 	c.beginPath();
 	c.moveTo(0, -h/2);
-	c.lineTo(0, -5.5);
-	c.moveTo(0, -4.5);
-	c.lineTo(0, 4.5);
-	c.moveTo(0, 5.5);
+	c.lineTo(0, -state.distBetSlits/2-.5);
+	c.moveTo(0, -state.distBetSlits/2+.5);
+	c.lineTo(0, state.distBetSlits/2-.5);
+	c.moveTo(0, state.distBetSlits/2+.5);
 	c.lineTo(0, h/2);
 	c.strokeStyle = "#000";
 	c.stroke();
