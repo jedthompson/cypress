@@ -16,21 +16,24 @@ function init_state(state) {
 	}
 	
 	state.history = [];
-	state.history[state.t] = new Vector(state.ballPos.data[0]+state.ballRad*Math.cos(state.phi), state.ballPos.data[1]+state.ballRad*Math.sin(state.phi));
 	return state;
 }
 simulation.state = init_state(simulation.state);
 
 simulation.step = function(state) {
+	if(state.ballPos.data[0] > simulation.getWidth()/2) {
+		state = init_state(state);
+	}
+
+	if (state.t == 0) {
+		state.ballPos = new Vector(-simulation.getWidth()/2+5, 0, 0);
+		state.history[state.t] = new Vector(state.ballPos.data[0]+state.ballRad*Math.cos(state.phi), state.ballPos.data[1]+state.ballRad*Math.sin(state.phi));
+	}
 	state.t++;
 	state.phi += state.omega*.001*simulation.dt;
 	state.ballPos = addV(state.ballPos, state.ballVel.scale(.001*simulation.dt));
 	
 	state.history[state.t] = new Vector(state.ballPos.data[0]+state.ballRad*Math.cos(state.phi), state.ballPos.data[1]+state.ballRad*Math.sin(state.phi));
-	
-	if(state.ballPos.data[0] > simulation.getWidth()/2+10) {
-		state = init_state(state);
-	}
 	
 	return state;
 }
