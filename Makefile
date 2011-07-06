@@ -24,6 +24,7 @@ MKDIR := @mkdir -p
 XSLTPROC := xsltproc
 CP := @cp
 MARKDOWN := perl tools/markdown/Markdown.pl
+CLOSURE := java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5
 
 .PHONY: all doc js test tests clean
 
@@ -57,13 +58,13 @@ ${OUT_GR}: ${SRC_GR}
 
 build/js/cypress.js: ${JSCOMMON}
 	${MKDIR} build/js
-	java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5 $(foreach j,${JSCOMMON},--js ${j}) > $@
+	${CLOSURE} $(foreach j,${JSCOMMON},--js ${j}) > $@
 build/js/select.js: src/js/select.js
 	${MKDIR} build/js
 	${CP} src/js/select.js $@
 build/js/platform.js: src/js/platform.js
 	${MKDIR} build/js
-	${CP} src/js/platform.js $@
+	${CLOSURE} --js src/js/platform.js > $@
 build/html/simulation.html: src/html/simulation.html
 	${MKDIR} build/html
 	${CP} src/html/simulation.html $@
