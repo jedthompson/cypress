@@ -12,11 +12,11 @@ var FieldStep = function(x, y) {
 }
 
 function init_state(state) {
-	state.rad = 10;
+	state.rad = 4;
 	state.phi = 0;
-	state.angVel = Math.PI;
+	state.angVel = Math.PI*2;
 	state.fieldVel = 25;
-	state.numFieldLines = 8;
+	state.numFieldLines = 20;
 	state.ballRad = 2;
 	state.angleBetweenLines = 2*Math.PI/state.numFieldLines;
 	state.field = [];
