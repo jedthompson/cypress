@@ -77,7 +77,7 @@ ${OUT_SIMDIRS}: build/js/simulations
 	${MKDIR} $@
 ${OUT_JSSIMULATIONS}: ${JSSIMULATIONS}
 	${MKDIR} $(shell dirname $@)
-	${CP} $(subst build/js/simulations,src/js/simulations,$@) $@
+	${CLOSURE} --js $(subst build/js/simulations,src/js/simulations,$@) > $@
 
 doc: doc/writing.html
 
