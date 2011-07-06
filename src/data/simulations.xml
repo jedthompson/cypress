@@ -114,6 +114,17 @@
 					<tag>field</tag>
 				</tagset>
 			</simulation>
+			<simulation path="rotatingCharge">
+				<name>Electric Field of a Rotating Charge</name>
+				<tagset>
+					<tag>rotate</tag>
+					<tag>electric</tag>
+					<tag>field</tag>
+					<tag>charge</tag>
+					<tag>electron</tag>
+					<tag>lines</tag>
+				</tagset>
+			</simulation>
 		</subcategory>
 	</category>
 	

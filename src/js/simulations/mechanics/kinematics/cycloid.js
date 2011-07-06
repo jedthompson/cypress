@@ -6,7 +6,7 @@ simulation.description = "A cycloid is the curve traced out by a point on the ed
 function init_state(state) {
 	state.phi = 0;
 	state.ballVel = new Vector(10, 0, 0);
-	state.ballPos = new Vector(-40, 0, 0);
+	state.ballPos = new Vector(-45, 0, 0);
 	state.ballRad = 5;
 	state.t = 0;
 	
