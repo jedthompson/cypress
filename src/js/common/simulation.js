@@ -15,7 +15,7 @@ function Simulation(name) {
 		return state;
 	}
 	this.render2d = null;
-	this.render3d = null;
+	this.rendergl = null;
 	this.renderSettings = null;
 
 	this.renderSimulation = function (s, c, w, h) {

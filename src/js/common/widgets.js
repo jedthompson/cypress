@@ -1,8 +1,22 @@
-function Widget(width, height, render, listener) {
+function Widget(x, y, width, height, render, listener) {
+	this.x = x;
+	this.y = y;
 	this.width = width;
 	this.height = height;
 	this.render = render;
 	this.listener = listener;
+}
+
+function handleMouseDown(xpos, ypos, widgets) {
+
+}
+
+function handleMouseUp(xpos, ypos, widgets) {
+
+}
+
+function handleMouseMove(xpos, ypos, widgets) {
+
 }
 
 //PercentFull is given AS A DECIMAL (.5 = 50%)
