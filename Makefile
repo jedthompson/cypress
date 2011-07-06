@@ -61,7 +61,7 @@ build/js/cypress.js: ${JSCOMMON}
 	${CLOSURE} $(foreach j,${JSCOMMON},--js ${j}) > $@
 build/js/select.js: src/js/select.js
 	${MKDIR} build/js
-	${CP} src/js/select.js $@
+	${CLOSURE} --js src/js/select.js > $@
 build/js/platform.js: src/js/platform.js
 	${MKDIR} build/js
 	${CLOSURE} --js src/js/platform.js > $@
