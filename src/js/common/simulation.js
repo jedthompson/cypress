@@ -17,6 +17,7 @@ function Simulation(name) {
 	this.render2d = null;
 	this.rendergl = null;
 	this.renderSettings = null;
+	this.mouseDown = null;
 
 	this.renderSimulation = function (s, c, w, h) {
 		if (this.render2d != null) {
@@ -51,6 +52,7 @@ function Simulation(name) {
 		}
 		canvas = this.canvas;
 		this.context = canvas.getContext("2d");
+		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
 		this.run();
 	}
 
@@ -87,17 +89,56 @@ function Simulation(name) {
 
 	// register mouse listeners
 	var canvas = this.canvas;
-	function mouseDownListener() {
-
+	function mouseDownListener(ev) {
+		//TODO Check if belongs to any widget
+		if (this.mouseDown != null) {
+			w = this.width;
+			h = this.height;
+			sf = (w>h)?(h/100):(w/100);
+			var absX = ev.clientX - this.canvas.offsetLeft;
+			var absY = ev.clientY - this.canvas.offsetTop;
+			var x = absX/sf;
+			var y = absY/sf;
+			x = x-w/(2*sf);
+			y = -(y-h/(2*sf));
+			//alert("x is " + x + "\ny is " + y);
+			this.state = this.mouseDown(x, y, this.state, ev, this.canvas);
+		}
 	}
-	this.mouseDownListener = mouseDownListener.bind(this);
+	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener() {
-
+		//TODO Check if belongs to any widget
+		if (this.mouseUp != null) {
+			w = this.width;
+			h = this.height;
+			sf = (w>h)?(h/100):(w/100);
+			var absX = ev.clientX - this.canvas.offsetLeft;
+			var absY = ev.clientY - this.canvas.offsetTop;
+			var x = absX/sf;
+			var y = absY/sf;
+			x = x-w/(2*sf);
+			y = -(y-h/(2*sf));
+			//alert("x is " + x + "\ny is " + y);
+			this.state = this.mouseUp(x, y, this.state, ev, this.canvas);
+		}
 	}
 	
 	function mouseMoveListener() {
-
+		//TODO Check if belongs to any widget
+		if (this.mouseMove != null) {
+			w = this.width;
+			h = this.height;
+			sf = (w>h)?(h/100):(w/100);
+			var absX = ev.clientX - this.canvas.offsetLeft;
+			var absY = ev.clientY - this.canvas.offsetTop;
+			var x = absX/sf;
+			var y = absY/sf;
+			x = x-w/(2*sf);
+			y = -(y-h/(2*sf));
+			//alert("x is " + x + "\ny is " + y);
+			this.state = this.mouseMove(x, y, this.state, ev, this.canvas);
+		}
 	}
 }
 
