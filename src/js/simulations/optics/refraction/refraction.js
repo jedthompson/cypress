@@ -5,7 +5,7 @@ simulation.dt = 20;
 simulation.description = "When light passes from one medium to another, the difference in speeds of light between the mediums causes the light to refract.  This refraction is a changing in the direction of the light proportional to the difference in speeds of light between the mediums.";
 
 function init_state(state) {
-	state.phiIncD = 30;
+	state.phiIncD = 20;
 	state.n1 = 1;
 	state.n2 = 2.4;
 	state.beamWidth = 6; //Vertical component
