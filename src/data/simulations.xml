@@ -103,7 +103,19 @@
 	
 	<category path="em">
 		<name>Electricity and Magnetism</name>
-
+		<subcategory path="eFields">
+			<name>Electric Fields</name>
+			<simulation path="eFieldMotion">
+				<name>Charged Particle in an Electric Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>particle</tag>
+					<tag>electric</tag>
+					<tag>field</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
 			<simulation path="charge-mf">
