@@ -255,6 +255,17 @@
 
 		<subcategory path="misc">
 			<name>Miscellaneous</name>
+			<simulation path="goldFoil">
+				<name>Gold Foil Experiment</name>
+				<tagset>
+					<tag>gold</tag>
+					<tag>foil</tag>
+					<tag>nucleus</tag>
+					<tag>proton</tag>
+					<tag>alpha</tag>
+					<tag>particle</tag>
+				</tagset>
+			</simulation>
 			<simulation path="decay">
 				<name>Nuclear Decay</name>
 				<tagset>
