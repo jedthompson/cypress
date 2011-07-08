@@ -115,17 +115,6 @@
 					<tag>force</tag>
 				</tagset>
 			</simulation>
-		</subcategory>
-		<subcategory path="misc">
-			<name>Miscellaneous</name>
-			<simulation path="charge-mf">
-				<name>Charged Particle in Magnetic Field</name>
-				<tagset>
-					<tag>charge</tag>
-					<tag>magnet</tag>
-					<tag>field</tag>
-				</tagset>
-			</simulation>
 			<simulation path="rotatingCharge">
 				<name>Electric Field of a Rotating Charge</name>
 				<tagset>
@@ -135,6 +124,17 @@
 					<tag>charge</tag>
 					<tag>electron</tag>
 					<tag>lines</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="charge-mf">
+				<name>Charged Particle in Magnetic Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>magnet</tag>
+					<tag>field</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
@@ -183,7 +183,7 @@
 				</tagset>
 			</simulation>
 			<simulation path="waveAdditionShiva">
-				<name>Interference of Two Waves via Shiva Machine Technique</name>
+				<name>Interference of Two Waves via the Shive Wave Machine</name>
 				<tagset>
 					<tag>wave</tag>
 					<tag>sound</tag>
