@@ -92,6 +92,8 @@ simulation.render2d = function(state, c, w, h) {
 }
 
 simulation.mouseDown = function(x, y, state) {
-	state.charges.push(new Charge(x, y, 10));
+	if(simulation.currentTab=="Simulation") {
+		state.charges.push(new Charge(x, y, 10));
+	}
 	return state;
 }
