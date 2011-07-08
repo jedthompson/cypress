@@ -60,6 +60,7 @@ simulation.step = function(state) {
 }
 
 simulation.render2d = function(state, c, w, h) {
+	
 	if(state.shouldPlotField) {
 		for(var x = -50; x <= 50; x += 5) {
 			for(var y = -50; y <= 50; y += 5) {
@@ -89,6 +90,11 @@ simulation.render2d = function(state, c, w, h) {
 		}
 		c.stroke();
 	}
+}
+
+simulation.tabs["Simulation"].mouseUp = function(x, y, state, ev) {
+	
+	return state;
 }
 
 simulation.mouseDown = function(x, y, state) {

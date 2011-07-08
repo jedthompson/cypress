@@ -12,7 +12,7 @@ var FieldStep = function(x, y) {
 }
 
 function init_state(state) {
-	state.rad = 4;
+	state.rad = 5;
 	state.phi = 0;
 	state.angVel = Math.PI*2;
 	state.fieldVel = 25;
