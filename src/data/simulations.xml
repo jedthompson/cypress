@@ -195,6 +195,18 @@
 			</simulation>
 		</subcategory>
 
+		<subcategory path="color">
+			<name>Color</name>
+			<simulation path="additiveColor">
+				<name>Additive Color Combinations</name>
+				<tagset>
+					<tag>color</tag>
+					<tag>additive</tag>
+					<tag>mixing</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		
 		<subcategory path="diffraction">
 			<name>Diffraction</name>
 			<simulation path="diffractionSlit">

@@ -53,6 +53,8 @@ function Simulation(name) {
 		canvas = this.canvas;
 		this.context = canvas.getContext("2d");
 		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
+		canvas.addEventListener('mouseup', mouseUpListener.bind(this), false);
+		canvas.addEventListener('mousemove', mouseMoveListener.bind(this), false);
 		this.run();
 	}
 
@@ -91,7 +93,6 @@ function Simulation(name) {
 	var canvas = this.canvas;
 	function mouseDownListener(ev) {
 		//TODO Check if belongs to any widget
-		if (this.mouseDown != null) {
 			w = this.width;
 			h = this.height;
 			sf = (w>h)?(h/100):(w/100);
@@ -101,15 +102,16 @@ function Simulation(name) {
 			var y = absY/sf;
 			x = x-w/(2*sf);
 			y = -(y-h/(2*sf));
-			//alert("x is " + x + "\ny is " + y);
+		if (this.mouseDown != null) {
 			this.state = this.mouseDown(x, y, this.state, ev, this.canvas);
+		} else if(this.tabs[this.currentTab].mouseDown != null)  {
+			this.state = this.tabs[this.currentTab].mouseDown(x, y, this.state, ev);
 		}
 	}
 	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener(ev) {
 		//TODO Check if belongs to any widget
-		if (this.mouseUp != null) {
 			w = this.width;
 			h = this.height;
 			sf = (w>h)?(h/100):(w/100);
@@ -119,14 +121,15 @@ function Simulation(name) {
 			var y = absY/sf;
 			x = x-w/(2*sf);
 			y = -(y-h/(2*sf));
-			//alert("x is " + x + "\ny is " + y);
+		if (this.mouseUp != null) {
 			this.state = this.mouseUp(x, y, this.state, ev, this.canvas);
+		} else if(this.tabs[this.currentTab].mouseUp != null) {
+			this.state = this.tabs[this.currentTab].mouseUp(x, y, this.state, ev);
 		}
 	}
 	
 	function mouseMoveListener(ev) {
 		//TODO Check if belongs to any widget
-		if (this.mouseMove != null) {
 			w = this.width;
 			h = this.height;
 			sf = (w>h)?(h/100):(w/100);
@@ -136,8 +139,11 @@ function Simulation(name) {
 			var y = absY/sf;
 			x = x-w/(2*sf);
 			y = -(y-h/(2*sf));
+		if (this.mouseMove != null) {
 			//alert("x is " + x + "\ny is " + y);
 			this.state = this.mouseMove(x, y, this.state, ev, this.canvas);
+		} else if(this.tabs[this.currentTab].mouseMove != null) {
+			this.state = this.tabs[this.currentTab].mouseMove(x, y, this.state, ev);
 		}
 	}
 }
