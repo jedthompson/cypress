@@ -107,7 +107,7 @@ function Simulation(name) {
 	}
 	//this.mouseDownListener = mouseDownListener.bind(this);
 
-	function mouseUpListener() {
+	function mouseUpListener(ev) {
 		//TODO Check if belongs to any widget
 		if (this.mouseUp != null) {
 			w = this.width;
@@ -124,7 +124,7 @@ function Simulation(name) {
 		}
 	}
 	
-	function mouseMoveListener() {
+	function mouseMoveListener(ev) {
 		//TODO Check if belongs to any widget
 		if (this.mouseMove != null) {
 			w = this.width;
