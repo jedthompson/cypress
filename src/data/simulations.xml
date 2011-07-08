@@ -197,8 +197,8 @@
 
 		<subcategory path="color">
 			<name>Color</name>
-			<simulation path="additiveColor">
-				<name>Additive Color Combinations</name>
+			<simulation path="subtractiveColor">
+				<name>Subtractive Color Combinations</name>
 				<tagset>
 					<tag>color</tag>
 					<tag>additive</tag>
