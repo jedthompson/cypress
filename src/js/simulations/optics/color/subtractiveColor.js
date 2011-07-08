@@ -1,4 +1,4 @@
-var simulation_name = "Additive Color Mixing";
+var simulation_name = "Subtractive Color Mixing";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
@@ -14,7 +14,7 @@ var ColorCircle = function(p, col, rad) {
 function init_state(state) {
 	state.colors = [];
 	state.colors.push(new ColorCircle(new Vector(-10, 0, 0), 'rgba(0,0,255,.5)', 10));
-	state.colors.push(new ColorCircle(new Vector(0, 0, 0), 'rgba(0,255,0,.5)', 10));
+	state.colors.push(new ColorCircle(new Vector(0, 0, 0), 'rgba(255,255,0,.5)', 10));
 	state.colors.push(new ColorCircle(new Vector(-5,10,0), 'rgba(255,0,0,.5)', 10));
 	state.mouseMovePos = new Vector(0, 0, 0);
 	state.mouseMoveIndex = 0;
