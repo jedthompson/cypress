@@ -1,0 +1,12 @@
+/*
+	Stylesheet for Cypress's test framework
+*/
+
+div.progress {
+	width: 150px;
+}
+
+div.progress .inner {
+	background-color: green;
+}
+
