@@ -145,6 +145,24 @@
 
 		<subcategory path="waves">
 			<name>Waves</name>
+			<simulation path="doppler">
+				<name>Doppler Effect</name>
+				<tagset>
+					<tag>redshift</tag>
+					<tag>blueshift</tag>
+					<tag>star</tag>
+					<tag>sound</tag>
+				</tagset>
+			</simulation>
+			<simulation path="longitudinal">
+				<name>Longitudinal Waves</name>
+				<tagset>
+					<tag>particle</tag>
+					<tag>sound</tag>
+					<tag>collated</tag>
+					<tag>light</tag>
+				</tagset>
+			</simulation>
 			<simulation path="transverse">
 				<name>Transverse Waves</name>
 				<tagset>
@@ -164,22 +182,15 @@
 					<tag>oscilloscope</tag>
 				</tagset>
 			</simulation>
-			<simulation path="longitudinal">
-				<name>Longitudinal Waves</name>
+			<simulation path="waveAdditionShiva">
+				<name>Interference of Two Waves via Shiva Machine Technique</name>
 				<tagset>
-					<tag>particle</tag>
+					<tag>wave</tag>
 					<tag>sound</tag>
-					<tag>collated</tag>
 					<tag>light</tag>
-				</tagset>
-			</simulation>
-			<simulation path="doppler">
-				<name>Doppler Effect</name>
-				<tagset>
-					<tag>redshift</tag>
-					<tag>blueshift</tag>
-					<tag>star</tag>
-					<tag>sound</tag>
+					<tag>interference</tag>
+					<tag>addition</tag>
+					<tag>oscilloscope</tag>
 				</tagset>
 			</simulation>
 		</subcategory>
