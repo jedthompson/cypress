@@ -24,7 +24,9 @@ MKDIR := @mkdir -p
 XSLTPROC := xsltproc
 CP := @cp
 MARKDOWN := perl tools/markdown/Markdown.pl
-CLOSURE := java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5
+#CLOSURE := java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5
+#CLOSURE_FILE_PREFIX := --js
+CLOSURE := cat
 
 .PHONY: all doc js test tests clean
 
@@ -58,13 +60,13 @@ ${OUT_GR}: ${SRC_GR}
 
 build/js/cypress.js: ${JSCOMMON}
 	${MKDIR} build/js
-	${CLOSURE} $(foreach j,${JSCOMMON},--js ${j}) > $@
+	${CLOSURE} $(foreach j,${JSCOMMON},${CLOSURE_FILE_PREFIX} ${j}) > $@
 build/js/select.js: src/js/select.js
 	${MKDIR} build/js
-	${CLOSURE} --js src/js/select.js > $@
+	${CLOSURE} ${CLOSURE_FILE_PREFIX} src/js/select.js > $@
 build/js/platform.js: src/js/platform.js
 	${MKDIR} build/js
-	${CLOSURE} --js src/js/platform.js > $@
+	${CLOSURE} ${CLOSURE_FILE_PREFIX} src/js/platform.js > $@
 build/html/simulation.html: src/html/simulation.html
 	${MKDIR} build/html
 	${CP} src/html/simulation.html $@
@@ -77,7 +79,7 @@ ${OUT_SIMDIRS}: build/js/simulations
 	${MKDIR} $@
 ${OUT_JSSIMULATIONS}: ${JSSIMULATIONS}
 	${MKDIR} $(shell dirname $@)
-	${CLOSURE} --js $(subst build/js/simulations,src/js/simulations,$@) > $@
+	${CLOSURE} ${CLOSURE_FILE_PREFIX} $(subst build/js/simulations,src/js/simulations,$@) > $@
 
 doc: doc/writing.html
 
