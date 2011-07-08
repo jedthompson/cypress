@@ -9,14 +9,14 @@ simulation.description = "In this simulation, one can see how waves add.  The fi
 function init_state(state) {
 	state.phase1 = 0;    // initialize to zero
 	state.amp1 = 10;     // initialize amplitude
-	state.freq1 = 2;
+	state.vel1 = 4;
 	state.wavelength1 = 20;
 	state.ypos1 = 30;
 
 	state.phase2 = 0;    // initialize to zero
-	state.amp2 = 10;     // initialize amplitude
-	state.freq2 = 2;
-	state.wavelength2 = 20;
+	state.amp2 = state.amp1;     // initialize amplitude
+	state.vel2 = -state.vel1;
+	state.wavelength2 = state.wavelength1;
 	state.ypos2 = 0;
     
     state.ypos3 = -30;
@@ -27,8 +27,8 @@ function init_state(state) {
 simulation.state = init_state(simulation.state);
 
 simulation.step = function(state) {
-	state.phase1 += 2*Math.PI * (simulation.dt*0.001)*state.freq1/state.scale;
-	state.phase2 -= 2*Math.PI * (simulation.dt*0.001)*state.freq2/state.scale;
+	state.phase1 += 2*Math.PI * (simulation.dt*0.001)*state.vel1/state.wavelength1;
+	state.phase2 += 2*Math.PI * (simulation.dt*0.001)*state.vel2/state.wavelength2;
 	return state;
 }
 
@@ -68,35 +68,9 @@ simulation.render2d = function(state, c, w, h) {
        var xamp1 = state.amp1 * Math.sin(xphase1 - state.phase1);
        var xamp2 = state.amp1 * Math.sin(xphase2 - state.phase2);
        c.lineTo(-w/2+i, state.ypos3 + xamp1 + xamp2 );
-       c.strokeStyle="#000";
+       c.strokeStyle="#00f";
        c.stroke();       
 	}
     
-/*	c.beginPath();
-	c.moveTo(-w/2, h/3 + Math.sin(state.phase+(-w/2*state.freq)/(w/16))*state.amp*h/6);
-	for (i=-w/2*state.freq; i<=w/2*state.freq; i++) {
-		c.lineTo(i/state.freq, h/3 + Math.sin(state.phase+i/(w/16))*state.amp*h/6);
-	}
-	c.strokeStyle="#f00";
-	c.stroke();
-	
-	c.beginPath();
-	c.moveTo(-w/2, Math.sin(state.phase2+(-w/2*state.freq2)/(w/16))*state.amp2*h/6);
-	for (i=-w/2*state.freq2; i<=w/2*state.freq2; i++) {
-		c.lineTo(i/state.freq2, Math.sin(state.phase2+i/(w/16))*state.amp2*h/6); 
-	}
-	c.strokeStyle="#00f";
-	c.stroke();
-	
-	
-	var j = Math.max(state.freq,state.freq2);
-	c.beginPath();
-	c.moveTo(-w/2, -h/3 + Math.sin(state.phase+(-w/2)*state.freq/(w/16))*state.amp*h/6 + Math.sin(state.phase2+(-w/2)*state.freq2/(w/16))*state.amp2*h/6);
-	for (i=-w/2; i<=w/2; i++) {
-		c.lineTo(i, -h/3 + Math.sin(state.phase+i*state.freq/(w/16))*state.amp*h/6 + Math.sin(state.phase2+i*state.freq2/(w/16))*state.amp2*h/6); 
-	}
-	c.strokeStyle="#000";
-	c.stroke();
-*/
 }
 
