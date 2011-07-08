@@ -12,16 +12,16 @@ function init_state(state) {
 	state.phase2 = Math.PI/3;
 	state.amp2 = 0.4;
 	state.freq = 2;
-	state.freq2 = 2.5;
+	state.freq2 = 2;
 	state.propSpeed = 10;
-	state.propSpeed2 = 15;
+	state.propSpeed2 = -10;
 	return state;
 }
 simulation.state = init_state(simulation.state);
 
 simulation.step = function(state) {
-	state.phase += state.propSpeed*.001*state.freq;
-	state.phase2 += state.propSpeed2*.001*state.freq2;
+	state.phase += state.propSpeed*.001/state.freq;
+	state.phase2 += state.propSpeed2*.001/state.freq2;
 	return state;
 }
 
