@@ -183,7 +183,7 @@
 				</tagset>
 			</simulation>
 			<simulation path="waveAdditionShiva">
-				<name>Interference of Two Waves via the Shive Wave Machine</name>
+				<name>Interference, Shiva Machine style</name>
 				<tagset>
 					<tag>wave</tag>
 					<tag>sound</tag>
