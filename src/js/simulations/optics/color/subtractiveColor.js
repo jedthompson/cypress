@@ -24,7 +24,7 @@ function init_state(state) {
 	state.widgetData = new Object();
 	state.widgetData['testSlider'] = 0.5;
 	state.testWidgets = []; 
-	state.testWidgets[0] = new slider(0, 0, 20, 9/4.8, 'testSlider', "IOS");
+	state.testWidgets[0] = new slider(-20, 10, 40, 9/4.8, 'testSlider', "IOS");
 	
 	
 	
@@ -74,6 +74,16 @@ simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 
 simulation.tabs["Test"].mouseMove = function(x, y, state, ev) {
 	state = handleMouseMove(x, y, state, ev, state.testWidgets);
+	return state;
+}
+
+simulation.tabs["Test"].mouseDown = function(x, y, state, ev) {
+	state = handleMouseDown(x, y, state, ev, state.testWidgets);
+	return state;
+}
+
+simulation.tabs["Test"].mouseUp = function(x, y, state, ev) {
+	state = handleMouseUp(x, y, state, ev, state.testWidgets);
 	return state;
 }
 

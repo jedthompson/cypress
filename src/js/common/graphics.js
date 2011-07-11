@@ -9,15 +9,26 @@ CanvasRenderingContext2D.prototype.text = function(t, x, y) {
 	this.restore();
 }
 
-CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd) {
-	xt = x + xd/2;
-	yt = y + yd/2;
-	this.save();
-	this.translate(xt, yt);
-	this.scale(1, -1);
-	this.translate(-xt, -yt);
-	this.drawImage(i, x, y, xd, yd);
-	this.restore();
+CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd, xdest, ydest, wdest, hdest) {
+	if(!hdest) {
+		xt = x + xd/2;
+		yt = y + yd/2;
+		this.save();
+		this.translate(xt, yt);
+		this.scale(1, -1);
+		this.translate(-xt, -yt);
+		this.drawImage(i, x, y, xd, yd);
+		this.restore();
+	} else {
+		xt = xdest + wdest/2;
+		yt = ydest + hdest/2;
+		this.save();
+		this.translate(xt, yt);
+		this.scale(1, -1);
+		this.translate(-xt, -yt);
+		this.drawImage(i, x, y, xd, yd, xdest, ydest, wdest, hdest);
+		this.restore();
+	}
 }
 
 function vector2dTowards(c, v1, v2, len, color) {
