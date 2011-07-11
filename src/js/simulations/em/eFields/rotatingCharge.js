@@ -1,7 +1,7 @@
 var simulation_name = "Electric Field of a Rotating Charge";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 20;
+simulation.dt = 30;
 simulation.description = "When a charged particle rotates about some axis, its electric field generates a pulsing pattern (as long as the particle is moving at a speed comparable to the speed of light, or the speed at which the electric field propagates.)";
     
 // Represents a field step
