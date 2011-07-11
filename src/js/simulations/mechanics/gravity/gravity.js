@@ -8,10 +8,10 @@ simulation.description="In this simulation, the inverse-square law can easily be
 function init_state(state) {
 	state.settings.mass1 = 10;
 	state.settings.mass2 = 3;
-	state.pos1 = new Vector(0, 0);
-	state.vel1 = new Vector(-.1, 0);
-	state.pos2 = new Vector(0, 35);
-	state.vel2 = new Vector(.25, 0);
+	state.pos1 = new Vector(-5, -5);
+	state.vel1 = new Vector(-0.12, 0);
+	state.pos2 = new Vector(0, 30);
+	state.vel2 = new Vector(.4, 0);
 	state.t = 0;
 	return state;
 }
