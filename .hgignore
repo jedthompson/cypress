@@ -4,5 +4,6 @@
 ^\.DS_Store$
 ^src/android/bin.*$
 ^\.project$
-^.*.blend[0-9]$
+^.*\.blend[0-9]$
 ^doc/writing.html$
+^.*\.orig$
