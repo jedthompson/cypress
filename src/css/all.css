@@ -30,10 +30,18 @@ div#tabs {
 	left: 0px;
 	bottom: 0px;
 	height: 26px;
+	width: 100%;
 }
 
 div.tab {
 	float: left;
+	padding: 0 10px;
+	cursor: pointer;
+	border: 1px solid black;
+}
+
+div.rtab {
+	float: right;
 	padding: 0 10px;
 	cursor: pointer;
 	border: 1px solid black;

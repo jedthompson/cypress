@@ -45,6 +45,29 @@ function run_simulation(sim) {
 	for (var t in sim.tabs) {
 		tabsDiv.appendChild(createTab(t));
 	}
+	// add the pause/run button
+	{
+		var pb = document.createElement('div');
+		pb.className = "rtab";
+		pb.innerHTML = "Pause"; // TODO get an image
+		tabsDiv.appendChild(pb);
+
+		var rb = document.createElement('div');
+		rb.className = "rtab";
+		rb.innerHTML = "Continue"; // TODO get an image
+		
+		function pause() {
+			tabsDiv.removeChild(pb);
+			tabsDiv.appendChild(rb);
+		}
+		pb.onclick = pause;
+
+		function cont() {
+			tabsDiv.removeChild(rb);
+			tabsDiv.appendChild(pb);
+		}
+		rb.onclick = cont;
+	}
 
 	sim.canvas = canvas;
 
