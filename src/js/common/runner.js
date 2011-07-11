@@ -59,12 +59,14 @@ function run_simulation(sim) {
 		function pause() {
 			tabsDiv.removeChild(pb);
 			tabsDiv.appendChild(rb);
+			sim.paused = true;
 		}
 		pb.onclick = pause;
 
 		function cont() {
 			tabsDiv.removeChild(rb);
 			tabsDiv.appendChild(pb);
+			sim.paused = false;
 		}
 		rb.onclick = cont;
 	}
