@@ -1,3 +1,14 @@
+CanvasRenderingContext2D.prototype.text = function(t, x, y) {
+	xt = x;
+	yt = y;
+	this.save();
+	this.translate(xt, yt);
+	this.scale(1, -1);
+	this.translate(-xt, -yt);
+	this.fillText(t, x, y);
+	this.restore();
+}
+
 CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd) {
 	xt = x + xd/2;
 	yt = y + yd/2;
