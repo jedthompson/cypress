@@ -2,7 +2,7 @@ var simulation_name = "Subtractive Color Mixing";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
-simulation.description = "";
+simulation.description = "TODO";
     
 // Represents a field step
 var ColorCircle = function(p, col, rad) {
@@ -19,6 +19,15 @@ function init_state(state) {
 	state.mouseMovePos = new Vector(0, 0, 0);
 	state.mouseMoveIndex = 0;
 	state.mouseDown = false;
+	
+	//Test widget code
+	state.widgetData = new Object();
+	state.widgetData['testSlider'] = 0.5;
+	state.testWidgets = []; 
+	state.testWidgets[0] = new slider(0, 0, 20, 9/4.8, 'testSlider', "IOS");
+	
+	
+	
 	return state;
 }
 simulation.state = init_state(simulation.state);
@@ -37,6 +46,12 @@ simulation.render2d = function(state, c, w, h) {
 	}
 }
 
+simulation.renderTest = function(state, c, w, h) {
+	state.testWidgets[0].render(c, state);
+}
+
+simulation.addTab('Test', simulation.renderTest);
+
 simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 	for(var i = 0; i < state.colors.length; i++) {
 		if((Math.pow(x-state.colors[i].pos.data[0], 2) + Math.pow(y-state.colors[i].pos.data[1], 2)) <= Math.pow(state.colors[i].radius, 2)) {
@@ -50,9 +65,15 @@ simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 }
 
 simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
+	
 	if(state.mouseDown) {
 		state.colors[state.mouseMoveIndex].pos = subV(new Vector(x, y, 0), state.mouseMovePos);
 	}
+	return state;
+}
+
+simulation.tabs["Test"].mouseMove = function(x, y, state, ev) {
+	state = handleMouseMove(x, y, state, ev, state.testWidgets);
 	return state;
 }
 

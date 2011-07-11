@@ -20,7 +20,7 @@ function getPlatformResources(platform) {
 }
 
 function getResources() {
-	if (navigator.userAgent.match(/like Mac OS X/i))
+	//if (navigator.userAgent.match(/like Mac OS X/i))
 		return getPlatformResources('iOS');
 	return getPlatformResources('all');
 }
