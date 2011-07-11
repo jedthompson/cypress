@@ -64,7 +64,8 @@ function Simulation(name) {
 	// recursive function to run step() and render()
 	this.run = function () {
 		setTimeout(this.run.bind(this), this.dt);
-		this.state = this.step(this.state);
+		if (!this.paused)
+			this.state = this.step(this.state);
 		this.context.clearRect(0, 0, this.width, this.height);
 		this.context.fillStyle='white';
 		this.context.fillRect(0, 0, this.width, this.height);
@@ -114,6 +115,8 @@ function Simulation(name) {
 	}
 	//this.mouseDownListener = mouseDownListener.bind(this);
 
+
+	// TODO merge the below three methods
 	function mouseUpListener(ev) {
 		//TODO Check if belongs to any widget
 			w = this.width;
