@@ -33,7 +33,7 @@ simulation.step = function(state) {
 	state.phi += state.angVel*.001*simulation.dt;
 	for(var i = 0; i < state.field.length; i++) {
 		state.field[i].r += state.fieldVel*.001*simulation.dt;
-		if(state.field[i].r > 70) {
+		if(state.field[i].r > 125) {
 			state.field.shift();
 		}
 	}
