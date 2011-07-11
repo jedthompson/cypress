@@ -48,7 +48,7 @@ function run_simulation(sim) {
 
 	sim.canvas = canvas;
 
-	// wait for images to load
+	// TODO wait for images to load
 
 
 	sim.start();
