@@ -55,6 +55,9 @@ function Simulation(name) {
 		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
 		canvas.addEventListener('mouseup', mouseUpListener.bind(this), false);
 		canvas.addEventListener('mousemove', mouseMoveListener.bind(this), false);
+		if(this.setup != null) {
+			state = this.setup(this.state);
+		}
 		this.run();
 	}
 
@@ -75,6 +78,7 @@ function Simulation(name) {
 		c.translate(w/2, h/2);
 		sf = (w>h)?(h/100):(w/100);
 		c.scale(sf,-sf);
+		//c.scale(100/480, 100/320);
 		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
 		c.restore();
 	}
