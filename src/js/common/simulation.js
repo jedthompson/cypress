@@ -74,6 +74,8 @@ function Simulation(name) {
 		c = this.context;
 		w = this.width;
 		h = this.height;
+		_w = w;
+		_h = h;
 		c.save();
 		this.context.lineWidth=0.4;
 		c.translate(w/2, h/2);
