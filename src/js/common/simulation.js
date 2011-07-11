@@ -94,6 +94,8 @@ function Simulation(name) {
 		return this.height/sf;
 	}
 
+	// TODO merge the below three methods
+
 	// register mouse listeners
 	var canvas = this.canvas;
 	function mouseDownListener(ev) {
@@ -115,8 +117,6 @@ function Simulation(name) {
 	}
 	//this.mouseDownListener = mouseDownListener.bind(this);
 
-
-	// TODO merge the below three methods
 	function mouseUpListener(ev) {
 		//TODO Check if belongs to any widget
 			w = this.width;
