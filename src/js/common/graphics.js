@@ -32,6 +32,22 @@ CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd, xdest, ydes
 	}
 }
 
+CanvasRenderingContext2D.prototype.circle = function(x, y, r) {
+	this.arc(x, y, r, 0, Math.PI*2, false);
+}
+
+CanvasRenderingContext2D.prototype.drawCircle = function(x, y, r) {
+	this.beginPath();
+	this.circle(x, y, r);
+	this.stroke();
+}
+
+CanvasRenderingContext2D.prototype.fillCircle = function(x, y, r) {
+	this.beginPath();
+	this.circle(x, y, r);
+	this.fill();
+}
+
 /**
  * Draws a vector from one point towards another.
  * 
