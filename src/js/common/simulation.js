@@ -31,6 +31,9 @@ function Simulation(name) {
 			this.render2d(s, c, w, h);
 		}
 	}
+	this.renderSimulation3d = function (s, c, w, h) {
+		this.render3d(s, this.gl, w, h);
+	}
 	this.renderDescription = function (s, c, w, h) {
 		// just clear the canvas to expose the description
 		c.clearRect(-w, -h, w*2, h*2);
@@ -58,6 +61,21 @@ function Simulation(name) {
 			alert("Error!");
 		}
 		canvas = this.canvas;
+		if (this.render3d != null) {
+			// try to set up webgl
+			this.gl = null;
+			try {
+				this.gl = glcanvas.getContext("experimental-webgl");
+			} catch (e) {
+			}
+			if (this.gl != null) {
+				// use 3d rendering
+				this.renderSimulation = this.renderSimulation3d;
+			} else {
+				alert("WebGL initialization failed");
+			}
+		}
+
 		this.context = canvas.getContext("2d");
 		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
 		canvas.addEventListener('mouseup', mouseUpListener.bind(this), false);
@@ -66,17 +84,6 @@ function Simulation(name) {
 			state = this.setup(this.state);
 		}
 
-		if (this.render3d != null) {
-			// try to set up webgl
-			try {
-				this.gl = canvas.getContext("webgl");
-			} catch (e) {
-			}
-			if (this.gl) {
-				this.context = this.gl;
-				this.renderSimulation = this.render3d;
-			}
-		}
 		this.run();
 	}
 
@@ -85,24 +92,26 @@ function Simulation(name) {
 		setTimeout(this.run.bind(this), this.dt);
 		if (!this.paused)
 			this.state = this.step(this.state);
-		this.context.clearRect(0, 0, this.width, this.height);
-		this.context.fillStyle='white';
-		this.context.fillRect(0, 0, this.width, this.height);
-		this.context.fillStyle='black';
 
-		c = this.context;
-		w = this.width;
-		h = this.height;
-		_w = w;
-		_h = h;
-		c.save();
-		this.context.lineWidth=0.4;
-		c.translate(w/2, h/2);
-		sf = (w>h)?(h/100):(w/100);
-		c.scale(sf,-sf);
-		//c.scale(100/480, 100/320);
+		if (!this.gl) {
+			this.context.clearRect(0, 0, this.width, this.height);
+			this.context.fillStyle='white';
+			this.context.fillRect(0, 0, this.width, this.height);
+			this.context.fillStyle='black';
+
+			c = this.context;
+			w = this.width;
+			h = this.height;
+			_w = w;
+			_h = h;
+			c.save();
+			this.context.lineWidth=0.4;
+			c.translate(w/2, h/2);
+			sf = (w>h)?(h/100):(w/100);
+			c.scale(sf,-sf);
+		}
 		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
-		c.restore();
+		if (!this.gl) c.restore();
 	}
 	
 	this.getWidth = function () {
@@ -114,8 +123,6 @@ function Simulation(name) {
  		var sf = Math.min(this.height/100, this.width/100);
 		return this.height/sf;
 	}
-
-	// TODO merge the below three methods
 
 	// register mouse listeners
 	var canvas = this.canvas;
