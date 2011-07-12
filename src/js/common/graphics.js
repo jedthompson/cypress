@@ -121,6 +121,58 @@ function drawPath(context, arrayOfAbsolutePositionVectors, color) {
 	drawHistogram(0, 0, 100, 100, context, arrayOfAbsolutePositionVectors, false, color);
 }
 
+function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox, color) {
+	if(!shouldDrawBox) {
+		shouldDrawBox = false;
+	}
+	if(!color) {
+		color = "#000";
+	}
+	
+	var oriX = lowerLeft.data[0];
+	var oriY = lowerLeft.data[1];
+	if(oriX > upperRight.data[0]) {
+		oriX = upperRight.data[0];
+	}
+	if(oriY > upperRight.data[1]) {
+		oriY = upperRight.data[1];
+	}
+	
+	if(!arrayOfVectors) {
+		throw "drawGraph: No array of vectors given";
+	}
+	var arrX = sortVectorArrayByX(arrayOfVectors);
+	var arrY = sortVectorArrayByY(arrayOfVectors);
+	
+	var sfx = Math.abs(lowerLeft.data[0]-upperRight.data[0])/(arrX[arrX.length-1].data[0]-arrX[0].data[0]);
+	var sfy = Math.abs(lowerLeft.data[1]-upperRight.data[1])/(arrY[arrY.length-1].data[1]-arrY[0].data[1]);
+	
+	context.save();
+		
+	if(shouldDrawBox) {
+		context.beginPath();
+		context.moveTo(lowerLeft.data[0], lowerLeft.data[1]);
+		context.lineTo(lowerLeft.data[0], upperRight.data[1]);
+		context.lineTo(upperRight.data[0], upperRight.data[1]);
+		context.lineTo(upperRight.data[0], lowerLeft.data[1]);
+		context.lineTo(lowerLeft.data[0], lowerLeft.data[1]);
+		context.stroke();
+	}
+	
+	context.strokeStyle = color;
+	
+	context.beginPath();
+	context.moveTo(oriX, oriY+(arrX[0].data[1]-arrY[0].data[1])*sfy);
+	for(var i = 1; i < arrX.length; i++) {
+		context.lineTo(oriX+(arrX[i].data[0]-arrX[0].data[0])*sfx, oriY+(arrX[i].data[1]-arrY[0].data[1])*sfy);
+	}
+	context.stroke();
+	
+	
+	context.restore();
+	
+}
+
 function getImage(src) {
 	img = new Image();
 	img.src = "../gr/"+src;
