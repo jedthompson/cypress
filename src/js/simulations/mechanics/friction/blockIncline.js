@@ -52,7 +52,7 @@ function init_state(state) {
 simulation.setup = function(state) {
 	state["thetaSlider"] = 30;
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Slider(-30, 20, 60, 9/4.8, "thetaSlider", "IOS", 1, 89);
+	state.settingsWidgets[0] = new Slider(-30, 20, 60, 9/4.8, "thetaSlider", 1, 89);
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
@@ -225,30 +225,3 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 // Add a tab named "force diagram" to the simulation, using renderForceDiagram
 // as the renderer.
 simulation.addTab('Force Diagram', simulation.renderForceDiagram);
-
-/*simulation.tabs["Settings"].mouseMove = function(x, y, state, ev) {
-	state = handleMouseMove(x, y, state, ev, state.settingsWidgets);
-	return state;
-}
-
-simulation.tabs["Settings"].mouseDown = function(x, y, state, ev) {
-	state = handleMouseDown(x, y, state, ev, state.settingsWidgets);
-	return state;
-}
-
-simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
-	state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
-	state.thetaD = state["thetaSlider"];
-	state.thetaR = state.thetaD*2*Math.PI/360;
-	
-	state.xInit = 40-(60/Math.tan(state.thetaR));
-	if(state.xInit < -40) {state.xInit = -40;}
-	state.yInit = -30+((40-state.xInit)*Math.tan(state.thetaR));
-	
-	state.acc = (state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(state.thetaR));
-	if(state.acc <= 0) {state.acc = 0;}
-	state.xAcc = state.acc*Math.cos(state.thetaR);
-	state.yAcc = -(state.acc*Math.sin(state.thetaR));
-	return state;
-<<<<<<< local
-}*/
