@@ -33,16 +33,16 @@ function sortVectorArrayByY(arr) {
 }
 
 function sortVectorArrayByDimension(arr, num) {
-	var array = arr;
-	for(var i = 0; i < array.length; i++) {
-		for(var j = 0; j < array.length-1; j++) {
-			if(array[j+1].data[num] < array[j].data[num]) {
-				var temp = array[j+1];
-				array[j+1] = array[j];
-				array[j] = temp;
-			}
-		}
-	}
+	var array = arr.slice();
+	for(var x = 0; x < array.length; x++) {
+    	for(var y = 0; y < (array.length-1); y++) {
+    		if(array[y].data[num] > array[y+1].data[num]) {
+    			temp = array[y+1];
+    			array[y+1] = array[y];
+    			array[y] = temp;
+      		}
+    	}
+  	}
 	return array;
 }
 
