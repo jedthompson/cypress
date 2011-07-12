@@ -35,6 +35,13 @@ function Vector() {
                 return n.doScale(f);
         }
         this.toString = function() { return this.data.toString(); }
+
+	// Creates a copy of this vector.
+	this.copy = function(f) {
+		var n = new Vector();
+		n.data = this.data.slice();
+		return n;
+	}
 }
 
 // Convert a binary function into a binary function on vectors, applying the
