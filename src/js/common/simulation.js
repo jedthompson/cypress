@@ -21,6 +21,7 @@ function Simulation(name) {
 		return state;
 	}
 	this.render2d = null;
+	this.render3d = null;
 	this.rendergl = null;
 	this.renderSettings = null;
 	this.mouseDown = null;
@@ -63,6 +64,18 @@ function Simulation(name) {
 		canvas.addEventListener('mousemove', mouseMoveListener.bind(this), false);
 		if(this.setup != null) {
 			state = this.setup(this.state);
+		}
+
+		if (this.render3d != null) {
+			// try to set up webgl
+			try {
+				this.gl = canvas.getContext("webgl");
+			} catch (e) {
+			}
+			if (this.gl) {
+				this.context = this.gl;
+				this.renderSimulation = this.render3d;
+			}
 		}
 		this.run();
 	}
