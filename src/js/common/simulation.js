@@ -2,7 +2,7 @@
  * Represents a single simulation, presented to the user as a multi-tabbed
  * page.
  *
- * \param name The name of this simulation.
+ * @param name The name of this simulation.
  */
 function Simulation(name) {
 	this.name = name;
