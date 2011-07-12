@@ -27,6 +27,8 @@ MARKDOWN := perl tools/markdown/Markdown.pl
 #CLOSURE := java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5
 #CLOSURE_FILE_PREFIX := --js
 CLOSURE := @cat
+JSDOCDIR := tools/jsdoc
+JSDOC := ${JSDOCDIR}/jsrun.sh
 
 .PHONY: all doc js test tests clean
 
@@ -91,6 +93,7 @@ apidoc: build/doc/api
 build/doc/api: ${JSCOMMON}
 	@rm -rf build/doc/api
 	${MKDIR} build/doc/api
+	JSDOCDIR=./${JSDOCDIR} ${JSDOC} -t=${JSDOCDIR}/templates/jsdoc -d=build/doc/api ./src/js/common
 
 test: tests
 	@echo Open tests/index.html in a browser to run unit tests
