@@ -83,3 +83,7 @@ simulation.render2d = function(state, c, w, h) {
 	}
 }
 
+simulation.render3d = function(state, c, w, h) {
+
+}
+
