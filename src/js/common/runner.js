@@ -45,8 +45,13 @@ function run_simulation(sim) {
 	for (var t in sim.tabs) {
 		tabsDiv.appendChild(createTab(t));
 	}
-	// add the pause/run button
+	// add the pause/run/reset buttons
 	{
+		var rstrt = document.createElement('div');
+		rstrt.className = "rtab";
+		rstrt.innerHTML = "Restart";
+		tabsDiv.appendChild(rstrt);
+		
 		var pb = document.createElement('div');
 		pb.className = "rtab";
 		pb.innerHTML = "Pause"; // TODO get an image
@@ -55,6 +60,8 @@ function run_simulation(sim) {
 		var rb = document.createElement('div');
 		rb.className = "rtab";
 		rb.innerHTML = "Continue"; // TODO get an image
+		
+		
 		
 		function pause() {
 			tabsDiv.removeChild(pb);
@@ -69,6 +76,11 @@ function run_simulation(sim) {
 			sim.paused = false;
 		}
 		rb.onclick = cont;
+		
+		function restart() {
+			sim.state = sim.init_state(sim.state);
+		}
+		rstrt.onclick = restart;
 	}
 
 	sim.canvas = canvas;

@@ -14,7 +14,7 @@ simulation.dt = 20;
 // also whenever the simulation reaches an end point (and needs to be reset for
 // anything to happen) - in this case, such an endpoint would be when the block
 // reaches the end of the ramp.
-function init_state(state) {
+simulation.init_state = function(state){
 	//Initialize variables
 	state.mu=0.2;
 	state.thetaD=state["thetaSlider"];
@@ -35,7 +35,6 @@ function init_state(state) {
 	state.xPos = 40-(60/Math.tan(state.thetaR));
 	if(state.xPos < -40) {state.xPos = -40;}
 	state.yPos = -30+((40-state.xPos)*Math.tan(state.thetaR));
-	//alert("xPos is " + xPos + " and yPos is " + yPos);
 	state.xInit = state.xPos;
 	state.yInit = state.yPos;
 	
@@ -72,7 +71,7 @@ simulation.setup = function(state) {
 		return state;
 	}
 	
-	state = init_state(simulation.state);
+	state = simulation.init_state(simulation.state);
 	return state;
 }
 
@@ -86,7 +85,7 @@ simulation.step = function(state) {
 	if(state.yPos < -30) {
 		// When the block has finished falling, we reset the simulation
 		// so it can fall again.
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 	return state; // And return the new state.
 }
