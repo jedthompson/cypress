@@ -21,8 +21,8 @@ simulation.init_state = function(state) {
 simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
-	if(state.ballPos.data[0] > simulation.getWidth()/2) {
-		state = simulation.init_state(state);
+	if(state.ballPos.data[0] > simulation.getWidth()/2+20) {
+		return simulation.init_state(state);
 	}
 
 	if (state.t == 0) {

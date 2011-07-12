@@ -22,6 +22,10 @@ simulation.init_state = function(state) {
 	state.nucRad = 2;
 	state.alphaRad = 1;
 	
+	state.history = [];
+	for(var i = 0; i < 360/10; i++) {
+		state.history[i] = 0;
+	}
 	
 	state.charges = [];
 	
@@ -46,7 +50,9 @@ simulation.step = function(state) {
 		var acc = getForce(state.charges[i].pos.data[0], state.charges[i].pos.data[1], state).scale(1/state.alphaMass);
 		state.charges[i].vel = addV(state.charges[i].vel, acc.scale(.001*simulation.dt));
 		state.charges[i].pos = addV(state.charges[i].pos, state.charges[i].vel.scale(.001*simulation.dt));
-		if(state.charges[i].pos.data[0] > 70 || state.charges[i].pos.data[0] < -70 || state.charges[i].pos.data[1] > 70 || state.charges[i].pos.data[1] < -70) {
+		if(state.charges[i].pos.data[0] > 80 || state.charges[i].pos.data[0] < -80 || state.charges[i].pos.data[1] > 80 || state.charges[i].pos.data[1] < -80) {
+			var theta = Math.atan2(state.charges[i].vel.data[1], state.charges[i].vel.data[0]);
+			state.history[Math.floor(theta*180/Math.PI/10+18)]++;
 			state.charges.splice(i, 1);
 		}
 	}
@@ -67,3 +73,14 @@ simulation.render2d = function(state, c, w, h) {
 		c.stroke();
 	}
 }
+
+simulation.renderGraph = function(state, c, w, h) {
+	var arr = [];
+	for(var i = 0; i < 360/10; i++) {
+		var v = new Vector(i, state.history[i]);
+		arr.push(v);
+	}
+	drawGraph(new Vector(-40, -40), new Vector(40, 40), c, arr, true, "#000");
+}
+
+simulation.addTab("Graph", simulation.renderGraph);
