@@ -11,7 +11,7 @@ var ColorCircle = function(p, col, rad) {
 	this.radius = rad;
 }
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.colors = [];
 	state.colors.push(new ColorCircle(new Vector(-10, 0, 0), 'rgba(0,0,255,.5)', 10));
 	state.colors.push(new ColorCircle(new Vector(0, 0, 0), 'rgba(255,255,0,.5)', 10));
@@ -22,7 +22,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 
 simulation.step = function(state) {

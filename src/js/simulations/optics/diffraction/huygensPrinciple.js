@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "According to Huygen's Propagation of Wavefronts Principle, the path of a wavefront through a slit can be found by regarding every point in the slit as a light source and letting each light source release a spherical wavefront of light.  The net wavefront is then the outer edge of all the individual wavefronts.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.xPos = [];
 	state.t = 0;
 	state.distBetWaves = 4; //How often a new wave is created, in units, equivalent to wavelength
@@ -17,7 +17,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.t++;

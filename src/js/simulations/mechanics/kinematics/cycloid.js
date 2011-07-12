@@ -3,7 +3,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "A cycloid is the curve traced out by a point on the edge of a rolling cylinder.  Here, one can see the cycloid traced out when a cylinder of arbitrary radius rolls without slipping along a plane.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.phi = 0;
 	state.ballVel = new Vector(10, 0, 0);
 	state.ballPos = new Vector(-45, 0, 0);
@@ -18,11 +18,11 @@ function init_state(state) {
 	state.history = [];
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	if(state.ballPos.data[0] > simulation.getWidth()/2) {
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 
 	if (state.t == 0) {

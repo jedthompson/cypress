@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "As shown in the famous Young experiment, light behaves like a wave in that it diffracts.  This means that when passed through two slits, collated light will create an interference pattern.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.xPos = [];
 	state.t = 0;
 	state.distBetWaves = 5; //How often a new wave is created, in units, equivalent to wavelength
@@ -21,7 +21,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.t++;

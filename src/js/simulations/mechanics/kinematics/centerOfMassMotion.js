@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description="Here, one can see that even though the mass distribution may be irregular and an object may gyrate strangely as it is thrown, the center of mass traces a smooth, parabolic path through space.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.mass1 = 3;
 	state.mass2 = 1;
 	state.barLen = 10;
@@ -36,7 +36,7 @@ function init_state(state) {
 	return state;
 }
 
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 function forceG(state) {
 	var force = new Vector(0, -1*(state.mass1+state.mass2)*state.g, 0);
@@ -56,7 +56,7 @@ simulation.step = function(state) {
 	
 	//Wait until 100 to give a short delay
 	if(state.pos.data[1] < -100) {
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 
 	return state;

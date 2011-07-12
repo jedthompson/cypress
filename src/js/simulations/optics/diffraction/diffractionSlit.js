@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "Because light has wave-like qualities, when it passes through a thin slit, it diffracts in a radial pattern away from the slit.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.xPos = [];
 	state.t = 0;
 	state.distBetWaves = 5; //How often a new wave is created, in units
@@ -16,7 +16,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.t++;

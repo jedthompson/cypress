@@ -61,8 +61,6 @@ function run_simulation(sim) {
 		rb.className = "rtab";
 		rb.innerHTML = "Continue"; // TODO get an image
 		
-		
-		
 		function pause() {
 			tabsDiv.removeChild(pb);
 			tabsDiv.appendChild(rb);

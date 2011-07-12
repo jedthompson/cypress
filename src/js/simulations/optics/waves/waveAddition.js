@@ -6,18 +6,18 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.phase = 0;
 	state.amp = 0.4;
 	state.phase2 = Math.PI/3;
 	state.amp2 = 0.4;
 	state.freq = 2;
 	state.freq2 = 2.1;
-	state.propSpeed = 10;
+	state.propSpeed = 40;
 	state.propSpeed2 = 20;
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.phase += state.propSpeed*.001/state.freq;

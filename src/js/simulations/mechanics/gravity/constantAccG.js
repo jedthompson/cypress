@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "In this demonstration, one can see that even though an object may have horizontal speed, the acceleration due to gravity will remain the same as if it had no horizontal speed and thus it will fall just as fast as a ball released from rest.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.pos1 = new Vector(-40, 40, 0);
 	state.pos2 = new Vector(-40, 40, 0);
 	state.vel1 = new Vector(0, 0, 0);
@@ -21,7 +21,7 @@ function init_state(state) {
 	state.history2[state.t] = state.pos2;
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.t++;
@@ -33,7 +33,7 @@ simulation.step = function(state) {
 	state.history2[state.t] = state.pos2;
 	
 	if(state.pos1.data[1] < -100) {
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 	return state;
 }

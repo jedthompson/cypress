@@ -10,7 +10,7 @@ var Charge = function(p, v) {
 	this.vel = v;
 }
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.nucPos = new Vector(0, 0, 0);
 	state.nucVel = new Vector(0, 0, 0);
 	state.nucMass = 1;
@@ -28,7 +28,7 @@ function init_state(state) {
 	state.t = 0;
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 function getForce(x, y, state) {
 	var dirVect = new Vector(x-state.nucPos.data[0], y-state.nucPos.data[1], 0);

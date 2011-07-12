@@ -5,7 +5,7 @@ simulation.dt = 20;
 simulation.description="In this simulation, the inverse-square law can easily be observed as the force of attraction between the two bodies grows greatly when they get nearer to each other.";
 
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.settings.mass1 = 10;
 	state.settings.mass2 = 3;
 	state.pos1 = new Vector(-5, -5);
@@ -16,7 +16,7 @@ function init_state(state) {
 	return state;
 }
 
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 function dist12() {
 	return dist(

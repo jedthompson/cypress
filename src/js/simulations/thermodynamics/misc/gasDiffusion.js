@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
 simulation.description = "In this simulation, the two gases start on separate sides of the box, but gradually diffuse until each side has approximately the same number of blue gas particles and red gas particles as the other.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.numA = 50;
 	state.numB = 50;
 	state.ballRad = .2;
@@ -23,7 +23,7 @@ function init_state(state) {
 	}
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	checkCollision(state);

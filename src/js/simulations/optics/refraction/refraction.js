@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "When light passes from one medium to another, the difference in speeds of light between the mediums causes the light to refract.  This refraction is a changing in the direction of the light proportional to the difference in speeds of light between the mediums.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.phiIncD = 20;
 	state.n1 = 1;
 	state.n2 = 2.4;
@@ -21,7 +21,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.path[2].data[0] += state.xVel*.001*simulation.dt;
@@ -32,7 +32,7 @@ simulation.step = function(state) {
 	}
 	
 	if(state.path[2].data[0] > 70) {
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 	
 	return state;

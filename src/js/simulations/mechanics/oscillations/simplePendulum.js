@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "In this demonstration of a simple pendulum, one can see how the period of the pendulum is independent of the weight of the bob and (ideally) the amplitude. (It actually does depend on the amplitude in real life because simple pendulums only approximate reality for small theta.)  The pendulum then oscillates around its equilibrium (the point where all the forces balance).";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.mass = 5;
 	state.penLen = 50;
 	state.g = 9.8;
@@ -27,7 +27,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 function netForce(state) {
 	var fG = new Vector(0, -1*state.g*state.mass, 0);

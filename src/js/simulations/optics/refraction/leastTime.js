@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description="Here we can see Snell's law from the principle of least time";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.start1 = new Vector(10,-20);
 	state.start2 = new Vector(-10,20);
 	state.vel1 = 1.5;
@@ -14,7 +14,7 @@ function init_state(state) {
 	return state;
 }
 
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 
 simulation.step = function(state) {
