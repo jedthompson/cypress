@@ -310,5 +310,19 @@
 			</simulation>
 		</subcategory>
 	</category>
+
+	<category path="relativity">
+		<name>Relativity</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="gravitational-waves">
+				<name>Gravitational Waves</name>
+				<tagset>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
 </simulations>
 
