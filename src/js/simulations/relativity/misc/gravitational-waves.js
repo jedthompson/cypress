@@ -13,13 +13,13 @@ simulation.init_state = function(state) {
 	state.p1 = new Vector(-10, 0, 0);
 	state.p2 = new Vector( 10, 0, 0);
 
+	state.period = 200;
 	state.waves = [];
 
 	state.field = new Array(60);
 	for (var i=0; i<state.field.length; i++) {
 		state.field[i] = new Array(state.field.length);
 	}
-	state.cache = new Array();
 	return state;
 }
 simulation.state = simulation.init_state(simulation.state);
@@ -30,10 +30,10 @@ simulation.step = function(state) {
 	if (state.t > 400)
 		state = simulation.init_state(state);
 
-	state.p1.data[0] = Math.sin(state.t/30)*8;
-	state.p1.data[1] = Math.cos(state.t/30)*8;
-	state.p2.data[0] = Math.sin(Math.PI+state.t/30)*8;
-	state.p2.data[1] = Math.cos(Math.PI+state.t/30)*8;
+	state.p1.data[0] = Math.sin(state.t*2*Math.PI/state.period)*8;
+	state.p1.data[1] = Math.cos(state.t*2*Math.PI/state.period)*8;
+	state.p2.data[0] = Math.sin(Math.PI+state.t*2*Math.PI/state.period)*8;
+	state.p2.data[1] = Math.cos(Math.PI+state.t*2*Math.PI/state.period)*8;
 
 	gw1 = new GWave(state.p1.copy(), 0);
 	gw2 = new GWave(state.p2.copy(), 0);
