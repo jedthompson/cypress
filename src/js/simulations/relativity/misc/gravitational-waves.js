@@ -1,7 +1,7 @@
 var simulation_name = "Gravitational Waves";
 var simulation = new Simulation(simulation_name);
 
-simulation.dt = 30;
+simulation.dt = 50;
 
 function GWave(f, r) {
 	this.r = r;
@@ -15,7 +15,7 @@ simulation.init_state = function(state) {
 
 	state.waves = [];
 
-	state.field = new Array(50);
+	state.field = new Array(60);
 	for (var i=0; i<state.field.length; i++) {
 		state.field[i] = new Array(state.field.length);
 	}
@@ -36,9 +36,11 @@ simulation.step = function(state) {
 
 	gw1 = new GWave(state.p1.copy(), 0);
 	gw2 = new GWave(state.p2.copy(), 0);
-	state.waves.push(gw1);
-	state.waves.push(gw2);
-
+	if (state.t%2 == 1) {
+		state.waves.push(gw1);
+		state.waves.push(gw2);
+	}
+	
 	for (var i=0; i<state.waves.length; i++) {
 		state.waves[i].r += 0.1;
 	}
