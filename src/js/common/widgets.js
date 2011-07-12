@@ -1,4 +1,4 @@
-function Widget(x, y, width, height, dataLoc, device, render, listener) {
+function Widget(x, y, width, height, dataLoc, render, listener) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -6,7 +6,7 @@ function Widget(x, y, width, height, dataLoc, device, render, listener) {
 	this.dataLoc = dataLoc;
 	this.render = render;
 	this.listener = listener;
-	this.device = device;
+	//this.device = device;
 }
 
 /**
@@ -124,11 +124,10 @@ function renderWidgets(widgets, context, state) {
  * @param width the width of the slider
  * @param height the height of the slier (NOTE: This is meaningless for fixed-height sliders like the iOS slider, but is included to preserve symmetry between UI elements)
  * @param dataLoc a string representing where the data for the slider should be stored
- * @param device a string representing what device is being run ("IOS", "ANDROID", "OTHER")
  * @param min the minimum value of the slider.  If not provided, defaults to 0.
  * @param max the maximum value of the slider.  If not provided, defaults to 1.
  */
-function Slider(x, y, width, height, dataLoc, device, min, max) {
+function Slider(x, y, width, height, dataLoc, min, max) {
 	var widget;
 	var isTracking = false;
 	var xTrack = 0;
@@ -137,7 +136,7 @@ function Slider(x, y, width, height, dataLoc, device, min, max) {
 	this.y = y;
 	this.width = width;
 	this.height = height;
-	this.device = device;
+	//this.device = _platform;
 	if(!min) {
 		this.min = 0;
 	}else {
@@ -204,8 +203,8 @@ function Slider(x, y, width, height, dataLoc, device, min, max) {
 			//state.widgetData[dataLoc] = x;
 			return state;
 		}
-	if(device == "IOS") {
-		widget = new Widget(x, y, width, height, dataLoc, device, renderIOS, listener);
+	if(_platform == "IOS") {
+		widget = new Widget(x, y, width, height, dataLoc, renderIOS, listener);
 	}
 	return widget;
 }
