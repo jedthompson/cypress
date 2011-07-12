@@ -9,6 +9,11 @@ simulation.description = "The block on an inclined plane is a classic physics de
 // regardless of this value.) Rule of thumb: keep it in between 15 and 35.
 simulation.dt = 20;
 
+// This function transforms a state variable into a correct initial state for
+// the simulation. It is called below, when the simulation is first loaded, and
+// also whenever the simulation reaches an end point (and needs to be reset for
+// anything to happen) - in this case, such an endpoint would be when the block
+// reaches the end of the ramp.
 function init_state(state) {
 	//Initialize variables
 	state.mu=0.2;
@@ -43,6 +48,7 @@ function init_state(state) {
 	return state;
 }
 
+// Set up the widgets
 simulation.setup = function(state) {
 	state.widgetData = new Object();
 	state.widgetData["thetaSlider"] = 1/3;
@@ -120,6 +126,8 @@ simulation.render2d = function(state, c, w, h) {
 	}
 }
 
+// Like render2d, but for the settings tab. We just outsource this to the
+// widgets library.
 simulation.renderSettings = function(state, c, w, h) {
 	renderWidgets(state.settingsWidgets, c, state);
 }
