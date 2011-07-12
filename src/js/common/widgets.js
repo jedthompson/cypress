@@ -30,13 +30,46 @@ function handleMouseMove(xpos, ypos, state, evnt, widgets) {
 	return state;
 }
 
+function generateDefaultWidgetHandler(simulation, tab, widgetArray) {
+	simulation.tabs[tab].mouseMoveDefault = function(x, y, state, ev) {
+		state = handleMouseMove(x, y, state, ev, widgetArray);
+		return state;
+	}
+	
+	simulation.tabs[tab].mouseUpDefault = function(x, y, state, ev) {
+		state = handleMouseUp(x, y, state, ev, widgetArray);
+		return state;
+	}
+	
+	simulation.tabs[tab].mouseDownDefault = function(x, y, state, ev) {
+		state = handleMouseDown(x, y, state, ev, widgetArray);
+		return state;
+	}
+	
+	simulation.tabs[tab].mouseMove = function(x, y, state, ev) {
+		state = simulation.tabs[tab].mouseMoveDefault(x, y, state, ev);
+		return state;
+	}
+	
+	simulation.tabs[tab].mouseUp = function(x, y, state, ev) {
+		state = simulation.tabs[tab].mouseUpDefault(x, y, state, ev);
+		return state;
+	}
+	
+	simulation.tabs[tab].mouseDown = function(x, y, state, ev) {
+		state = simulation.tabs[tab].mouseDownDefault(x, y, state, ev);
+		return state;
+	}
+}
+
 function renderWidgets(widgets, context, state) {
 	for(var i = 0; i < widgets.length; i++) {
 		widgets[i].render(context, state);
 	}
 }
 
-function slider(x, y, width, height, dataLoc, device) {
+//NOTE: height is meaningless for Slider, it is only included for the sake of standardizing variables among all widgets
+function Slider(x, y, width, height, dataLoc, device, min, max) {
 	var widget;
 	var isTracking = false;
 	var xTrack = 0;
@@ -46,13 +79,22 @@ function slider(x, y, width, height, dataLoc, device) {
 	this.width = width;
 	this.height = height;
 	this.device = device;
-	//PercentFull is given AS A DECIMAL (.5 = 50%)
+	if(!min) {
+		this.min = 0;
+	}else {
+		this.min = min;
+	}
+	if(!max) {
+		this.max = 1;
+	}else {
+		this.max = max;
+	}
 	renderIOS = function(context, state) {
 		var xTL = x;
 		var yTL = y;
 		var len = width;
 		var pLen = len*320/100;
-		var curPos = state.widgetData[dataLoc];
+		var curPos = state[dataLoc]/(max-min);
 		if(curPos > 1) {curPos = 1;}
 		if(curPos < 0) {curPos = 0;}
 		var ctx = context;
@@ -79,7 +121,7 @@ function slider(x, y, width, height, dataLoc, device) {
 		
 		listener.mouseDown = function(xev, yev, state, evnt) {
 			//TODO MouseDown code here
-			var curPos = state.widgetData[dataLoc];
+			var curPos = state[dataLoc]/(max-min);
 			var dist = Math.sqrt(Math.pow(x+width*curPos-xev, 2) + Math.pow(y+4.5/4.8-yev, 2));
 			if(dist < 11.5/4.8) {
 				xTrack = x+width*curPos-xev;
@@ -91,13 +133,13 @@ function slider(x, y, width, height, dataLoc, device) {
 		listener.mouseMove = function(xev, yev, state, evnt) {
 			//TODO MouseMove code here
 			if(isTracking) {
-				var pos = ((xev+xTrack-x)/width);
-				if(pos >= 0 && pos <= 1) {
-					state.widgetData[dataLoc] = pos;
-				}else if(pos < 0) {
-					pos = 0;
+				var pos = ((xev+xTrack-x)/width)*(max-min);
+				if(pos >= min && pos <= max) {
+					state[dataLoc] = pos;
+				}else if(pos < min) {
+					state[dataLoc] = min;
 				}else {
-					pos = 1;
+					state[dataLoc] = max;
 				}
 			}
 			//state.widgetData[dataLoc] = x;

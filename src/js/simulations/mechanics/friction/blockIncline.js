@@ -17,7 +17,7 @@ simulation.dt = 20;
 function init_state(state) {
 	//Initialize variables
 	state.mu=0.2;
-	state.thetaD=90*state.widgetData["thetaSlider"];
+	state.thetaD=state["thetaSlider"];
 	state.g = 9.8;
 	state.t = 0;
 	state.displayForceVectors = true;
@@ -50,10 +50,28 @@ function init_state(state) {
 
 // Set up the widgets
 simulation.setup = function(state) {
-	state.widgetData = new Object();
-	state.widgetData["thetaSlider"] = 1/3;
+	state["thetaSlider"] = 30;
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new slider(-30, 20, 60, 9/4.8, "thetaSlider", "IOS");
+	state.settingsWidgets[0] = new Slider(-30, 20, 60, 9/4.8, "thetaSlider", "IOS", 1, 89);
+	
+	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
+	
+	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
+		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
+		state.thetaD = state["thetaSlider"];
+		state.thetaR = state.thetaD*2*Math.PI/360;
+	
+		state.xInit = 40-(60/Math.tan(state.thetaR));
+		if(state.xInit < -40) {state.xInit = -40;}
+		state.yInit = -30+((40-state.xInit)*Math.tan(state.thetaR));
+	
+		state.acc = (state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(state.thetaR));
+		if(state.acc <= 0) {state.acc = 0;}
+		state.xAcc = state.acc*Math.cos(state.thetaR);
+		state.yAcc = -(state.acc*Math.sin(state.thetaR));
+		return state;
+	}
+	
 	state = init_state(simulation.state);
 	return state;
 }
@@ -208,7 +226,7 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 // as the renderer.
 simulation.addTab('Force Diagram', simulation.renderForceDiagram);
 
-simulation.tabs["Settings"].mouseMove = function(x, y, state, ev) {
+/*simulation.tabs["Settings"].mouseMove = function(x, y, state, ev) {
 	state = handleMouseMove(x, y, state, ev, state.settingsWidgets);
 	return state;
 }
@@ -220,7 +238,7 @@ simulation.tabs["Settings"].mouseDown = function(x, y, state, ev) {
 
 simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 	state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
-	state.thetaD = 90*state.widgetData["thetaSlider"];
+	state.thetaD = state["thetaSlider"];
 	state.thetaR = state.thetaD*2*Math.PI/360;
 	
 	state.xInit = 40-(60/Math.tan(state.thetaR));
@@ -232,4 +250,5 @@ simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 	state.xAcc = state.acc*Math.cos(state.thetaR);
 	state.yAcc = -(state.acc*Math.sin(state.thetaR));
 	return state;
-}
+<<<<<<< local
+}*/

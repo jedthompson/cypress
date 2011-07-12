@@ -21,3 +21,28 @@ function binarySearch(p, d, s, e) {
 	return v;
 }
 
+//TODO Replace with better sort algorithm (probably quicksort)
+function sortVectorArrayByX(arr) {
+	var array = sortVectorArrayByDimension(arr, 0);
+	return array;
+}
+
+function sortVectorArrayByY(arr) {
+	var array = sortVectorArrayByDimension(arr, 1);
+	return array;
+}
+
+function sortVectorArrayByDimension(arr, num) {
+	var array = arr;
+	for(var i = 0; i < array.length; i++) {
+		for(var j = 0; j < array.length-1; j++) {
+			if(array[j+1].data[num] < array[j].data[num]) {
+				var temp = array[j+1];
+				array[j+1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}
+	return array;
+}
+

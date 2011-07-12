@@ -20,14 +20,6 @@ function init_state(state) {
 	state.mouseMoveIndex = 0;
 	state.mouseDown = false;
 	
-	//Test widget code
-	state.widgetData = new Object();
-	state.widgetData['testSlider'] = 0.5;
-	state.testWidgets = []; 
-	state.testWidgets[0] = new slider(-20, 10, 40, 9/4.8, 'testSlider', "IOS");
-	
-	
-	
 	return state;
 }
 simulation.state = init_state(simulation.state);
@@ -45,12 +37,6 @@ simulation.render2d = function(state, c, w, h) {
 		c.fill();
 	}
 }
-
-simulation.renderTest = function(state, c, w, h) {
-	state.testWidgets[0].render(c, state);
-}
-
-simulation.addTab('Test', simulation.renderTest);
 
 simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 	for(var i = 0; i < state.colors.length; i++) {
@@ -71,22 +57,6 @@ simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 	}
 	return state;
 }
-
-simulation.tabs["Test"].mouseMove = function(x, y, state, ev) {
-	state = handleMouseMove(x, y, state, ev, state.testWidgets);
-	return state;
-}
-
-simulation.tabs["Test"].mouseDown = function(x, y, state, ev) {
-	state = handleMouseDown(x, y, state, ev, state.testWidgets);
-	return state;
-}
-
-simulation.tabs["Test"].mouseUp = function(x, y, state, ev) {
-	state = handleMouseUp(x, y, state, ev, state.testWidgets);
-	return state;
-}
-
 simulation.tabs["Simulation"].mouseUp = function(x, y, state, ev) {
 	if(state.mouseDown) {
 		state.mouseDown = false;
