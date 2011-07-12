@@ -93,7 +93,7 @@ apidoc: build/doc/api
 build/doc/api: ${JSCOMMON}
 	@rm -rf build/doc/api
 	${MKDIR} build/doc/api
-	JSDOCDIR=./${JSDOCDIR} ${JSDOC} -t=${JSDOCDIR}/templates/jsdoc -d=build/doc/api ./src/js/common
+	JSDOCDIR=./${JSDOCDIR} ${JSDOC} -t=${JSDOCDIR}/templates/jsdoc -d=build/doc/api -a ./src/js/common
 
 test: tests
 	@echo Open tests/index.html in a browser to run unit tests
