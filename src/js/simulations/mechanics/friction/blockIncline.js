@@ -2,6 +2,10 @@ var simulation_name = "Block on an Inclined Plane";
 
 var simulation = new Simulation(simulation_name);
 simulation.description = "The block on an inclined plane is a classic physics demonstration that illustrates friction, gravity, and the normal force, among other concepts.  As the incline gets steeper, the normal force grows smaller due to gravity being pointed less and less towards the inclined plane.  As the normal force decreases in magnitude, so does the frictional force, and so the block accelerates faster.  The block also accelerates faster if the coefficient of kinetic friction is decreased.";
+
+// The number of milliseconds in between consecutive calls to
+// simulation.step(). (Simulation.render2d() is called immediately after step
+// regardless of this value.) Rule of thumb: keep it in between 15 and 35.
 simulation.dt = 20;
 
 function init_state(state) {
@@ -59,21 +63,26 @@ simulation.step = function(state) {
 	return state;
 }
 
+// Render a two-dimensional diagram of the simulation.
 simulation.render2d = function(state, c, w, h) {
-	
-	//c.strokeWidth = .2;
+	// 'state' is a copy of the state variable created above
+
+	// 'c' is a graphics context allowing us to draw to the canvas
+
+	// w and h are the dimensions of the screen. The smallest one is
+	// guaranteed to be 100.
 	
 	//Code to draw the inclined plane
 	c.beginPath();
 	c.moveTo(-40,-30);
-	c.lineTo(40,-30);
+	c.lineTo(40,-30); // so, a line from (-40, -30) to (40, -30)
 	c.lineTo(state.xInit,state.yInit);
 	c.lineTo(-40,-30);
-	c.strokeStyle="#000";
-	c.stroke();
+	c.strokeStyle="#000"; // the color of the stroke, as a hexidecimal RGB value
+	c.stroke(); // draw the path we created
 	
 	//Code to draw the box
-	c.beginPath();
+	c.beginPath(); // begin a new path (discarding old path data)
 	var x1=state.xPos-2*Math.cos(state.thetaR);
 	var y1=state.yPos+2*Math.sin(state.thetaR);
 	var x2=x1+4*Math.sin(state.thetaR);
