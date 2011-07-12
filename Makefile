@@ -81,10 +81,17 @@ ${OUT_JSSIMULATIONS}: ${JSSIMULATIONS}
 	${MKDIR} $(shell dirname $@)
 	${CLOSURE} ${CLOSURE_FILE_PREFIX} $(subst build/js/simulations,src/js/simulations,$@) > $@
 
-doc: doc/writing.html
+doc: doc/writing.html apidoc
 
 doc/writing.html: doc/writing.md
 	${MARKDOWN} doc/writing.md > $@
+
+apidoc: build/doc/api
+
+build/doc/api: ${JSCOMMON}
+	@rm -rf build/doc/api
+	${MKDIR} build/doc/api
+	doxygen doc/Doxyfile
 
 test: tests
 	@echo Open tests/index.html in a browser to run unit tests
