@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<simulations>
+	<category path="mechanics">
+		<name>Classical Mechanics</name>
+
+		<subcategory path="friction">
+			<name>Friction</name>
+			<simulation path="blockIncline">
+				<name>Block on an Inclined Plane</name>
+				<tagset>
+					<tag>friction</tag>
+					<tag>block</tag>
+					<tag>ramp</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="gravity">
+			<name>Gravity</name>
+			<simulation path="constantAccG">
+				<name>Constant Acceleration due to Gravity</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>constant</tag>
+					<tag>acceleration</tag>
+					<tag>falling</tag>
+					<tag>balls</tag>
+				</tagset>
+			</simulation>
+			<simulation path="gravity">
+				<name>Planetary Attraction</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>attraction</tag>
+					<tag>mass</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="kinematics">
+			<name>Kinematics</name>
+			<simulation path="ballisticMotion">
+				<name>Ballistic Motion</name>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>ballistic</tag>
+					<tag>parabola</tag>
+					<tag>motion</tag>
+					<tag>projectile</tag>
+				</tagset>
+			</simulation>
+			<simulation path="centerOfMassMotion">
+				<name>Center of Mass Motion</name>
+				<tagset>
+					<tag>center</tag>
+					<tag>mass</tag>
+					<tag>parabola</tag>
+					<tag>motion</tag>
+					<tag>projectile</tag>
+				</tagset>
+			</simulation>
+			<simulation path="cycloid">
+				<name>Cycloid</name>
+				<tagset>
+					<tag>rolling</tag>
+					<tag>ball</tag>
+					<tag>sphere</tag>
+					<tag>curve</tag>
+					<tag>circle</tag>
+					<tag>cycloid</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="oscillations">
+			<name>Oscillations</name>
+			<simulation path="simplePendulum">
+				<name>Simple Pendulum</name>
+				<tagset>
+					<tag>pendulum</tag>
+					<tag>simple</tag>
+					<tag>oscillation</tag>
+					<tag>harmonic</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="momentum">
+				<name>Momentum</name>
+				<tagset>
+					<tag>momentum</tag>
+					<tag>conservation</tag>
+					<tag>motion</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="em">
+		<name>Electricity and Magnetism</name>
+		<subcategory path="eFields">
+			<name>Electric Fields</name>
+			<simulation path="eFieldMotion">
+				<name>Charged Particle in an Electric Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>particle</tag>
+					<tag>electric</tag>
+					<tag>field</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+			<simulation path="rotatingCharge">
+				<name>Electric Field of a Rotating Charge</name>
+				<tagset>
+					<tag>rotate</tag>
+					<tag>electric</tag>
+					<tag>field</tag>
+					<tag>charge</tag>
+					<tag>electron</tag>
+					<tag>lines</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="charge-mf">
+				<name>Charged Particle in Magnetic Field</name>
+				<tagset>
+					<tag>charge</tag>
+					<tag>magnet</tag>
+					<tag>field</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="optics">
+		<name>Optics</name>
+
+		<subcategory path="waves">
+			<name>Waves</name>
+			<simulation path="doppler">
+				<name>Doppler Effect</name>
+				<tagset>
+					<tag>redshift</tag>
+					<tag>blueshift</tag>
+					<tag>star</tag>
+					<tag>sound</tag>
+				</tagset>
+			</simulation>
+			<simulation path="longitudinal">
+				<name>Longitudinal Waves</name>
+				<tagset>
+					<tag>particle</tag>
+					<tag>sound</tag>
+					<tag>collated</tag>
+					<tag>light</tag>
+				</tagset>
+			</simulation>
+			<simulation path="transverse">
+				<name>Transverse Waves</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>amplitude</tag>
+					<tag>frequency</tag>
+				</tagset>
+			</simulation>
+			<simulation path="waveAddition">
+				<name>Interference of Two Waves</name>
+				<tagset>
+					<tag>wave</tag>
+					<tag>sound</tag>
+					<tag>light</tag>
+					<tag>interference</tag>
+					<tag>addition</tag>
+					<tag>oscilloscope</tag>
+				</tagset>
+			</simulation>
+			<simulation path="waveAdditionShiva">
+				<name>Interference, Shiva Machine style</name>
+				<tagset>
+					<tag>wave</tag>
+					<tag>sound</tag>
+					<tag>light</tag>
+					<tag>interference</tag>
+					<tag>addition</tag>
+					<tag>oscilloscope</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="color">
+			<name>Color</name>
+			<simulation path="subtractiveColor">
+				<name>Subtractive Color Combinations</name>
+				<tagset>
+					<tag>color</tag>
+					<tag>additive</tag>
+					<tag>mixing</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		
+		<subcategory path="diffraction">
+			<name>Diffraction</name>
+			<simulation path="diffractionSlit">
+				<name>Diffraction Through a Thin Slit</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>diffraction</tag>
+					<tag>slit</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+			<simulation path="doubleSlit">
+				<name>Double Slit Diffraction Interference</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>diffraction</tag>
+					<tag>slit</tag>
+					<tag>two</tag>
+					<tag>double</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+			<simulation path="huygensPrinciple">
+				<name>Huygen's Wavefront Propagation</name>
+				<tagset>
+					<tag>Huygen</tag>
+					<tag>light</tag>
+					<tag>slit</tag>
+					<tag>thin</tag>
+					<tag>diffraction</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="refraction">
+			<name>Refraction</name>
+			<simulation path="refraction">
+				<name>Refraction</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>speed</tag>
+					<tag>refraction</tag>
+					<tag>snell</tag>
+					<tag>wave</tag>
+				</tagset>
+			</simulation>
+			<simulation path="leastTime">
+				<name>Principle of Least Time</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>speed</tag>
+					<tag>refraction</tag>
+					<tag>snell</tag>
+					<tag>wave</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="thermodynamics">
+		<name>Thermodynamics</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="gasDiffusion">
+				<name>Gas Diffusion</name>
+				<tagset>
+					<tag>entropy</tag>
+					<tag>gas</tag>
+					<tag>diffusion</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="nuclear">
+		<name>Nuclear Physics</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="goldFoil">
+				<name>Gold Foil Experiment</name>
+				<tagset>
+					<tag>gold</tag>
+					<tag>foil</tag>
+					<tag>nucleus</tag>
+					<tag>proton</tag>
+					<tag>alpha</tag>
+					<tag>particle</tag>
+				</tagset>
+			</simulation>
+			<simulation path="decay">
+				<name>Nuclear Decay</name>
+				<tagset>
+					<tag>exponential</tag>
+					<tag>decay</tag>
+					<tag>radioactive</tag>
+					<tag>half-life</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+</simulations>
+
