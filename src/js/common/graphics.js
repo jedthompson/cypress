@@ -218,7 +218,7 @@ function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox
 	var arrY = sortVectorArrayByY(arrayOfVectors);
 	
 	var sfx = Math.abs(lowerLeft.data[0]-upperRight.data[0])/(arrX[arrX.length-1].data[0]-arrX[0].data[0]);
-	var sfy = Math.abs(lowerLeft.data[1]-upperRight.data[1])/(arrY[arrY.length-1].data[1]-arrY[0].data[1]);
+	var sfy = Math.abs(lowerLeft.data[1]-upperRight.data[1]+5)/(arrY[arrY.length-1].data[1]-arrY[0].data[1]);
 	
 	context.save();
 		
