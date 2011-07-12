@@ -5,7 +5,7 @@ function select_simulation() {
 	var script = document.createElement('script');
 	script.setAttribute('src',"../js/simulations/"+sim+".js");
 	script.onload = function() {
-		if (typeof simulation_name == 'undefined') {
+		if (typeof simulation == 'undefined') {
 			document.getElementById("content").innerHTML
 				="Could not load simulation";
 			return;
