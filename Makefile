@@ -88,7 +88,7 @@ doc/writing.html: doc/writing.md
 
 apidoc: build/doc/api
 
-build/doc/api: ${JSCOMMON}
+build/doc/api: ${JSCOMMON} doc/Doxyfile
 	@rm -rf build/doc/api
 	${MKDIR} build/doc/api
 	doxygen doc/Doxyfile
