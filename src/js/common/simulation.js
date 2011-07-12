@@ -65,6 +65,7 @@ function Simulation(name) {
 			// try to set up webgl
 			this.gl = null;
 			try {
+				var glcanvas = document.getElementById("glcanvas");
 				this.gl = glcanvas.getContext("experimental-webgl");
 			} catch (e) {
 			}
@@ -72,7 +73,6 @@ function Simulation(name) {
 				// use 3d rendering
 				this.renderSimulation = this.renderSimulation3d;
 			} else {
-				alert("WebGL initialization failed");
 			}
 		}
 
@@ -93,25 +93,23 @@ function Simulation(name) {
 		if (!this.paused)
 			this.state = this.step(this.state);
 
-		if (!this.gl) {
-			this.context.clearRect(0, 0, this.width, this.height);
-			this.context.fillStyle='white';
-			this.context.fillRect(0, 0, this.width, this.height);
-			this.context.fillStyle='black';
+		w = this.width;
+		h = this.height;
+		_w = w;
+		_h = h;
+		sf = (w>h)?(h/100):(w/100);
+		this.context.clearRect(0, 0, this.width, this.height);
+		this.context.fillStyle='white';
+		this.context.fillRect(0, 0, this.width, this.height);
+		this.context.fillStyle='black';
 
-			c = this.context;
-			w = this.width;
-			h = this.height;
-			_w = w;
-			_h = h;
-			c.save();
-			this.context.lineWidth=0.4;
-			c.translate(w/2, h/2);
-			sf = (w>h)?(h/100):(w/100);
-			c.scale(sf,-sf);
-		}
+		c = this.context;
+		c.save();
+		this.context.lineWidth=0.4;
+		c.translate(w/2, h/2);
+		c.scale(sf,-sf);
 		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
-		if (!this.gl) c.restore();
+		c.restore();
 	}
 	
 	this.getWidth = function () {
