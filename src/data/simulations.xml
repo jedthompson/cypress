@@ -254,6 +254,16 @@
 					<tag>wave</tag>
 				</tagset>
 			</simulation>
+			<simulation path="leastTime">
+				<name>Principle of Least Time</name>
+				<tagset>
+					<tag>light</tag>
+					<tag>speed</tag>
+					<tag>refraction</tag>
+					<tag>snell</tag>
+					<tag>wave</tag>
+				</tagset>
+			</simulation>
 		</subcategory>
 	</category>
 
