@@ -27,7 +27,6 @@ MARKDOWN := perl tools/markdown/Markdown.pl
 #CLOSURE := java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5
 #CLOSURE_FILE_PREFIX := --js
 CLOSURE := @cat
-DOXYGEN := doxygen
 
 .PHONY: all doc js test tests clean
 
@@ -89,10 +88,9 @@ doc/writing.html: doc/writing.md
 
 apidoc: build/doc/api
 
-build/doc/api: ${JSCOMMON} doc/Doxyfile
+build/doc/api: ${JSCOMMON}
 	@rm -rf build/doc/api
 	${MKDIR} build/doc/api
-	${DOXYGEN} doc/Doxyfile
 
 test: tests
 	@echo Open tests/index.html in a browser to run unit tests
