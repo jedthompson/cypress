@@ -6,7 +6,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;   // 20 ms
 simulation.description = "In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.phase1 = 0;    // initialize to zero
 	state.amp1 = 10;     // initialize amplitude
 	state.vel1 = 4;
@@ -24,7 +24,7 @@ function init_state(state) {
     state.scale = 10.   // this "slows" things down so it looks nicer
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.phase1 += 2*Math.PI * (simulation.dt*0.001)*state.vel1/state.wavelength1;

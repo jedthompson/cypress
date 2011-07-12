@@ -5,7 +5,7 @@ simulation.dt = 20;   //time in milliseconds, which means 20ms per "tick"
 simulation.description="Here, one can observe that gravity only affects the y component of the velocity and that the x component remains constant.  One can also see that gravity always induces a parabolic trajectory in a launched particle.";
 
 // constructor here
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.pos = new Vector(-40,-40); // define position, start at -40,-40
 	state.initpos = new Vector(-40,-40); // won't change
 	state.vel = new Vector(10,30); // x and y components of velocity
@@ -19,7 +19,7 @@ function init_state(state) {
 }
 
 // initialize the simulation state
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 // set the simulation step method to this function.  you update the "state" here
 simulation.step = function(state) {
@@ -32,7 +32,7 @@ simulation.step = function(state) {
 	
 	
 	if(state.pos.data[1] < state.initpos.data[1]) {
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 	
 	return state;

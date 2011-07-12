@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
 simulation.description = "This demonstration illustrates how radioactive particles with a certain half-life decay over time.  As can be seen, the rate of decay at the beginning of the simulation is much larger than nearer to the end of the simulation, because there are more particles with the same chance of decaying per unit time, so more particles decay per unit time.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.history = {};
 	state.actual = {};
 	state.pc = 100;
@@ -24,7 +24,7 @@ function init_state(state) {
 	}
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.t++;
@@ -41,8 +41,8 @@ simulation.step = function(state) {
 	state.history[state.t] = state.pc;
 	state.actual[state.t] = count;
 
-	if (state.t > 400) { // TODO put a reset button somewhere
-		state = init_state(state);
+	if (state.t > 400) {
+		state = simulation.init_state(state);
 	}
 	return state;
 }

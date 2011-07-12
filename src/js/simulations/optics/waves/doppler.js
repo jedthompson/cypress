@@ -10,7 +10,7 @@ var Wave = function(x, y) {
 	this.r = 0;
 }
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.waves = new Array();
 	state.timeSinceWave = 0;
 	state.freq = 10;
@@ -20,12 +20,12 @@ function init_state(state) {
 	state.x = -45;
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.x += state.speed;
 	if (state.x > 55)
-		return init_state(state);
+		return simulation.init_state(state);
 
 	state.timeSinceWave++;
 	if (state.timeSinceWave >= state.freq) {

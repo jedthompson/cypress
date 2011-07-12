@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 50;
 simulation.description = "This simulation shows how momentum is always conserved.  Momentum, the product of the mass and velocity of an object is a vector and the net momentum (the sum of all the individual momentums of all the bodies in a system) is always conserved.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.mass1 = 5;
 	state.mass2 = 2;
 	state.pos1 = new Vector(-20, -5, 0);
@@ -17,7 +17,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	
