@@ -9,6 +9,17 @@ function Widget(x, y, width, height, dataLoc, device, render, listener) {
 	this.device = device;
 }
 
+/**
+ * Handles widget interaction for mouseDown events.
+ * 
+ * @param xpos The x position of the mouseDown event
+ * @param ypos The y position of the mouseDown event
+ * @param state A state function that pertains to the individual simulation
+ * @param evnt The mouseDown event
+ * @param widgets An array of widgets which the mouseDown could possibly affect.  (Likely all the widgets on a given tab)
+ * 
+ * @return A modified state with any changes performed by the various widgets
+ */
 function handleMouseDown(xpos, ypos, state, evnt, widgets) {
 	for(var i = 0; i < widgets.length; i++) {
 		state = widgets[i].listener.mouseDown(xpos, ypos, state, evnt);
@@ -16,6 +27,17 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
 	return state;
 }
 
+/**
+ * Handles widget interaction for mouseUp events.
+ * 
+ * @param xpos The x position of the mouseUp event
+ * @param ypos The y position of the mouseUp event
+ * @param state A state function that pertains to the individual simulation
+ * @param evnt The mouseUp event
+ * @param widgets An array of widgets which the mouseUp could possibly affect.  (Likely all the widgets on a given tab)
+ * 
+ * @return A modified state with any changes performed by the various widgets
+ */
 function handleMouseUp(xpos, ypos, state, evnt, widgets) {
 	for(var i = 0; i < widgets.length; i++) {
 		state = widgets[i].listener.mouseUp(xpos, ypos, state, evnt);
@@ -23,6 +45,17 @@ function handleMouseUp(xpos, ypos, state, evnt, widgets) {
 	return state;
 }
 
+/**
+ * Handles widget interaction for mouseMove events.
+ * 
+ * @param xpos The x position of the mouseMove event
+ * @param ypos The y position of the mouseMove event
+ * @param state A state function that pertains to the individual simulation
+ * @param evnt The mouseMove event
+ * @param widgets An array of widgets which the mouseMove could possibly affect.  (Likely all the widgets on a given tab)
+ * 
+ * @return A modified state with any changes performed by the various widgets
+ */
 function handleMouseMove(xpos, ypos, state, evnt, widgets) {
 	for(var i = 0; i < widgets.length; i++) {
 		state = widgets[i].listener.mouseMove(xpos, ypos, state, evnt);
@@ -30,6 +63,13 @@ function handleMouseMove(xpos, ypos, state, evnt, widgets) {
 	return state;
 }
 
+/**
+ * Generates default widget handler code.  This default code can be overriden by defining simulation.tabs[tab].mouseMove, etc.
+ * 
+ * @param simulation A simulation object
+ * @param tab A string representing the tab to generate the handler code for
+ * @param widgetArray An array of widgets representing what widgets could be affected by a mouseEvent on the given tab
+ */
 function generateDefaultWidgetHandler(simulation, tab, widgetArray) {
 	simulation.tabs[tab].mouseMoveDefault = function(x, y, state, ev) {
 		state = handleMouseMove(x, y, state, ev, widgetArray);
@@ -62,13 +102,32 @@ function generateDefaultWidgetHandler(simulation, tab, widgetArray) {
 	}
 }
 
+
+/**
+ * Renders the list of widgets provided.
+ * 
+ * @param widgets An array of widgets to render
+ * @param context The context to draw the rendered widgets on
+ * @param state The current state of the simulation
+ */
 function renderWidgets(widgets, context, state) {
 	for(var i = 0; i < widgets.length; i++) {
 		widgets[i].render(context, state);
 	}
 }
 
-//NOTE: height is meaningless for Slider, it is only included for the sake of standardizing variables among all widgets
+/**
+ * A very basic UI element that allows for smooth changing of a single value.
+ * 
+ * @param x the x-coordinate of the upper-left point
+ * @param y the y-coordinate of the upper-left point
+ * @param width the width of the slider
+ * @param height the height of the slier (NOTE: This is meaningless for fixed-height sliders like the iOS slider, but is included to preserve symmetry between UI elements)
+ * @param dataLoc a string representing where the data for the slider should be stored
+ * @param device a string representing what device is being run ("IOS", "ANDROID", "OTHER")
+ * @param min the minimum value of the slider.  If not provided, defaults to 0.
+ * @param max the maximum value of the slider.  If not provided, defaults to 1.
+ */
 function Slider(x, y, width, height, dataLoc, device, min, max) {
 	var widget;
 	var isTracking = false;
