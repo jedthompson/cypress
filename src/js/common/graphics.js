@@ -32,6 +32,15 @@ CanvasRenderingContext2D.prototype.image = function(i, x, y, xd, yd, xdest, ydes
 	}
 }
 
+/**
+ * Draws a vector from one point towards another.
+ * 
+ * @param c the context on which to draw the vector
+ * @param v1 a vector representing the initial point
+ * @param v2 a vector representing the point that the vector is drawn towards
+ * @param len a number representing how long the vector should be
+ * @param color an optional color for the vector.  If not supplied, defaults to black.
+ */
 function vector2dTowards(c, v1, v2, len, color) {
 	if(!color) {color = "#000";}
 	var x1 = v1.data[0];
@@ -43,8 +52,16 @@ function vector2dTowards(c, v1, v2, len, color) {
 	drawVector(x1, y1, drawVec, c, color);
 }
 
-//Angle measured COUNTERCLOCKWISE from positive x-axis
-//Angle is in DEGREES
+/**
+ * Draws a vector from a starting point with a given magnitude and direction.
+ * 
+ * @param xStart the starting x-coordinate
+ * @param yStart the starting y-coordinate
+ * @param length the magnitude of the vector
+ * @param angle angular displacement from the positive x-axis, measured counterclockwise in degrees
+ * @param context the context on which to draw the vector
+ * @param color an optional color for the vector.  If not supplied, defaults to black.
+ */
 function vector2dAtAngle(xStart, yStart, length, angle, context, color) {
 	if (!color)
 		color = "#000000";
@@ -78,6 +95,15 @@ function vector2dAtAngle(xStart, yStart, length, angle, context, color) {
 	ctx.strokeStyle = oldcolor;
 }
 
+/**
+ * Draws a vector from a given point.
+ * 
+ * @param xStart the starting x-coordinate of the vector
+ * @param yStart the starting y-coordinate of the vector
+ * @param vector the vector to draw
+ * @param context the context on which to draw the vector
+ * @param color an optional color for the vector.  If not supplied, defaults to black.
+ */
 function drawVector(xStart, yStart, vector, context, color) {
 	if(!color) {var color = "#000";}
 	if(vector.data.length < 2) {
@@ -92,11 +118,24 @@ function drawVector(xStart, yStart, vector, context, color) {
 	vector2dAtAngle(xStart, yStart, length, phi*180/Math.PI, context, color);
 }
 
+/**
+ * Draws a histogram with a given size.
+ * 
+ * @param xLowLeft the lower-left x-coordinate of the graph (where x=0)
+ * @param yLowLeft the lower-left y-coordinate of the graph (where y=0)
+ * @param width the width of the graph
+ * @param height the height of the graph
+ * @param context the context on which to draw the graph
+ * @param arrayOfVectors an array of relative position vectors measured from the origin (0, 0)
+ * @param shouldDrawAxes a boolean representing whether or not to draw the axes of the graph
+ * @param color an optional color parameter.  If not supplied, defaults to black.
+ */
 function drawHistogram(xLowLeft, yLowLeft, width, height, context, arrayOfVectors, shouldDrawAxes, color) {
 	if(!color) {
 		color = "#000";
 	}
 	
+	context.save();
 	context.strokeStyle = color;
 	
 	if(shouldDrawAxes) {
@@ -114,13 +153,31 @@ function drawHistogram(xLowLeft, yLowLeft, width, height, context, arrayOfVector
 		context.lineTo(xLowLeft+arrayOfVectors[i].data[0], yLowLeft+arrayOfVectors[i].data[1]);
 	}
 	context.stroke();
+	context.restore();
 }
 
+/**
+ * Draws a path given an array of absolute position vectors.
+ * 
+ * @param context the context on which to draw the path.
+ * @param arrayOfAbsolutePositionVectors the array of absolute position vectors that defines the path.
+ * @param color an optional color for the graph.  If not supplied, defaults to black.
+ */
 function drawPath(context, arrayOfAbsolutePositionVectors, color) {
 	if(!color) {color="#000";}
 	drawHistogram(0, 0, 100, 100, context, arrayOfAbsolutePositionVectors, false, color);
 }
 
+/**
+ * Draws a graph given the corners and an array of vectors.  This function will auto-scale the graph to fit in the size you pass to it.
+ * 
+ * @param lowerLeft a vector representing the lower left corner of the graph
+ * @param upperRight a vector representing the upper right corner of the graph
+ * @param context the context on which to draw the graph
+ * @param arrayOfVectors an array of vectors representing points on the graph
+ * @param shouldDrawBox a boolean representing whether or not to draw the border of the graph.  If not supplied, defaults to false.
+ * @param color an optional color for the graph.  If not supplied, defaults to black
+ */
 function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox, color) {
 	if(!shouldDrawBox) {
 		shouldDrawBox = false;
@@ -168,11 +225,17 @@ function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox
 	}
 	context.stroke();
 	
-	
 	context.restore();
 	
 }
 
+/**
+ * Retrieves an image from a file.
+ * 
+ * @param src a string representing the path to the file
+ * 
+ * @return the image stored in the file
+ */
 function getImage(src) {
 	img = new Image();
 	img.src = "../gr/"+src;
