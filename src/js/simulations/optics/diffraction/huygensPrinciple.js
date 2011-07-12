@@ -7,7 +7,7 @@ simulation.description = "According to Huygen's Propagation of Wavefronts Princi
 function init_state(state) {
 	state.xPos = [];
 	state.t = 0;
-	state.distBetWaves = 20; //How often a new wave is created, in units, equivalent to wavelength
+	state.distBetWaves = 4; //How often a new wave is created, in units, equivalent to wavelength
 	state.vel = 10; //Rate at which a wave propagates
 	state.slitSize = 10;
 	
