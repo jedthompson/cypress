@@ -1,5 +1,6 @@
 var simulation_name = "Block on an Inclined Plane";
 
+// create the simulation
 var simulation = new Simulation(simulation_name);
 simulation.description = "The block on an inclined plane is a classic physics demonstration that illustrates friction, gravity, and the normal force, among other concepts.  As the incline gets steeper, the normal force grows smaller due to gravity being pointed less and less towards the inclined plane.  As the normal force decreases in magnitude, so does the frictional force, and so the block accelerates faster.  The block also accelerates faster if the coefficient of kinetic friction is decreased.";
 
@@ -51,6 +52,7 @@ simulation.setup = function(state) {
 	return state;
 }
 
+// Called every simulation.dt milliseconds to update the state.
 simulation.step = function(state) {
 	state.t += 0.001 * simulation.dt;
 	
@@ -58,12 +60,18 @@ simulation.step = function(state) {
 	state.yPos = state.yInit + (0.5*state.yAcc*state.t*state.t);
 	
 	if(state.yPos < -30) {
+		// When the block has finished falling, we reset the simulation
+		// so it can fall again.
 		state = init_state(state);
 	}
-	return state;
+	return state; // And return the new state.
 }
 
 // Render a two-dimensional diagram of the simulation.
+//
+// This function should perform as little computation as possible - all the
+// simulation should have been completed in the step() function. Here, we just
+// show the results.
 simulation.render2d = function(state, c, w, h) {
 	// 'state' is a copy of the state variable created above
 
@@ -124,6 +132,7 @@ function drawVectorColor(a,b,c,d,context,color) {
 	vector2dAtAngle(a,b,c,(360-d),context,color);
 }
 
+// Similar to render2d, but for a different tab.
 simulation.renderForceDiagram = function(state, c, w, h) {
 	//Code to draw the box
 	var ctx = c;
@@ -187,6 +196,8 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 	}
 }
 
+// Add a tab named "force diagram" to the simulation, using renderForceDiagram
+// as the renderer.
 simulation.addTab('Force Diagram', simulation.renderForceDiagram);
 
 simulation.tabs["Settings"].mouseMove = function(x, y, state, ev) {
