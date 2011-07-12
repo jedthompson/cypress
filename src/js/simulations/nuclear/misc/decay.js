@@ -41,9 +41,9 @@ simulation.step = function(state) {
 	state.history[state.t] = state.pc;
 	state.actual[state.t] = count;
 
-	if (state.t > 400) {
+	/*if (state.t > 400) {
 		state = simulation.init_state(state);
-	}
+	}*/
 	return state;
 }
 
