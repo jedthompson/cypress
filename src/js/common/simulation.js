@@ -106,60 +106,40 @@ function Simulation(name) {
 
 	// register mouse listeners
 	var canvas = this.canvas;
+
+	this.callMouseFunc = function(f, ev) {
+		w = this.width;
+		h = this.height;
+		sf = (w>h)?(h/100):(w/100);
+		var absX = ev.clientX - this.canvas.offsetLeft;
+		var absY = ev.clientY - this.canvas.offsetTop;
+		var x = absX/sf;
+		var y = absY/sf;
+		x = x-w/(2*sf);
+		y = -(y-h/(2*sf));
+		this.state = f(x, y, this.state, ev, this.canvas);
+	}
+
 	function mouseDownListener(ev) {
-		//TODO Check if belongs to any widget
-			w = this.width;
-			h = this.height;
-			sf = (w>h)?(h/100):(w/100);
-			var absX = ev.clientX - this.canvas.offsetLeft;
-			var absY = ev.clientY - this.canvas.offsetTop;
-			var x = absX/sf;
-			var y = absY/sf;
-			x = x-w/(2*sf);
-			y = -(y-h/(2*sf));
-		if (this.mouseDown != null) {
-			this.state = this.mouseDown(x, y, this.state, ev, this.canvas);
-		} else if(this.tabs[this.currentTab].mouseDown != null)  {
-			this.state = this.tabs[this.currentTab].mouseDown(x, y, this.state, ev);
-		}
+		if (this.mouseDown != null)
+			this.callMouseFunc(this.mouseDown,ev);
+		if(this.tabs[this.currentTab].mouseDown != null)
+			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev);
 	}
 	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener(ev) {
-		//TODO Check if belongs to any widget
-			w = this.width;
-			h = this.height;
-			sf = (w>h)?(h/100):(w/100);
-			var absX = ev.clientX - this.canvas.offsetLeft;
-			var absY = ev.clientY - this.canvas.offsetTop;
-			var x = absX/sf;
-			var y = absY/sf;
-			x = x-w/(2*sf);
-			y = -(y-h/(2*sf));
-		if (this.mouseUp != null) {
-			this.state = this.mouseUp(x, y, this.state, ev, this.canvas);
-		} else if(this.tabs[this.currentTab].mouseUp != null) {
-			this.state = this.tabs[this.currentTab].mouseUp(x, y, this.state, ev);
-		}
+		if (this.mouseUp != null)
+			this.callMouseFunc(this.mouseUp,ev);
+		if(this.tabs[this.currentTab].mouseUp != null)
+			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev);
 	}
 	
 	function mouseMoveListener(ev) {
-		//TODO Check if belongs to any widget
-			w = this.width;
-			h = this.height;
-			sf = (w>h)?(h/100):(w/100);
-			var absX = ev.clientX - this.canvas.offsetLeft;
-			var absY = ev.clientY - this.canvas.offsetTop;
-			var x = absX/sf;
-			var y = absY/sf;
-			x = x-w/(2*sf);
-			y = -(y-h/(2*sf));
-		if (this.mouseMove != null) {
-			//alert("x is " + x + "\ny is " + y);
-			this.state = this.mouseMove(x, y, this.state, ev, this.canvas);
-		} else if(this.tabs[this.currentTab].mouseMove != null) {
-			this.state = this.tabs[this.currentTab].mouseMove(x, y, this.state, ev);
-		}
+		if (this.mouseMove != null)
+			this.callMouseFunc(this.mouseMove,ev);
+		if(this.tabs[this.currentTab].mouseMove != null)
+			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev);
 	}
 }
 
