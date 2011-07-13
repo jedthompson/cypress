@@ -3,12 +3,13 @@
 var simulation_name = "Wave addition, Shiva machine technique";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 20;
+simulation.dt = 20;   // 20 ms
 simulation.description = "In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.";
 
 simulation.init_state = function(state) {
 	state.phase1 = 0;    // initialize to zero
-	state.amp1 = 10;     // initialize amplitude state.vel1 = 4;
+	state.amp1 = 10;     // initialize amplitude
+	state.vel1 = 4;
 	state.wavelength1 = 20;
 	state.ypos1 = 30;
 
@@ -37,7 +38,7 @@ simulation.render2d = function(state, c, w, h) {
     // traveling waves go like sin(kx-wt)  (or kx+wt).   think of kx as the amplitude of a vector that is 
     // transverse to the propogation direction, oscillating at +-wt
     //
-    for (var i=0; i<100; i++) {
+    for (var i=0; i<w; i++) {
        c.beginPath();
        c.moveTo(-w/2+i, state.ypos1);
        var xphase = 2*Math.PI*i/state.wavelength1;
@@ -48,7 +49,7 @@ simulation.render2d = function(state, c, w, h) {
     //
     // now do the next wave.  notice that in simulation.step, the velocity is negative
     //
-    for (var i=0; i<100; i++) {
+    for (var i=0; i<w; i++) {
        c.beginPath();
        c.moveTo(-w/2+i, state.ypos2);
        var xphase = 2*Math.PI*i/state.wavelength2;
@@ -59,7 +60,7 @@ simulation.render2d = function(state, c, w, h) {
 	//
 	// now add them both together to see what you get
 	//
-	for (var i=0; i<100; i++) {
+	for (var i=0; i<w; i++) {
 	   c.beginPath();
 	   c.moveTo(-w/2+i, state.ypos3);
        var xphase1 = 2*Math.PI*i/state.wavelength1;
