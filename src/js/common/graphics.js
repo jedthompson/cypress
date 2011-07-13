@@ -193,22 +193,29 @@ function drawPath(context, arrayOfAbsolutePositionVectors, color) {
  * @param arrayOfVectors an array of vectors representing points on the graph
  * @param shouldDrawBox a boolean representing whether or not to draw the border of the graph.  If not supplied, defaults to false.
  * @param color an optional color for the graph.  If not supplied, defaults to black
+ * @param xMin the minimum x value to be displayed on the graph
+ * @param xMax the maximum x value to be displayed on the graph
+ * @param yMin the minimum y value to be displayed on the graph
+ * @param yMax the maximum y value to be displayed on the graph
+ * @param shouldDrawAxes a boolean representing whether or not to draw axes.  If not supplied, defaults to false.
+ * @param shouldDrawTicks a boolean representing whether or not to draw tickmarks.  If not supplied, defaults to false.
+ * @param numTicks the number of tickmarks to display on each axis (They will be evenly spaced.)
  */
-function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox, color) {
+function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox, color, xMin, xMax, yMin, yMax, shouldDrawAxes, shouldDrawTicks, numTicks) {
 	if(!shouldDrawBox) {
 		shouldDrawBox = false;
 	}
 	if(!color) {
 		color = "#000";
 	}
-	
-	var oriX = lowerLeft.data[0];
-	var oriY = lowerLeft.data[1];
-	if(oriX > upperRight.data[0]) {
-		oriX = upperRight.data[0];
+	if(!shouldDrawAxes) {
+		shouldDrawAxes = false;
 	}
-	if(oriY > upperRight.data[1]) {
-		oriY = upperRight.data[1];
+	if(!shouldDrawTicks) {
+		shouldDrawTicks = false;
+	}
+	if(!numTicks) {
+		numTicks = 10;
 	}
 	
 	if(!arrayOfVectors) {
@@ -217,8 +224,21 @@ function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox
 	var arrX = sortVectorArrayByX(arrayOfVectors);
 	var arrY = sortVectorArrayByY(arrayOfVectors);
 	
-	var sfx = Math.abs(100)/(arrX[arrX.length-1].data[0]-arrX[0].data[0]);
-	var sfy = Math.abs(95)/(arrY[arrY.length-1].data[1]-arrY[0].data[1]);
+	if(!xMin) {
+		xMin = arrX[0].data[0];
+	}
+	if(!xMax) {
+		xMax = arrX[arrX.length-1].data[0];
+	}
+	if(!yMin) {
+		yMin = arrY[0].data[1];
+	}
+	if(!yMax) {
+		yMax = arrY[arrY.length-1].data[1];
+	}
+	
+	var sfx = Math.abs(100)/(xMax-xMin);
+	var sfy = Math.abs(95)/(yMax-yMin);
 	
 	context.save();
 	
@@ -246,13 +266,108 @@ function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox
 	context.strokeStyle = color;
 	
 	context.beginPath();
-	context.moveTo(0, (arrX[0].data[1]-arrY[0].data[1])*sfy);
+	var hasStarted = false;
 	for(var i = 1; i < arrX.length; i++) {
-		context.lineTo((arrX[i].data[0]-arrX[0].data[0])*sfx, (arrX[i].data[1]-arrY[0].data[1])*sfy);
+		if((arrX[i].data[0]-xMin)*sfx < 0) {
+			continue;
+		}else if(!hasStarted) {
+			context.moveTo((arrX[i].data[0]-xMin)*sfx, (arrX[i].data[1]-yMin)*sfy);
+			hasStarted = true;
+			continue;
+		}
+		if((arrX[i].data[0]-xMin)*sfx > 100) {
+			break;
+		}
+		context.lineTo((arrX[i].data[0]-xMin)*sfx, (arrX[i].data[1]-yMin)*sfy);
 	}
 	context.stroke();
 	
 	context.restore();
+	
+	/*if(!shouldDrawBox) {
+		shouldDrawBox = false;
+	}
+	if(!color) {
+		color = "#000";
+	}
+	if(!shouldDrawAxes) {
+		shouldDrawAxes = false;
+	}
+	if(!shouldDrawTicks) {
+		shouldDrawTicks = false;
+	}
+	if(!numTicks) {
+		numTicks = 10;
+	}
+	
+	if(!arrayOfVectors) {
+		throw "drawGraph: No array of vectors given";
+	}
+	var arrX = sortVectorArrayByX(arrayOfVectors);
+	var arrY = sortVectorArrayByY(arrayOfVectors);
+	
+	if(!xMin) {
+		xMin = arrX[0].data[0];
+	}
+	if(!xMax) {
+		xMax = arrX[arrX.length-1].data[0];
+	}
+	if(!yMin) {
+		yMin = arrY[0].data[1];
+	}
+	if(!yMax) {
+		yMax = arrY[arrY.length-1].data[1];
+	}
+	
+	var sfx = Math.abs(100)/(xMax-xMin);
+	var sfy = Math.abs(95)/(yMax-yMin);
+	
+	var tempC = clone(context);
+	
+	context.save();
+	
+	var w = tempC.canvas.width;
+	var h = tempC.canvas.height;
+	var sf = (w>h)?(h/100):(w/100);
+	
+	var newW = upperRight.data[0]-lowerLeft.data[0];
+	var newH = upperRight.data[1]-lowerLeft.data[1];
+	
+	tempC.translate(lowerLeft.data[0], lowerLeft.data[1]);
+	tempC.scale((newW)/(100), (newH)/(100));
+	
+		
+	if(shouldDrawBox) {
+		tempC.beginPath();
+		tempC.moveTo(0, 0);
+		tempC.lineTo(0, 100);
+		tempC.lineTo(100, 100);
+		tempC.lineTo(100, 0);
+		tempC.lineTo(0, 0);
+		tempC.stroke();
+	}
+	
+	tempC.strokeStyle = color;
+	
+	tempC.beginPath();
+	var hasStarted = false;
+	tempC.moveTo((arrX[0].data[0]-xMin)*sfx, (arrX[i].data[1]-yMin)*sfy);
+	for(var i = 1; i < arrX.length; i++) {
+		if((arrX[i].data[0]-xMin)*sfx < 0) {
+			continue;
+		}else if(!hasStarted) {
+			
+			hasStarted = true;
+			continue;
+		}
+		if((arrX[i].data[0]-xMin)*sfx > 100) {
+			break;
+		}
+		context.lineTo((arrX[i].data[0]-xMin)*sfx, (arrX[i].data[1]-yMin)*sfy);
+	}
+	context.stroke();
+	
+	context.restore();*/
 	
 }
 

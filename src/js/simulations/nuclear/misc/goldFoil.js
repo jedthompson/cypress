@@ -80,7 +80,7 @@ simulation.renderGraph = function(state, c, w, h) {
 		var v = new Vector(i, state.history[i]);
 		arr.push(v);
 	}
-	drawGraph(new Vector(-40, -40), new Vector(40, 40), c, arr, true, "#000");
+	drawGraph(new Vector(-40, -40), new Vector(40, 40), c, arr, true, "#000", 17, 20);
 }
 
 simulation.addTab("Graph", simulation.renderGraph);
