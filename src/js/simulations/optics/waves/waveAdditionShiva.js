@@ -3,13 +3,12 @@
 var simulation_name = "Wave addition, Shiva machine technique";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 50;
+simulation.dt = 20;
 simulation.description = "In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.";
 
 simulation.init_state = function(state) {
 	state.phase1 = 0;    // initialize to zero
-	state.amp1 = 10;     // initialize amplitude
-	state.vel1 = 4;
+	state.amp1 = 10;     // initialize amplitude state.vel1 = 4;
 	state.wavelength1 = 20;
 	state.ypos1 = 30;
 
