@@ -1,7 +1,7 @@
 var simulation_name = "Gravitational Waves";
 var simulation = new Simulation(simulation_name);
 
-simulation.dt = 50;
+simulation.dt = 100;
 
 function GWave(f, r) {
 	this.r = r;
