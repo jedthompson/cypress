@@ -6,6 +6,15 @@ function curry(fn) {
         };
 }
 
+function clone(o) {
+	var temp;
+	
+	for(var key in o) {
+		temp[key] = clone(o[key]);
+	}
+	return temp;
+}
+
 // Performs binary search, on the assumption that p(v) is false on the left and
 // true on the right.
 function binarySearch(p, d, s, e) {
