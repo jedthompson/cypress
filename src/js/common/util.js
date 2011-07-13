@@ -46,3 +46,7 @@ function sortVectorArrayByDimension(arr, num) {
 	return array;
 }
 
+function round(n, d) {
+	return Math.round(n * Math.pow(10, d)) / Math.pow(10,d);
+}
+
