@@ -217,27 +217,38 @@ function drawGraph(lowerLeft, upperRight, context, arrayOfVectors, shouldDrawBox
 	var arrX = sortVectorArrayByX(arrayOfVectors);
 	var arrY = sortVectorArrayByY(arrayOfVectors);
 	
-	var sfx = Math.abs(lowerLeft.data[0]-upperRight.data[0])/(arrX[arrX.length-1].data[0]-arrX[0].data[0]);
-	var sfy = Math.abs(lowerLeft.data[1]-upperRight.data[1]+5)/(arrY[arrY.length-1].data[1]-arrY[0].data[1]);
+	var sfx = Math.abs(100)/(arrX[arrX.length-1].data[0]-arrX[0].data[0]);
+	var sfy = Math.abs(95)/(arrY[arrY.length-1].data[1]-arrY[0].data[1]);
 	
 	context.save();
+	
+	var w = context.canvas.width;
+	var h = context.canvas.height;
+	var sf = (w>h)?(h/100):(w/100);
+	
+	var newW = upperRight.data[0]-lowerLeft.data[0];
+	var newH = upperRight.data[1]-lowerLeft.data[1];
+	
+	context.translate(lowerLeft.data[0], lowerLeft.data[1]);
+	context.scale((newW)/(100), (newH)/(100));
+	
 		
 	if(shouldDrawBox) {
 		context.beginPath();
-		context.moveTo(lowerLeft.data[0], lowerLeft.data[1]);
-		context.lineTo(lowerLeft.data[0], upperRight.data[1]);
-		context.lineTo(upperRight.data[0], upperRight.data[1]);
-		context.lineTo(upperRight.data[0], lowerLeft.data[1]);
-		context.lineTo(lowerLeft.data[0], lowerLeft.data[1]);
+		context.moveTo(0, 0);
+		context.lineTo(0, 100);
+		context.lineTo(100, 100);
+		context.lineTo(100, 0);
+		context.lineTo(0, 0);
 		context.stroke();
 	}
 	
 	context.strokeStyle = color;
 	
 	context.beginPath();
-	context.moveTo(oriX, oriY+(arrX[0].data[1]-arrY[0].data[1])*sfy);
+	context.moveTo(0, (arrX[0].data[1]-arrY[0].data[1])*sfy);
 	for(var i = 1; i < arrX.length; i++) {
-		context.lineTo(oriX+(arrX[i].data[0]-arrX[0].data[0])*sfx, oriY+(arrX[i].data[1]-arrY[0].data[1])*sfy);
+		context.lineTo((arrX[i].data[0]-arrX[0].data[0])*sfx, (arrX[i].data[1]-arrY[0].data[1])*sfy);
 	}
 	context.stroke();
 	
