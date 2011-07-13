@@ -134,7 +134,7 @@ function Simulation(name) {
 			this.context2.lineWidth=0.4;
 			c2.translate(w/2, h/2);
 			c2.scale(sf,-sf);
-			this.tabs[this.currentTab](this.scale, c2, w/sf, h/sf);
+			this.tabs[this.currentTab](this.state, c2, w/sf, h/sf);
 			c2.restore();
 		}
 	}

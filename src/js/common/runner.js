@@ -48,8 +48,8 @@ function run_simulation(sim) {
 
 		canvas2.id = "c2";
 		var h = canvas.height;
-		var h1 = Math.floor(canvas.height * 0.75);
-		var h2 = Math.round(canvas.height * 0.25);
+		var h1 = Math.floor(canvas.height * 0.66);
+		var h2 = Math.round(canvas.height * 0.34);
 		canvas.style.height = h1+"px";
 		canvas.height = h1;
 		sim.height = h1;
