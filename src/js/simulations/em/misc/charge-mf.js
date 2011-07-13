@@ -4,7 +4,7 @@ var simulation = new Simulation(simulation_name);
 simulation.dt = 20;
 simulation.description = "When a moving particle with an electric charge is subjected to a magnetic field, it accelerates in the direction of the cross product of the particles velocity and the magnetic field.  Thus if the particle is moving perpendicular to a constant magnetic field, it will curve in a circular path.";
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	//Some of these are state values because they pertain directly to the state and might be used in another tab
 	state.vel = new Vector(0, 10, 0);
 	state.charge = 1;
@@ -38,7 +38,7 @@ function init_state(state) {
 		
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.phi += state.phiStep;
