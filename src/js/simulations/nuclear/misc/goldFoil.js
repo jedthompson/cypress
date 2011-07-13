@@ -52,7 +52,7 @@ simulation.step = function(state) {
 		state.charges[i].pos = addV(state.charges[i].pos, state.charges[i].vel.scale(.001*simulation.dt));
 		if(state.charges[i].pos.data[0] > 80 || state.charges[i].pos.data[0] < -80 || state.charges[i].pos.data[1] > 80 || state.charges[i].pos.data[1] < -80) {
 			var theta = Math.atan2(state.charges[i].vel.data[1], state.charges[i].vel.data[0]);
-			state.history[Math.floor(theta*180/Math.PI/10+18)]++;
+			state.history[Math.round(theta*180/Math.PI/10+18)]++;
 			state.charges.splice(i, 1);
 		}
 	}
