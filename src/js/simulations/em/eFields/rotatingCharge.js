@@ -11,7 +11,7 @@ var FieldStep = function(x, y) {
 	this.r = 0;
 }
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.rad = 2.5;
 	state.phi = 0;
 	state.angVel = Math.PI*2;
@@ -27,7 +27,7 @@ function init_state(state) {
 	
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.phi += state.angVel*.001*simulation.dt;

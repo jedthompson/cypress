@@ -11,7 +11,7 @@ var Charge = function(x, y, ch) {
 	this.charge = ch;
 }
 
-function init_state(state) {
+simulation.init_state = function(state) {
 	state.pos = new Vector(-40, 0, 0);
 	state.vel = new Vector(10, 0, 0);
 	state.mass = 1;
@@ -33,7 +33,7 @@ function init_state(state) {
 	state.history[state.t] = state.pos;
 	return state;
 }
-simulation.state = init_state(simulation.state);
+simulation.state = simulation.init_state(simulation.state);
 
 function getForce(x, y, state) {
 	var force = new Vector(0, 0, 0);
@@ -54,7 +54,7 @@ simulation.step = function(state) {
 	state.history[state.t] = state.pos;
 	
 	if(state.pos.data[0] > 70 || state.pos.data[0] < -70 || state.pos.data[1] > 70 || state.pos.data[1] < -70) {
-		state = init_state(state);
+		state = simulation.init_state(state);
 	}
 	return state;
 }
