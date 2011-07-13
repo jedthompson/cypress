@@ -60,7 +60,7 @@ simulation.render2d = function(state, c, w, h) {
 	c.moveTo(p1.data[0],p1.data[1]);
 	var ydiff = p1.data[1] - p3.data[1];
 	var ydel = ydiff/state.nlines;
-	var yp = p1.data[1]
+	var yp = p1.data[1];
 	for (var i=0; i<=state.nlines; i++) {
 		//
 		// form new vectors that have new coordinates
@@ -90,10 +90,17 @@ simulation.render2d = function(state, c, w, h) {
 		//
 		// need to renormalize
 		//
-		var tnorm = (time1+time2)*50/timen;
-		c.beginPath();
-		c.arc(tnorm,yp,.5,0,2*Math.PI,false);
-		c.stroke();
+		var tnormNew = (time1+time2)*50/timen;
+		
+		if(tnorm != null) {
+			c.beginPath();
+			c.moveTo(tnorm, yp+ydel);
+			c.lineTo(tnormNew, yp);
+			c.stroke();
+		}
+		//c.arc(tnormNew,yp,.5,0,2*Math.PI,false);
+		
+		tnorm = tnormNew;
 //		c.font = "2pt Arial";
 //		c.text(time1,0,yp);
 //		c.text(time2,40,yp);
