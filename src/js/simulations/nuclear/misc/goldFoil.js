@@ -44,13 +44,13 @@ simulation.step = function(state) {
 	state.t++;
 	if(state.t%2==0) {
 		var y = Math.random()*50-25;
-		state.charges.push(new Charge(new Vector(-50, y, 0), state.initAlphaVel));
+		state.charges.push(new Charge(new Vector(-simulation.getWidth()/2, y, 0), state.initAlphaVel));
 	}
 	for(var i = 0; i < state.charges.length; i++) {
 		var acc = getForce(state.charges[i].pos.data[0], state.charges[i].pos.data[1], state).scale(1/state.alphaMass);
 		state.charges[i].vel = addV(state.charges[i].vel, acc.scale(.001*simulation.dt));
 		state.charges[i].pos = addV(state.charges[i].pos, state.charges[i].vel.scale(.001*simulation.dt));
-		if(state.charges[i].pos.data[0] > 80 || state.charges[i].pos.data[0] < -80 || state.charges[i].pos.data[1] > 80 || state.charges[i].pos.data[1] < -80) {
+		if(state.charges[i].pos.data[0] > simulation.getWidth() || state.charges[i].pos.data[0] < -simulation.getWidth() || state.charges[i].pos.data[1] > simulation.getHeight() || state.charges[i].pos.data[1] < -simulation.getHeight()) {
 			var theta = Math.atan2(state.charges[i].vel.data[1], state.charges[i].vel.data[0]);
 			state.history[Math.floor(theta*180/Math.PI/10+18)]++;
 			state.charges.splice(i, 1);
@@ -84,3 +84,4 @@ simulation.renderGraph = function(state, c, w, h) {
 }
 
 simulation.addTab("Graph", simulation.renderGraph);
+
