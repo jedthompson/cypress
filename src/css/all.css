@@ -14,6 +14,16 @@ canvas#c {
 	height:100%;
 }
 
+canvas#c2 {
+	position: absolute;
+	z-index: 10;
+	margin: 0;
+	padding: 0;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+}
+
 div#description {
 	z-index: 5;
 	margin: 0;

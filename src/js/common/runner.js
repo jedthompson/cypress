@@ -40,10 +40,39 @@ function run_simulation(sim) {
 	description = document.getElementById("description");
 	description.innerHTML = sim.description;
 
+	// add a downstairs canvas if the display is big enough
+	if (canvas.height > 400 && !sim.forceNoDoubleTab) {
+		// prepare a second canvas
+		var canvas2 = document.createElement('canvas');
+		content.appendChild(canvas2);
+
+		canvas2.id = "c2";
+		var h = canvas.height;
+		var h1 = Math.floor(canvas.height * 0.75);
+		var h2 = Math.round(canvas.height * 0.25);
+		canvas.style.height = h1+"px";
+		canvas.height = h1;
+		sim.height = h1;
+		canvas2.style.height = h2+"px";
+		canvas2.style.top = h1;
+		canvas2.height = h2;
+		
+		sim.currentTab = "Description";
+		sim.doubleTab = true;
+		sim.canvas2 = canvas2;
+		canvas2.width = canvas.width;
+
+		var desc = document.getElementById("description");
+		desc.height = h2;
+		desc.style.height = h2;
+		desc.style.top = h1;
+	} else sim.doubleTab = false;
+
 	// set up the tabs
 	tabsDiv = document.getElementById("tabs");
 	for (var t in sim.tabs) {
-		tabsDiv.appendChild(createTab(t));
+		if (!sim.doubleTab || t != 'Simulation')
+			tabsDiv.appendChild(createTab(t));
 	}
 	// add the pause/run/reset buttons
 	{

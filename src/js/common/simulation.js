@@ -84,6 +84,9 @@ function Simulation(name) {
 			state = this.setup(this.state);
 		}
 
+		canvas2 = this.canvas2;
+		this.context2 = canvas2.getContext("2d");
+
 		this.run();
 	}
 
@@ -108,8 +111,32 @@ function Simulation(name) {
 		this.context.lineWidth=0.4;
 		c.translate(w/2, h/2);
 		c.scale(sf,-sf);
-		this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
+		if(sim.doubleTab) {
+			this.tabs["Simulation"](this.state, c, w/sf, h/sf);
+		} else
+			this.tabs[this.currentTab](this.state, c, w/sf, h/sf);
 		c.restore();
+		
+		if(sim.doubleTab) {
+			// render the second tab
+			c2 = this.context2;
+			var w = this.canvas2.width;
+			var h = this.canvas2.height;
+			var _w = w;
+			var _h = h;
+			sf = (w>h)?(h/100):(w/100);
+			c2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+			c2.fillStyle='white';
+			c2.fillRect(0, 0, this.canvas2.width, this.canvas2.height);
+			c2.fillStyle='black';
+			
+			c2.save();
+			this.context2.lineWidth=0.4;
+			c2.translate(w/2, h/2);
+			c2.scale(sf,-sf);
+			this.tabs[this.currentTab](this.scale, c2, w/sf, h/sf);
+			c2.restore();
+		}
 	}
 	
 	this.getWidth = function () {
