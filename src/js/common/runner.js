@@ -77,6 +77,7 @@ function run_simulation(sim) {
 		
 		function restart() {
 			sim.state = sim.init_state(sim.state);
+			cont();
 		}
 		rstrt.onclick = restart;
 	}
