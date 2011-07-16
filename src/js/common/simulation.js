@@ -64,11 +64,11 @@ function Simulation(name) {
 		if (this.render3d != null) {
 			// try to set up webgl
 			this.gl = null;
-			try {
-				var glcanvas = document.getElementById("glcanvas");
-				this.gl = glcanvas.getContext("experimental-webgl");
-			} catch (e) {
-			}
+			if (window.WebGLRenderingContext)
+				try {
+					var glcanvas = document.getElementById("glcanvas");
+					this.gl = glcanvas.getContext("experimental-webgl");
+				} catch (e) {}
 			if (this.gl != null) {
 				// use 3d rendering
 				this.renderSimulation = this.renderSimulation3d;
