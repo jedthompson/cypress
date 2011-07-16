@@ -7,14 +7,38 @@ simulation.description="Here we can see Snell's law from the principle of least 
 simulation.init_state = function(state) {
 	state.start1 = new Vector(10,-20);
 	state.start2 = new Vector(-10,20);
-	state.vel1 = 1.5;
-	state.vel2 = 1;
+	state.n=state["nSlider"];
+	state.vel1 = 1;
+	state.vel2 = state.n * state.vel1;
 	state.nlines = 20;
 	state.curPath = null;
+	state.plot = [];
+	for(var i = 0; i < state.nlines; i++) {
+		state.plot[i] = 0;
+	}
+
+
 	return state;
 }
 
-simulation.state = simulation.init_state(simulation.state);
+// Set up the widgets
+simulation.setup = function(state) {
+	state["nSlider"] = 1.5;
+	state.settingsWidgets = [];
+	state.settingsWidgets[0] = new Slider(-30, 20, 60, 2, "nSlider", 1, 5);
+	
+	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
+	
+	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
+		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
+		state.n = state["nSlider"];
+		state = simulation.init_state(simulation.state);
+		return state;
+	}
+	
+	state = simulation.init_state(simulation.state);
+	return state;
+}
 
 
 simulation.step = function(state) {
@@ -24,35 +48,34 @@ simulation.step = function(state) {
 simulation.render2d = function(state, c, w, h) {
 	c.strokeStyle="#000";
 	//
-	// put a box around the boundary, divide it in half vertically
+	// put a box around the boundary, divide it in half vertically.  leave 10 on the top
+	// and 10 on the bottom so that the rectangle has width w/2 and height h-20.   demark the
+	// two regions by drawing a vertical line dividing the box by 2 horizontally
 	//
 	c.beginPath();
-	c.moveTo(-w/2,h/2-10);
-	c.lineTo(-w/2,-h/2+10);
-	c.stroke();
-	c.lineTo(0,-h/2+10);
-	c.stroke();
-	c.lineTo(0,h/2-10);
-	c.stroke();
-	c.lineTo(-w/2,h/2-10);
-	c.stroke();
+	c.strokeRect(-w/2,-h/2+10,w/2,h-20);
 	c.moveTo(-w/4,h/2-10);
 	c.lineTo(-w/4,-h/2+10);
 	c.stroke();
 	//
-	// now put circles at the starting location in the two volumes
+	// now put circles at the starting location in the two volumes and printout velocities 
+	// p1 and p3 are the coordinate vectors for the two points respectively
 	//
-	var p1 = new Vector(-w/2+state.start1.data[0],h/2+state.start1.data[1]);
-	var p3 = new Vector(state.start2.data[0],-h/2+state.start2.data[1]);
-	var distn = Math.sqrt( (p3.data[0]-p1.data[0])*(p3.data[0]-p1.data[0]) +
-							(p3.data[1]-p1.data[1])*(p3.data[1]-p1.data[1]) );
-	var timen = distn/state.vel2;
 	c.beginPath();
+	var p1 = new Vector(-w/2+state.start1.data[0],h/2+state.start1.data[1]);
 	c.arc(p1.data[0],p1.data[1],1,0,2*Math.PI,false);
 	c.stroke();
 	c.beginPath();
+	var p3 = new Vector(state.start2.data[0],-h/2+state.start2.data[1]);
 	c.arc(p3.data[0],p3.data[1],1,0,2*Math.PI,false);
 	c.stroke();
+	c.text("v="+round(state.vel1,2),p1.data[0],p1.data[1]+3);
+	c.text("v="+round(state.vel2,2),p3.data[0],p3.data[1]+3);
+	//
+	// a few definitions, for convenience.   
+	var distn = Math.sqrt( (p3.data[0]-p1.data[0])*(p3.data[0]-p1.data[0]) +
+							(p3.data[1]-p1.data[1])*(p3.data[1]-p1.data[1]) );
+	var timen = distn/state.vel2;
 	//
 	// now draw some lines that connect the two, but don't make them straight!
 	//
@@ -69,7 +92,7 @@ simulation.render2d = function(state, c, w, h) {
 		//
 		// start at the left object and draw a line to the center at various y values
 		//
-		c.beginPath();
+//		c.beginPath();
 		c.moveTo(p1.data[0],p1.data[1]);
 		c.lineTo(p2.data[0],p2.data[1]);
 		c.stroke();
@@ -79,7 +102,7 @@ simulation.render2d = function(state, c, w, h) {
 		//
 		// now draw a line to the 2nd object on the right
 		//
-		c.beginPath();
+//		c.beginPath();
 		c.moveTo(p2.data[0],p2.data[1]);
 		c.lineTo(p3.data[0],p3.data[1]);
 		c.stroke();
@@ -137,6 +160,12 @@ simulation.render2d = function(state, c, w, h) {
 	}
 }
 
+// Like render2d, but for the settings tab. We just outsource this to the
+// widgets library.
+simulation.renderSettings = function(state, c, w, h) {
+	renderWidgets(state.settingsWidgets, c, state);
+}
+
 simulation.tabs["Simulation"].mouseUp = function(x, y, state, ev) {
 	state.curPath = null;
 	return state;
@@ -167,3 +196,15 @@ simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 	return state;
 }
 
+/*
+simulation.renderGraph = function(state, c, w, h) {
+	var arr = [];
+	for(var i = 0; i < 360/10; i++) {
+		var v = new Vector(i, state.history[i]);
+		arr.push(v);
+	}
+	drawGraph(new Vector(-40, -40), new Vector(40, 40), c, arr, true, "#000", 17, 20);
+}
+
+simulation.addTab("Graph", simulation.renderGraph);
+*/
