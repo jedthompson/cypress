@@ -139,15 +139,15 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 	//this.device = _platform;
 	if(!min) {
 		this.min = 0;
-	}else {
+	} else {
 		this.min = min;
 	}
 	if(!max) {
 		this.max = 1;
-	}else {
+	} else {
 		this.max = max;
 	}
-	renderIOS = function(context, state) {
+	this.renderIOS = function(context, state) {
 		var xTL = x;
 		var yTL = y;
 		var len = width;
@@ -167,45 +167,55 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		ctx.image(window.images["IOSSliderWhite"], (480-pLen+pCurLen), 0, pLen-pCurLen, 9, xTL+(curPos*len), yTL, (len-curPos*len), 9/4.8);
 		ctx.image(window.images["IOSSliderCenter"], xTL+(curPos*len)-12/4.8, yTL-(7/4.8), 23/4.8, 23/4.8);
 	}
-	
-	var listener = new Object ();
-		listener.mouseUp = function(xev, yev, state, evnt) {
-			//TODO MouseUp code here
-			if(isTracking) {
-				isTracking = false;
-			}
-			return state;
-		}
-		
-		listener.mouseDown = function(xev, yev, state, evnt) {
-			//TODO MouseDown code here
-			var curPos = state[dataLoc]/(max-min);
-			var dist = Math.sqrt(Math.pow(x+width*curPos-xev, 2) + Math.pow(y+4.5/4.8-yev, 2));
-			if(dist < 11.5/4.8) {
-				xTrack = x+width*curPos-xev;
-				isTracking = true;
-			}
-			return state;
-		}
-		
-		listener.mouseMove = function(xev, yev, state, evnt) {
-			//TODO MouseMove code here
-			if(isTracking) {
-				var pos = ((xev+xTrack-x)/width)*(max-min);
-				if(pos >= min && pos <= max) {
-					state[dataLoc] = pos;
-				}else if(pos < min) {
-					state[dataLoc] = min;
-				}else {
-					state[dataLoc] = max;
-				}
-			}
-			//state.widgetData[dataLoc] = x;
-			return state;
-		}
-	if(_platform == "IOS") {
-		widget = new Widget(x, y, width, height, dataLoc, renderIOS, listener);
+	this.renderDefault = function(c, state) {
+		var curPos = state[dataLoc]/(max-min)
+		if (curPos > 1) {curPos = 1;}
+		if (curPos < 0) {curPos = 0;}
+		c.beginPath();
+		c.moveTo(-width/2, 0);
+		c.lineTo(width/2, 0);
+		c.stroke();
+		c.beginPath();
+		c.fillRect(-2 - width/2 + curPos*width, -3, 4, 6);
+		c.stroke();
 	}
+	
+	var listener = {};
+	listener.mouseUp = function(xev, yev, state, evnt) {
+		if(isTracking) {
+			isTracking = false;
+		}
+		return state;
+	}
+	
+	listener.mouseDown = function(xev, yev, state, evnt) {
+		var curPos = state[dataLoc]/(max-min);
+		var dist = Math.sqrt(Math.pow(x+width*curPos-xev, 2) + Math.pow(y+4.5/4.8-yev, 2));
+		if(dist < 11.5/4.8) {
+			xTrack = x+width*curPos-xev;
+			isTracking = true;
+		}
+		return state;
+	}
+	
+	listener.mouseMove = function(xev, yev, state, evnt) {
+		if(isTracking) {
+			var pos = ((xev+xTrack-x)/width)*(max-min);
+			if(pos >= min && pos <= max) {
+				state[dataLoc] = pos;
+			}else if(pos < min) {
+				state[dataLoc] = min;
+			}else {
+				state[dataLoc] = max;
+			}
+		}
+		//state.widgetData[dataLoc] = x;
+		return state;
+	}
+	if(_platform == "IOS") {
+		widget = new Widget(x, y, width, height, dataLoc, this.renderIOS.bind(this), listener);
+	} else 
+		widget = new Widget(x, y, width, height, dataLoc, this.renderDefault.bind(this), listener);
 	return widget;
 }
 
