@@ -168,7 +168,7 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		ctx.image(window.images["IOSSliderCenter"], xTL+(curPos*len)-12/4.8, yTL-(7/4.8), 23/4.8, 23/4.8);
 	}
 	this.renderDefault = function(c, state) {
-		var curPos = state[dataLoc]/(max-min)
+		var curPos = (state[dataLoc]-min)/(max-min);
 		if (curPos > 1) {curPos = 1;}
 		if (curPos < 0) {curPos = 0;}
 		c.beginPath();
@@ -193,8 +193,7 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 	}
 	listener.mouseMove = function(xev, yev, state, evnt) {
 		if(isTracking) {
-			//var pos = ((xev+xTrack-this.x)/width)*(max-min);
-			var pos = (xev - x) * ((max-min)/width);
+			var pos = (xev - x) * ((max-min)/width) + min;
 			if(pos >= min && pos <= max) {
 				state[dataLoc] = pos;
 			} else if(pos < min) {
