@@ -188,14 +188,13 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		return state;
 	}
 	listener.mouseDown = function(xev, yev, state, evnt) {
-		var curPos = state[dataLoc]/(max-min);
-		xTrack = x+width*curPos-xev;
 		isTracking = true;
 		return state;
 	}
 	listener.mouseMove = function(xev, yev, state, evnt) {
 		if(isTracking) {
-			var pos = ((xev+xTrack-x)/width)*(max-min);
+			//var pos = ((xev+xTrack-this.x)/width)*(max-min);
+			var pos = (xev - x) * ((max-min)/width);
 			if(pos >= min && pos <= max) {
 				state[dataLoc] = pos;
 			} else if(pos < min) {
