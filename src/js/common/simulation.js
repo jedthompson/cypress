@@ -83,6 +83,8 @@ function Simulation(name) {
 		if(this.setup != null) {
 			state = this.setup(this.state);
 		}
+		_w = this.width;
+		_h = this.height;
 
 		canvas2 = this.canvas2;
 		canvas2.addEventListener('mousedown', mouseDownListener2.bind(this), false);
