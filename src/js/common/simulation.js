@@ -170,8 +170,8 @@ function Simulation(name) {
 		var absY = ev.clientY - this.canvas.offsetTop;
 		var x = absX/sf;
 		var y = absY/sf;
-		x = x-w/(2*sf);
-		y = -(y-h/(2*sf));
+		x = (x-w/(2*sf))*2;
+		y = -(y-h/(2*sf))*2;
 		this.state = f(x, y, this.state, ev, this.canvas);
 	}
 
