@@ -110,6 +110,8 @@ function Simulation(name) {
 		this.context.fillStyle='white';
 		this.context.fillRect(0, 0, this.width, this.height);
 		this.context.fillStyle='black';
+		this.context.width = w;
+		this.context.height = h;
 
 		c = this.context;
 		c.save();
@@ -129,6 +131,8 @@ function Simulation(name) {
 			var h = this.canvas2.height;
 			var _w = w;
 			var _h = h;
+			c2.width = w;
+			c2.height = h;
 			sf = (w>h)?(h/100):(w/100);
 			c2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
 			c2.fillStyle='white';
