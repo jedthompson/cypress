@@ -25,11 +25,12 @@ function Simulation(name) {
 	this.rendergl = null;
 	this.renderSettings = null;
 	this.mouseDown = null;
+	this.gl = null;
 
 	this.renderSimulation = function (s, c, w, h) {
-		if (this.render2d != null) {
+		if (this.render2d != null && this.gl == null) {
 			this.render2d(s, c, w, h);
-		}
+		} else this.renderSimulation3d(s, c, w, h);
 	}
 	this.renderSimulation3d = function (s, c, w, h) {
 		this.render3d(s, this.gl, w, h);
@@ -63,7 +64,6 @@ function Simulation(name) {
 		canvas = this.canvas;
 		if (this.render3d != null) {
 			// try to set up webgl
-			this.gl = null;
 			if (window.WebGLRenderingContext)
 				try {
 					var glcanvas = document.getElementById("glcanvas");
