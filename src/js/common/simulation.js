@@ -85,6 +85,9 @@ function Simulation(name) {
 		}
 
 		canvas2 = this.canvas2;
+		canvas2.addEventListener('mousedown', mouseDownListener2.bind(this), false);
+		canvas2.addEventListener('mouseup', mouseUpListener2.bind(this), false);
+		canvas2.addEventListener('mousemove', mouseMoveListener2.bind(this), false);
 		this.context2 = canvas2.getContext("2d");
 
 		this.run();
@@ -168,19 +171,47 @@ function Simulation(name) {
 	function mouseDownListener(ev) {
 		if (this.mouseDown != null)
 			this.callMouseFunc(this.mouseDown,ev);
-		if(this.tabs[this.currentTab].mouseDown != null)
+		if(!sim.doubleTab && this.tabs[this.currentTab].mouseDown != null)
 			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev);
+		else if(this.tabs[this.currentTab].mouseDown != null)
+			this.callMouseFunc(this.tabs["Simulation"].mouseDown, ev);
 	}
 	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener(ev) {
 		if (this.mouseUp != null)
 			this.callMouseFunc(this.mouseUp,ev);
+		if(!sim.doubleTab && this.tabs[this.currentTab].mouseUp != null)
+			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev);
+		else if(this.tabs[this.currentTab].mouseUp != null)
+			this.callMouseFunc(this.tabs["Simulation"].mouseUp, ev);
+	}
+	
+	function mouseMoveListener(ev) {
+		if (this.mouseMove != null)
+			this.callMouseFunc(this.mouseMove,ev);
+		if(!sim.doubleTab && this.tabs[this.currentTab].mouseMove != null)
+			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev);
+		else if(this.tabs[this.currentTab].mouseMove != null)
+			this.callMouseFunc(this.tabs["Simulation"].mouseMove, ev);
+	}
+
+	function mouseDownListener2(ev) {
+		if (this.mouseDown != null)
+			this.callMouseFunc(this.mouseDown,ev);
+		if(this.tabs[this.currentTab].mouseDown != null)
+			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev);
+	}
+	//this.mouseDownListener = mouseDownListener.bind(this);
+
+	function mouseUpListener2(ev) {
+		if (this.mouseUp != null)
+			this.callMouseFunc(this.mouseUp,ev);
 		if(this.tabs[this.currentTab].mouseUp != null)
 			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev);
 	}
 	
-	function mouseMoveListener(ev) {
+	function mouseMoveListener2(ev) {
 		if (this.mouseMove != null)
 			this.callMouseFunc(this.mouseMove,ev);
 		if(this.tabs[this.currentTab].mouseMove != null)
