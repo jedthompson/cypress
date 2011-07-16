@@ -28,6 +28,7 @@ function Simulation(name) {
 
 	this.renderSimulation = function (s, c, w, h) {
 		if (this.render2d != null) {
+			c.font = "20pt arial";
 			this.render2d(s, c, w, h);
 		}
 	}
