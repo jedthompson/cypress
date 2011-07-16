@@ -224,3 +224,4 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 // Add a tab named "force diagram" to the simulation, using renderForceDiagram
 // as the renderer.
 simulation.addTab('Force Diagram', simulation.renderForceDiagram);
+

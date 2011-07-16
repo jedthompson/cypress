@@ -179,7 +179,7 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		c.fillRect(-2 - width/2 + curPos*width, -3, 4, 6);
 		c.stroke();
 	}
-	
+
 	var listener = {};
 	listener.mouseUp = function(xev, yev, state, evnt) {
 		if(isTracking) {
@@ -187,8 +187,35 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		}
 		return state;
 	}
-	
 	listener.mouseDown = function(xev, yev, state, evnt) {
+		var curPos = state[dataLoc]/(max-min);
+		xTrack = x+width*curPos-xev;
+		isTracking = true;
+		return state;
+	}
+	listener.mouseMove = function(xev, yev, state, evnt) {
+		if(isTracking) {
+			var pos = ((xev+xTrack-x)/width)*(max-min);
+			if(pos >= min && pos <= max) {
+				state[dataLoc] = pos;
+			} else if(pos < min) {
+				state[dataLoc] = min;
+			} else {
+				state[dataLoc] = max;
+			}
+		}
+		return state;
+	}
+	
+	var iOSListener = {};
+	iOSListener.mouseUp = function(xev, yev, state, evnt) {
+		if(isTracking) {
+			isTracking = false;
+		}
+		return state;
+	}
+	
+	iOSListener.mouseDown = function(xev, yev, state, evnt) {
 		var curPos = state[dataLoc]/(max-min);
 		var dist = Math.sqrt(Math.pow(x+width*curPos-xev, 2) + Math.pow(y+4.5/4.8-yev, 2));
 		if(dist < 11.5/4.8) {
@@ -198,22 +225,22 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		return state;
 	}
 	
-	listener.mouseMove = function(xev, yev, state, evnt) {
+	iOSListener.mouseMove = function(xev, yev, state, evnt) {
 		if(isTracking) {
 			var pos = ((xev+xTrack-x)/width)*(max-min);
 			if(pos >= min && pos <= max) {
 				state[dataLoc] = pos;
-			}else if(pos < min) {
+			} else if(pos < min) {
 				state[dataLoc] = min;
-			}else {
+			} else {
 				state[dataLoc] = max;
 			}
 		}
 		//state.widgetData[dataLoc] = x;
 		return state;
 	}
-	if(_platform == "IOS") {
-		widget = new Widget(x, y, width, height, dataLoc, this.renderIOS.bind(this), listener);
+	if(_platform == "iOS") {
+		widget = new Widget(x, y, width, height, dataLoc, this.renderIOS.bind(this), iOSListener);
 	} else 
 		widget = new Widget(x, y, width, height, dataLoc, this.renderDefault.bind(this), listener);
 	return widget;
