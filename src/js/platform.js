@@ -1,5 +1,5 @@
 _platform = "unknown";
-if(navigator.userAgent.match(/like Mac OS X/i)) {_platform = "IOS";}
+if(navigator.userAgent.match(/like Mac OS X/i)) {_platform = "iOS";}
 
 window.images = {}
 window.resources = {
