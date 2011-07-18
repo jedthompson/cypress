@@ -172,15 +172,24 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		if (curPos > 1) {curPos = 1;}
 		if (curPos < 0) {curPos = 0;}
 		c.beginPath();
-		c.strokeRect(-width/2,-height/2,width,height);
-//		c.moveTo(-width/2, 0);
-//		c.lineTo(width/2, 0);
+		//
+		// slider is a rectangle for now
+		//
+		c.strokeRect(this.x,this.y,this.width,this.height);
+//		c.strokeRect(-width/2,-height/2,width,height);
+///		c.moveTo(-width/2, 0);
+///		c.lineTo(width/2, 0);
 		c.stroke();
 		c.beginPath();
-		c.fillRect(-2 - width/2 + curPos*width, -3, 4, 6);
+		//
+		// this is the part you grab onto...
+		//
+//		c.fillRect(-2 - width/2 + curPos*width, -3, 4, 6);
+		c.fillRect(this.x + curPos*width, this.y-3, 4, 6);
 		c.stroke();
 		c.font = "20pt Arial";
-		c.text(round(state[dataLoc],1),width/2+5,0);
+//		c.text(round(state[dataLoc],1),width/2+5,0);
+		c.text(round(state[dataLoc],1),this.x + this.width+5,this.y);
 	}
 
 	var listener = {};
