@@ -9,14 +9,15 @@ simulation.description = "In this simulation, one can see how waves add.  The fi
 simulation.init_state = function(state) {
 	state.phase1 = 0;    // initialize to zero
 	state.amp1 = 10;     // initialize amplitude
-	state.vel1 = 4;
+	state.vel1=state["v1Slider"];
+	state.wavelength1 = state["l1Slider"];
 	state.wavelength1 = 20;
 	state.ypos1 = 30;
 
 	state.phase2 = 0;    // initialize to zero
 	state.amp2 = state.amp1;     // initialize amplitude
-	state.vel2 = -state.vel1;
-	state.wavelength2 = state.wavelength1;
+	state.vel2 = -4;
+	state.wavelength2 = 20;
 	state.ypos2 = 0;
     
     state.ypos3 = -30;
@@ -24,7 +25,34 @@ simulation.init_state = function(state) {
     state.scale = 10.   // this "slows" things down so it looks nicer
 	return state;
 }
-simulation.state = simulation.init_state(simulation.state);
+
+//
+// Set up the widgets.  Here we make a slider to vary the index of refraction in the 2nd region
+//
+simulation.setup = function(state) {
+	state["v1Slider"] = 4;
+	state["l1Slider"] = 40;
+	state.settingsWidgets = [];
+//	state.sliderv = new Slider(-30, 40, 60, 2, "v1Slider", 1, 10);
+//	state.sliderl = new Slider(-30, 20, 60, 2, "l1Slider", 10, 50);
+	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "v1Slider", 1, 10);
+	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "l1Slider", 10, 50);
+	
+	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
+	
+	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
+		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
+		state.vel1 = state["v1Slider"];
+		state.wavelength1 = state["l1Slider"];
+		state = simulation.init_state(simulation.state);
+		return state;
+	}
+	
+	state = simulation.init_state(simulation.state);
+	return state;
+}
+
+//simulation.state = simulation.init_state(simulation.state);
 
 simulation.step = function(state) {
 	state.phase1 += 2*Math.PI * (simulation.dt*0.001)*state.vel1/state.wavelength1;
@@ -72,5 +100,13 @@ simulation.render2d = function(state, c, w, h) {
        c.stroke();       
 	}
     
+}
+
+// Like render2d, but for the settings tab. We just outsource this to the
+// widgets library.
+simulation.renderSettings = function(state, c, w, h) {
+	renderWidgets(state.settingsWidgets, c, state);
+//	renderWidgets(state.sliderv, c, state);
+//	renderWidgets(state.sliderl, c, state);
 }
 
