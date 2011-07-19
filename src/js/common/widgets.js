@@ -21,9 +21,18 @@ function Widget(x, y, width, height, dataLoc, render, listener) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseDown(xpos, ypos, state, evnt, widgets) {
+	var dmin = 100;
+	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
-		state = widgets[i].listener.mouseDown(xpos, ypos, state, evnt);
+	    var widgetPosY = widgets[i].y;
+	    var mousePosY = ypos;
+	    adist = Math.abs( widgetPosY - mousePosY );
+	    if ( adist < dmin) {
+	    	dmin = adist;
+	    	iwidget = i;
+	    }
 	}
+	if (iwidget > -1) widgets[iwidget].listener.mouseDown(xpos, ypos, state, evnt);
 	return state;
 }
 
@@ -39,11 +48,22 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseUp(xpos, ypos, state, evnt, widgets) {
+	var dmin = 100;
+	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
-		state = widgets[i].listener.mouseUp(xpos, ypos, state, evnt);
+	    var widgetPosY = widgets[i].y;
+	    var mousePosY = ypos;
+	    adist = Math.abs( widgetPosY - mousePosY );
+	    if ( adist < dmin) {
+	    	dmin = adist;
+	    	iwidget = i;
+	    }
 	}
+	if (iwidget > -1) state = widgets[iwidget].listener.mouseUp(xpos, ypos, state, evnt);
 	return state;
 }
+
+
 
 /**
  * Handles widget interaction for mouseMove events.
@@ -57,9 +77,18 @@ function handleMouseUp(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseMove(xpos, ypos, state, evnt, widgets) {
+	var dmin = 100;
+	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
-		state = widgets[i].listener.mouseMove(xpos, ypos, state, evnt);
+	    var widgetPosY = widgets[i].y;
+	    var mousePosY = ypos;
+	    adist = Math.abs( widgetPosY - mousePosY );
+	    if ( adist < dmin) {
+	    	dmin = adist;
+	    	iwidget = i;
+	    }
 	}
+	if (iwidget > -1) state = widgets[iwidget].listener.mouseMove(xpos, ypos, state, evnt);
 	return state;
 }
 
@@ -175,7 +204,7 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		//
 		// slider is a rectangle for now
 		//
-		c.strokeRect(this.x,this.y,this.width,this.height);
+		c.strokeRect(this.x,this.y-this.height/2,this.width,this.height);
 //		c.strokeRect(-width/2,-height/2,width,height);
 ///		c.moveTo(-width/2, 0);
 ///		c.lineTo(width/2, 0);

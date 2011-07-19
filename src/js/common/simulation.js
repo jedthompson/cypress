@@ -81,6 +81,7 @@ function Simulation(name) {
 		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
 		canvas.addEventListener('mouseup', mouseUpListener.bind(this), false);
 		canvas.addEventListener('mousemove', mouseMoveListener.bind(this), false);
+		canvas.addEventListener('mouseover', function() {curElem = false;}, false);
 		if(this.setup != null) {
 			state = this.setup(this.state);
 		}
@@ -91,6 +92,7 @@ function Simulation(name) {
 		canvas2.addEventListener('mousedown', mouseDownListener2.bind(this), false);
 		canvas2.addEventListener('mouseup', mouseUpListener2.bind(this), false);
 		canvas2.addEventListener('mousemove', mouseMoveListener2.bind(this), false);
+		canvas2.addEventListener('mouseover', function() {curElem = true;}, false);
 		this.context2 = canvas2.getContext("2d");
 
 		this.run();
@@ -163,16 +165,20 @@ function Simulation(name) {
 	var canvas = this.canvas;
 
 	this.callMouseFunc = function(f, ev) {
+		if (!curElem)
+			elem = this.canvas;
+		else
+			elem = this.canvas2;
 		w = this.width;
 		h = this.height;
 		sf = (w>h)?(h/100):(w/100);
-		var absX = ev.clientX - this.canvas.offsetLeft;
-		var absY = ev.clientY - this.canvas.offsetTop;
+		var absX = ev.clientX - elem.offsetLeft;
+		var absY = ev.clientY - elem.offsetTop;
 		var x = absX/sf;
 		var y = absY/sf;
 		x = (x-w/(2*sf))*2;
-		y = -(y-h/(2*sf))*2;
-		this.state = f(x, y, this.state, ev, this.canvas);
+		y = -(y-h/(2*sf))*2 - 50;
+		this.state = f(x, y, this.state, ev, elem);
 	}
 
 	function mouseDownListener(ev) {
