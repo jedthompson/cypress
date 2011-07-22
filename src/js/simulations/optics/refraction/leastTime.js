@@ -1,7 +1,7 @@
 var simulation_name = "Principle of Least Time";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 20;
+simulation.dt = 200;
 simulation.description="Here we can see Snell's law from the principle of least time";
 
 simulation.init_state = function(state) {
@@ -17,7 +17,7 @@ simulation.init_state = function(state) {
 		state.plot[i] = 0;
 	}
 
-
+	state.vars = [];
 	return state;
 }
 //
@@ -55,6 +55,9 @@ simulation.render2d = function(state, c, w, h) {
 	// two regions by drawing a vertical line dividing the box by 2 horizontally
 	//
 	c.beginPath();
+	c.strokeStyle = "#d0d";
+	c.strokeRect(-w/2,-h/2,w,h);
+	c.beginPath();
 	c.strokeStyle = "#000";
 	c.strokeRect(-w/2,-h/2+10,w/4,h-20);
 	c.strokeStyle = "#00f";
@@ -78,18 +81,23 @@ simulation.render2d = function(state, c, w, h) {
 	var p1 = new Vector(-w/2+state.start1.data[0],h/2+state.start1.data[1]);
 	c.arc(p1.data[0],p1.data[1],1,0,2*Math.PI,false);
 	c.stroke();
-	c.text("v="+round(state.vel1,2),p1.data[0],p1.data[1]+3);
+	c.text("n=1",p1.data[0],p1.data[1]+3);
+//	c.text("v="+round(state.vel1,2),p1.data[0],p1.data[1]+3);
 	c.beginPath();
 	c.strokeStyle = "#00f";
 	var p3 = new Vector(state.start2.data[0],-h/2+state.start2.data[1]);
 	c.arc(p3.data[0],p3.data[1],1,0,2*Math.PI,false);
-	c.text("v="+round(state.vel2,2),p3.data[0],p3.data[1]+3);
+//	c.text("v="+round(state.vel2,2),p3.data[0],p3.data[1]+3);
+	c.text("n="+round(state.n,2),p3.data[0],p3.data[1]+3);
 	c.stroke();
 	//
 	// a few definitions, for convenience.
 	//
 	var dTx = p1.data[0]-p3.data[0];
 	var dTy = p1.data[1]-p3.data[1];
+	//
+	// printout stuff used in the curPath calculation
+	//
 /*	c.text("dx="+round(dTx,1),p1.data[0],p3.data[1]+20);
 	c.text("dy="+round(dTy,1),p1.data[0],p3.data[1]+15);
 	c.text("w="+round(w,1),p1.data[0],p3.data[1]+10);
@@ -97,7 +105,8 @@ simulation.render2d = function(state, c, w, h) {
 	c.text("x1="+round(p1.data[0],1),p1.data[0],p1.data[1]+13);
 	c.text("y1="+round(p1.data[1],1),p1.data[0]+15,p1.data[1]+13);
 	c.text("x2="+round(p3.data[0],1),p3.data[0],p1.data[1]+13);
-	c.text("y2="+round(p3.data[1],1),p3.data[0]+15,p1.data[1]+13);*/
+	c.text("y2="+round(p3.data[1],1),p3.data[0]+15,p1.data[1]+13);
+*/
 	var distn = Math.sqrt( dTx*dTx + dTy*dTy );
 	var timen = distn/state.vel2;
 	//
@@ -136,10 +145,16 @@ simulation.render2d = function(state, c, w, h) {
 		var d2y = p3.data[1]-p2.data[1];
 		var d2 = Math.sqrt( d2x*d2x + d2y*d2y );
 		var time2 = d2/state.vel2;
+//		var n1sint1 = d1y/d1;
+//		var n2sint2 = state.n*d2y/d2;
+//		var dsnell = n1sint1 - n2sint2;
+		
+//		state.plot[i] = new Vector(yp,time2);
 		//
 		// now plot out the function to see if the principle of least time holds
 		// note:  first we need to renormalize so it fits
 		//
+//		c.text(round(dsnell,2),30,yp);
 		var tnormNew = (time1+time2)*50/timen;
 		
 		if(tnorm != null) {
@@ -160,8 +175,19 @@ simulation.render2d = function(state, c, w, h) {
 */
 		yp -= ydel;
 	}
+	
 	if(state.curPath != null) {
-		c.strokeStyle = "#f00";
+/*		c.strokeStyle = "#f00";
+		c.text(round(state.curPath,1),0,40);
+		c.text("gw="+round(state.vars[0],1),0,35);
+		c.text("x="+round(state.vars[1],1),0,30);
+		c.text("gh="+round(state.vars[2],1),0,25);
+		c.text("y="+round(state.vars[3],1),0,20);
+		c.text("s1="+round(state.start1.data[0],1),0,15);
+		c.text(","+round(state.start1.data[1],1),15,15);
+		c.text("s2="+round(state.start2.data[0],1),0,10);
+		c.text(","+round(state.start2.data[1],1),15,10);
+*/
 		var p2 = new Vector(-w/4,state.curPath);
 		//
 		// start at the left object and draw a line to the center at various y values
@@ -202,17 +228,26 @@ simulation.tabs["Simulation"].mouseUp = function(x, y, state, ev) {
 }
 
 simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
+	state.vars[0] = simulation.getWidth()/4;
+	state.vars[1] = x;
+	state.vars[2] = simulation.getHeight()/2;
+	state.vars[3] = y;
+	state.curPath = .5*(y+50);
+/*
 	if(x < -simulation.getWidth()/4) {
+	                    // ---------------
 		state.curPath = simulation.getHeight()/2+state.start1.data[1]+((y-simulation.getHeight()/2-state.start1.data[1])/(x+simulation.getWidth()/2-state.start1.data[0]))*(simulation.getWidth()/4-state.start1.data[0]);
 	}else {
 		state.curPath = -simulation.getHeight()/2+state.start2.data[1]+((y+simulation.getHeight()/2-state.start2.data[1])/(x-state.start2.data[0]))*(-simulation.getWidth()/4-state.start2.data[0]);
 	}
+*/
 	return state;
 }
 
 simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 	if(state.curPath != null) {
-		if(x < -simulation.getWidth()/4) {
+		state.curPath = .5*(y+50);
+/*		if(x < -simulation.getWidth()/4) {
 			state.curPath = simulation.getHeight()/2+state.start1.data[1]+((y-simulation.getHeight()/2-state.start1.data[1])/(x+simulation.getWidth()/2-state.start1.data[0]))*(simulation.getWidth()/4-state.start1.data[0]);
 		}else {
 			state.curPath = -simulation.getHeight()/2+state.start2.data[1]+((y+simulation.getHeight()/2-state.start2.data[1])/(x-state.start2.data[0]))*(-simulation.getWidth()/4-state.start2.data[0]);
@@ -222,18 +257,19 @@ simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 		}else if(state.curPath < -simulation.getHeight()/2+10) {
 			state.curPath = -simulation.getHeight()/2+10;
 		}
-	}
+*/	}
+
 	return state;
 }
-
 /*
+
 simulation.renderGraph = function(state, c, w, h) {
-	var arr = [];
-	for(var i = 0; i < 360/10; i++) {
-		var v = new Vector(i, state.history[i]);
-		arr.push(v);
-	}
-	drawGraph(new Vector(-40, -40), new Vector(40, 40), c, arr, true, "#000", 17, 20);
+	//
+	// draw the graph
+	//
+	var ll = new Vector(0,-30);
+	var ur = new Vector(30,30);
+	drawGraph(ll, ur, c, state.plot, true);
 }
 
 simulation.addTab("Graph", simulation.renderGraph);
