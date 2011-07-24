@@ -159,7 +159,7 @@ function Simulation(name) {
 		x /= sf; // scale
 		y /= sf;
 		x -= w/2; // and center
-		y -= h/2;
+		y = h/2 - y;
 		this.state = f(x, y, this.state, ev, canvas);
 	}
 
