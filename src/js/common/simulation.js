@@ -81,18 +81,14 @@ function Simulation(name) {
 		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
 		canvas.addEventListener('mouseup', mouseUpListener.bind(this), false);
 		canvas.addEventListener('mousemove', mouseMoveListener.bind(this), false);
-		canvas.addEventListener('mouseover', function() {curElem = false;}, false);
 		if(this.setup != null) {
 			state = this.setup(this.state);
 		}
-		_w = this.width;
-		_h = this.height;
 
 		canvas2 = this.canvas2;
 		canvas2.addEventListener('mousedown', mouseDownListener2.bind(this), false);
 		canvas2.addEventListener('mouseup', mouseUpListener2.bind(this), false);
 		canvas2.addEventListener('mousemove', mouseMoveListener2.bind(this), false);
-		canvas2.addEventListener('mouseover', function() {curElem = true;}, false);
 		this.context2 = canvas2.getContext("2d");
 
 		this.run();
@@ -104,11 +100,10 @@ function Simulation(name) {
 		if (!this.paused)
 			this.state = this.step(this.state);
 
-		w = this.width;
-		h = this.height;
-		_w = w;
-		_h = h;
-		sf = (w>h)?(h/100):(w/100);
+		var w = this.width;
+		var h = this.height;
+		var sf = (w>h)?(h/100):(w/100);
+		this.context.sf = sf;
 		this.context.clearRect(0, 0, this.width, this.height);
 		this.context.fillStyle='white';
 		this.context.fillRect(0, 0, this.width, this.height);
@@ -116,7 +111,7 @@ function Simulation(name) {
 		this.context.width = w;
 		this.context.height = h;
 
-		c = this.context;
+		var c = this.context;
 		c.save();
 		this.context.lineWidth=0.4;
 		c.translate(w/2, h/2);
@@ -129,14 +124,13 @@ function Simulation(name) {
 		
 		if(sim.doubleTab) {
 			// render the second tab
-			c2 = this.context2;
+			var c2 = this.context2;
 			var w = this.canvas2.width;
 			var h = this.canvas2.height;
-			var _w = w;
-			var _h = h;
 			c2.width = w;
 			c2.height = h;
-			sf = (w>h)?(h/100):(w/100);
+			var sf = (w>h)?(h/100):(w/100);
+			c2.sf = sf;
 			c2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
 			c2.fillStyle='white';
 			c2.fillRect(0, 0, this.canvas2.width, this.canvas2.height);
@@ -150,85 +144,71 @@ function Simulation(name) {
 			c2.restore();
 		}
 	}
-	
-	this.getWidth = function () {
-		var sf = Math.min(this.height/100, this.width/100);
-		return this.width/sf;
-	}
-	
-	this.getHeight = function () {
- 		var sf = Math.min(this.height/100, this.width/100);
-		return this.height/sf;
-	}
 
 	// register mouse listeners
 	var canvas = this.canvas;
 
-	this.callMouseFunc = function(f, ev) {
-		if (!curElem)
-			elem = this.canvas;
-		else
-			elem = this.canvas2;
-		w = this.width;
-		h = this.height;
-		sf = (w>h)?(h/100):(w/100);
-		var absX = ev.clientX - elem.offsetLeft;
-		var absY = ev.clientY - elem.offsetTop;
-		var x = absX/sf;
-		var y = absY/sf;
-		x = (x-w/(2*sf))*2;
-		y = -(y-h/(2*sf))*2 - 50;
-		this.state = f(x, y, this.state, ev, elem);
+	this.callMouseFunc = function(f, ev, canvas) {
+		var w = canvas.width;
+		var h = canvas.height;
+		var sf = (w>h)?(h/100):(w/100);
+		w = w/sf;
+		h = h/sf;
+		var x = ev.clientX - canvas.offsetLeft;
+		var y = ev.clientY - canvas.offsetTop;
+		x /= sf; // scale
+		y /= sf;
+		x -= w/2; // and center
+		y -= h/2;
+		this.state = f(x, y, this.state, ev, canvas);
 	}
 
 	function mouseDownListener(ev) {
 		if (this.mouseDown != null)
-			this.callMouseFunc(this.mouseDown,ev);
+			this.callMouseFunc(this.mouseDown,ev, this.canvas);
 		if(!sim.doubleTab && this.tabs[this.currentTab].mouseDown != null)
-			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev);
+			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev, this.canvas);
 		else if(this.tabs[this.currentTab].mouseDown != null)
-			this.callMouseFunc(this.tabs["Simulation"].mouseDown, ev);
+			this.callMouseFunc(this.tabs["Simulation"].mouseDown, ev, this.canvas);
 	}
-	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener(ev) {
 		if (this.mouseUp != null)
-			this.callMouseFunc(this.mouseUp,ev);
+			this.callMouseFunc(this.mouseUp,ev, this.canvas);
 		if(!sim.doubleTab && this.tabs[this.currentTab].mouseUp != null)
-			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev);
+			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev, this.canvas);
 		else if(this.tabs[this.currentTab].mouseUp != null)
-			this.callMouseFunc(this.tabs["Simulation"].mouseUp, ev);
+			this.callMouseFunc(this.tabs["Simulation"].mouseUp, ev, this.canvas);
 	}
 	
 	function mouseMoveListener(ev) {
 		if (this.mouseMove != null)
-			this.callMouseFunc(this.mouseMove,ev);
+			this.callMouseFunc(this.mouseMove,ev, this.canvas);
 		if(!sim.doubleTab && this.tabs[this.currentTab].mouseMove != null)
-			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev);
+			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev, this.canvas);
 		else if(this.tabs[this.currentTab].mouseMove != null)
-			this.callMouseFunc(this.tabs["Simulation"].mouseMove, ev);
+			this.callMouseFunc(this.tabs["Simulation"].mouseMove, ev, this.canvas);
 	}
 
 	function mouseDownListener2(ev) {
 		if (this.mouseDown != null)
-			this.callMouseFunc(this.mouseDown,ev);
+			this.callMouseFunc(this.mouseDown,ev, this.canvas2);
 		if(this.tabs[this.currentTab].mouseDown != null)
-			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev);
+			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev, this.canvas2);
 	}
-	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener2(ev) {
 		if (this.mouseUp != null)
-			this.callMouseFunc(this.mouseUp,ev);
+			this.callMouseFunc(this.mouseUp,ev, this.canvas2);
 		if(this.tabs[this.currentTab].mouseUp != null)
-			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev);
+			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev, this.canvas2);
 	}
 	
 	function mouseMoveListener2(ev) {
 		if (this.mouseMove != null)
-			this.callMouseFunc(this.mouseMove,ev);
+			this.callMouseFunc(this.mouseMove,ev, this.canvas2);
 		if(this.tabs[this.currentTab].mouseMove != null)
-			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev);
+			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev, this.canvas2);
 	}
 }
 
