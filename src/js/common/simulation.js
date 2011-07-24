@@ -219,19 +219,25 @@ function Simulation(name) {
 
 	function keyDownListener(canvas) {
 		return function(ev) {
-
+			var key = event.keyCode || event.which;
+			var keychar = String.fromCharCode(key);
+			this.state = this.keyDown(keychar, key, ev);
 		};
 	}
 
 	function keyUpListener(canvas) {
 		return function(ev) {
-
+			var key = event.keyCode || event.which;
+			var keychar = String.fromCharCode(key);
+			this.state = this.keyUp(keychar, key, ev);
 		}
 	}
 
 	function keyPressListener(canvas) {
 		return function(ev) {
-
+			var key = event.keyCode || event.which;
+			var keychar = String.fromCharCode(key);
+			this.state = this.keyPress(keychar, key, ev);
 		}
 	}
 }
