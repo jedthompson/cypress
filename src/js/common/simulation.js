@@ -81,6 +81,9 @@ function Simulation(name) {
 		canvas.addEventListener('mousedown', mouseDownListener.bind(this), false);
 		canvas.addEventListener('mouseup', mouseUpListener.bind(this), false);
 		canvas.addEventListener('mousemove', mouseMoveListener.bind(this), false);
+		canvas.addEventListener('keydown', keyDownListener(canvas).bind(this), false);
+		canvas.addEventListener('keyup', keyUpListener(canvas).bind(this), false);
+		canvas.addEventListener('keypress', keyPressListener(canvas).bind(this), false);
 		if(this.setup != null) {
 			state = this.setup(this.state);
 		}
@@ -89,6 +92,9 @@ function Simulation(name) {
 		canvas2.addEventListener('mousedown', mouseDownListener2.bind(this), false);
 		canvas2.addEventListener('mouseup', mouseUpListener2.bind(this), false);
 		canvas2.addEventListener('mousemove', mouseMoveListener2.bind(this), false);
+		canvas2.addEventListener('keydown', keyDownListener(canvas2).bind(this), false);
+		canvas2.addEventListener('keyup', keyUpListener(canvas2).bind(this), false);
+		canvas2.addEventListener('keypress', keyPressListener(canvas2).bind(this), false);
 		this.context2 = canvas2.getContext("2d");
 
 		this.run();
@@ -209,6 +215,24 @@ function Simulation(name) {
 			this.callMouseFunc(this.mouseMove,ev, this.canvas2);
 		if(this.tabs[this.currentTab].mouseMove != null)
 			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev, this.canvas2);
+	}
+
+	function keyDownListener(canvas) {
+		return function(ev) {
+
+		};
+	}
+
+	function keyUpListener(canvas) {
+		return function(ev) {
+
+		}
+	}
+
+	function keyPressListener(canvas) {
+		return function(ev) {
+
+		}
 	}
 }
 
