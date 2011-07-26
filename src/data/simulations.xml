@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <simulations>
-	<category path="mechanics">
+ 	<category path="mechanics">
 		<name>Classical Mechanics</name>
-
 		<subcategory path="friction">
 			<name>Friction</name>
 			<simulation path="blockIncline">
