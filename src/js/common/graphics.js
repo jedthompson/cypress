@@ -5,6 +5,7 @@ CanvasRenderingContext2D.prototype.text = function(t, x, y) {
 	this.translate(xt, yt);
 	this.scale(1, -1);
 	this.scale(1/sf, 1/sf);
+	this.scale(0.5, 0.5);
 	this.translate(-xt, -yt);
 	this.fillText(t, x, y);
 	this.restore();
