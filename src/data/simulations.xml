@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <simulations>
-	<category path="mechanics">
+ 	<category path="mechanics">
 		<name>Classical Mechanics</name>
-
 		<subcategory path="friction">
 			<name>Friction</name>
 			<simulation path="blockIncline">
@@ -287,6 +286,20 @@
 				</tagset>
 			</simulation>
 		</subcategory>
+
+		<subcategory path="lenses">
+			<name>Lenses</name>
+			<simulation path="thinLens">
+				<name>Thin Lens</name>
+				<description>See the thin lens equation in action.</description>
+				<tagset>
+					<tag>lens</tag>
+					<tag>thin lens</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+
 	</category>
 
 	<category path="thermodynamics">
