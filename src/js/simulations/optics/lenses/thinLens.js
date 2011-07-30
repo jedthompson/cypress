@@ -16,26 +16,30 @@ simulation.init_state = function(state) {
 	state.isel = 0;
 	state.objects = {};
 	state.nlens = 1;
+	//                                               0 1     2        3     4      5       6
+	// each object (lens) is described by a vector: (x,y,thickness,height,index,focalpt,posORneg)
+	// note that height is the full height of the lens (from top to bottom) and focalpt is along
+	// the x axis relative to the center of the lens
+	//
 	//
 	// here is the object
 	//
-	state.objects[0] = new Vector(-100,0,0,10,0,0);	
+	state.objects[0] = new Vector(-100,0,0,10,0,0,0);	
 	//
-	// each lens is described by a vector: (x,y,thickness,height,index,posORneg)
-	// note that height is the full height of the lens (from top to bottom)
+	// here are the lenses
 	//
 	var x1 = -20;
 	var y1 = 0;
-	var t1 = state["tSlider"];
-	var h1 = 40;
-	var n1 = state["nSlider"];
 	var x2 = +20;
 	var y2 = y1;
-	var t2 = t1;
+	var h1 = 40;
 	var h2 = h1;
+	var t1 = state["tSlider"];
+	var t2 = t1;
+	var n1 = state["nSlider"];
 	var n2 = n1;
-	state.objects[1] = new Vector(x1,y1,t1,h1,n1,1);
-	state.objects[2] = new Vector(x2,y2,t2,h2,n2,-1);
+	state.objects[1] = new Vector(x1,y1,t1,h1,n1,0,1);
+	state.objects[2] = new Vector(x2,y2,t2,h2,n2,0,-1);
 	//
 	// for the ordered list.  it will be a list of vectors with components (x,index) where
 	// index points to state.objects 
@@ -50,8 +54,8 @@ simulation.setup = function(state) {
 	state.settingsWidgets = [];
 	state["tSlider"] = 8;
 	state["nSlider"] = 1.5;
-	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "tSlider", 1, 20);
-	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "nSlider", 1, 3);
+	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "tSlider", 1, 20,"Thickness");
+	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "nSlider", 1, 3,"Refr Index");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
@@ -60,12 +64,10 @@ simulation.setup = function(state) {
 		//
 		// all lenses will be set to the same.  this will change later
 		//
-		state.t1 = state["tSlider"];
-		state.n1 = state["nSlider"];
-		//
-		// re-call the initialization
-		//
-		state = simulation.init_state(simulation.state);
+		for (var i=1; i<state.nlens+1; i++) {
+			state.objects[i].data[2] = state["tSlider"];
+			state.objects[i].data[4] = state["nSlider"];
+		}
 		return state;
 	}
 	
@@ -103,8 +105,8 @@ simulation.render2d = function(state, c, w, h) {
 		var tl=state.objects[i].data[2];
 		var hl=state.objects[i].data[3];
 		var n1=state.objects[i].data[4];
-		var sl=state.objects[i].data[5];
-		drawLens(c,xl,yl,tl,hl,n1,sl);
+		var sl=state.objects[i].data[6];
+		state.objects[i].data[5] = drawLens(c,xl,yl,tl,hl,n1,sl);
 		c.strokeStyle = "#000";
 		//
 		state.ordered[i-1] = new Vector(state.objects[i].data[0],i);
@@ -114,27 +116,54 @@ simulation.render2d = function(state, c, w, h) {
 	//
 //	c.text(round(state.ordered[0].data[0],2)+","+state.ordered[0].data[1],0,-20);
 //	c.text(round(state.ordered[1].data[0],2)+","+state.ordered[1].data[1],0,-25);
-	var keep = true;	
-	while (keep) {
-		var nswap = 0;
-		for(var i = 0; i < state.nlens-1; i++) {
-			if (state.ordered[i].data[0]  > state.ordered[i+1].data[0]) {
-				nswap++;
-				var temp0 = state.ordered[i].data[0];
-				var temp1 = state.ordered[i].data[1];
-				state.ordered[i].data[0] = state.ordered[i+1].data[0];
-				state.ordered[i].data[1] = state.ordered[i+1].data[1];
-				state.ordered[i+1].data[0] = temp0;
-				state.ordered[i+1].data[1] = temp1;
+	if (state.nlens > 1) {
+		var keep = true;	
+		while (keep) {
+			var nswap = 0;
+			for(var i = 1; i < state.nlens; i++) {
+				if (state.ordered[i].data[0]  > state.ordered[i+1].data[0]) {
+					nswap++;
+					var temp0 = state.ordered[i].data[0];
+					var temp1 = state.ordered[i].data[1];
+					state.ordered[i].data[0] = state.ordered[i+1].data[0];
+					state.ordered[i].data[1] = state.ordered[i+1].data[1];
+					state.ordered[i+1].data[0] = temp0;
+					state.ordered[i+1].data[1] = temp1;
+				}
 			}
+			if (nswap == 0) keep = false;
 		}
-		if (nswap == 0) keep = false;
 	}
 //	c.text(round(state.ordered[0].data[0],2)+","+state.ordered[0].data[1],20,-20);
 //	c.text(round(state.ordered[1].data[0],2)+","+state.ordered[1].data[1],20,-25);
 	//
 	// now that we have drawn them and sorted them, we have to do the ray tracing.
 	//
+	// start at the object and draw the 3 rays:  
+	//	1. horizontal to the lens from the object head
+	//
+	c.beginPath();
+	var objX = state.objects[0].data[0];
+	var objY = state.objects[0].data[3];
+	c.moveTo(objX,objY);
+	var lensX = state.objects[1].data[0]; 
+	c.lineTo(lensX,objY);
+	c.stroke();
+	//
+	// now, then down through the focal point.  gotta do your trig here.
+	//
+	var yf = h/2;
+	var xf = state.objects[1].data[0] + state.objects[1].data[5] + 
+		(yf * state.objects[1].data[5] / objY);
+	c.lineTo(xf,-yf);
+	c.stroke();
+	//
+	// 2. from the object through the center of the lens
+	//
+	c.moveTo(objX,objY);
+	var xf = yf * Math.abs(lensX - objX) / objY;
+	c.lineTo(xf,-yf);
+	c.stroke();
 }
 
 // Like render2d, but for the settings tab. We just outsource this to the
@@ -216,7 +245,7 @@ function drawLens(c,x,y,t,h,n,sign) {
 		c.arc(rightCenterX,y,radius,Math.PI-theAngle,Math.PI+theAngle,false);		
 		c.stroke();
 		//
-		// add an arc centered around the focal point
+		// add an arc centered around the focal point (1/f = (n-1)*2/r for symmetric lens)
 		//
 		var focal = radius / (2.*(n-1));
 		var arad = 1;
@@ -262,6 +291,7 @@ function drawLens(c,x,y,t,h,n,sign) {
 		c.stroke();
 		//
 	}
-		c.fillStyle = fold;
-		c.strokeStyle = stold;
+	c.fillStyle = fold;
+	c.strokeStyle = stold;
+	return focal;
 }	
