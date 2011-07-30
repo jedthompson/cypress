@@ -218,8 +218,8 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		var oldfont = c.font;
 		c.font = "25pt Arial";
 		var tlen = title.length;
-		c.text(title,this.x - tlen - 5,this.y-3);
-		c.text(round(state[dataLoc],1),this.x + this.width+5,this.y-3);
+		c.text(title,this.x - tlen - 17,this.y-1);
+		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-1);
 		c.font = oldfont;
 	}
 
