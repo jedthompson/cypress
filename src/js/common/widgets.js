@@ -155,7 +155,8 @@ function renderWidgets(widgets, context, state) {
  * @param min the minimum value of the slider.  If not provided, defaults to 0.
  * @param max the maximum value of the slider.  If not provided, defaults to 1.
  */
-function Slider(x, y, width, height, dataLoc, min, max) {
+function Slider(x, y, width, height, dataLoc, min, max, title) {
+	if (!title) var title = "Slider";
 	var widget;
 	var isTracking = false;
 	var xTrack = 0;
@@ -211,8 +212,15 @@ function Slider(x, y, width, height, dataLoc, min, max) {
 		//
 		c.fillRect(this.x + curPos*width, this.y-3, 4, 6);
 		c.stroke();
-		c.font = "20pt Arial";
-		c.text(round(state[dataLoc],1),this.x + this.width+5,this.y);
+		//
+		// now for the titles
+		//
+		var oldfont = c.font;
+		c.font = "25pt Arial";
+		var tlen = title.length;
+		c.text(title,this.x - tlen - 5,this.y-3);
+		c.text(round(state[dataLoc],1),this.x + this.width+5,this.y-3);
+		c.font = oldfont;
 	}
 
 	var listener = {};
