@@ -88,6 +88,11 @@ simulation.render2d = function(state, c, w, h) {
 	c.moveTo(-w/2,0);
 	c.lineTo(w/2,0);
 	c.stroke();
+/*	c.text("0,0",0,0);
+	c.text("w/2,h/2",w/2-5,h/2-5);
+	c.text("-w/2,h/2",-w/2,h/2-5);
+	c.text("w/2,-h/2",w/2-5,-h/2);
+	c.text("-w/2,-h/2",-w/2,-h/2);*/
 	//
 	// sort the array of objects
 	//
@@ -139,31 +144,70 @@ simulation.render2d = function(state, c, w, h) {
 	//
 	// now that we have drawn them and sorted them, we have to do the ray tracing.
 	//
-	// start at the object and draw the 3 rays:  
+	oldLine = c.lineWidth;
+	c.lineWidth = .1;
+	// start at the object and draw the 3 rays.  the "thin lens" formula is that
+	//
+	//	1/xo + 1/xi = 1/f
+	//
+	//  and the magnification will be given by
+	//
+	//  yi/xi = yo/xo
+	//
+	//  so we solve for the image location "i", that makes it easy to draw things
+	//
+	var lensX = state.objects[1].data[0];
+	var lensY = state.objects[1].data[1];
+	var focal = state.objects[1].data[5];  // note this is relative to the lens, NOT a coordinate!
+	var objX = state.objects[0].data[0];
+	var objY = state.objects[0].data[3];
+	var dOL = Math.abs(objX-lensX);
+	var imgX = 1/focal - 1/dOL;
+	// put in some logic for when imgX=0
+	var imgX = 1./imgX;
+	var imgY = imgX * objY/dOL;
+	var Ximg = imgX + lensX;   // remember, imgX = Ximg - lensX is the distance from the lens
+	var Yimg = -imgY;          // and imgY is positive downwards so the coordinate needs -1
+/*	c.text("obj=("+round(objX,2)+","+round(objY,2)+")",0,h/2-5);
+	c.text("lensX="+round(lensX,2)+",f="+round(focal,2)+",dOL="+round(dOL,2),0,h/2-10);
+	c.text("img=("+round(imgX,2)+","+round(imgY,2)+")",0,h/2-15);
+	c.text("w/2="+round(w/2,2)+",h/2="+round(h/2,2),0,h/2-20);
+	c.text("o",0,0);*/
+	c.stroke();
+	//
 	//	1. horizontal to the lens from the object head
 	//
 	c.beginPath();
-	var objX = state.objects[0].data[0];
-	var objY = state.objects[0].data[3];
 	c.moveTo(objX,objY);
-	var lensX = state.objects[1].data[0]; 
 	c.lineTo(lensX,objY);
 	c.stroke();
 	//
 	// now, then down through the focal point.  gotta do your trig here.
 	//
-	var yf = h/2;
-	var xf = state.objects[1].data[0] + state.objects[1].data[5] + 
-		(yf * state.objects[1].data[5] / objY);
-	c.lineTo(xf,-yf);
+	c.lineTo(Ximg,Yimg);
 	c.stroke();
 	//
 	// 2. from the object through the center of the lens
 	//
 	c.moveTo(objX,objY);
-	var xf = yf * Math.abs(lensX - objX) / objY;
-	c.lineTo(xf,-yf);
+	c.lineTo(Ximg,Yimg);
 	c.stroke();
+	//
+	// 3. from the object through the 1st focal length, then through the lens parallel
+	//
+	c.moveTo(objX,objY);
+	c.lineTo(lensX,Yimg);
+	c.stroke();
+	c.lineTo(Ximg,Yimg);
+	c.stroke();
+	//
+	// now draw the image
+	//
+	c.lineWidth = oldLine;
+	var v1 = new Vector(Ximg,0);
+	var v2 = new Vector(Ximg,Yimg);
+	vector2dTowards(c, v1, v2, imgY);
+	
 }
 
 // Like render2d, but for the settings tab. We just outsource this to the
@@ -187,9 +231,9 @@ simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 	// default will be the object
 	//
 	state.isel = 0;
-	var delta = Math.abs( state.objects[0].data[0] - x );
+	var delta = Math.abs( state.objects[0].data[0] - x/2 );
 	for (var i=1; i<state.nlens+1; i++) {
-		var diff = Math.abs(state.objects[i].data[0] - x);
+		var diff = Math.abs(state.objects[i].data[0] - x/2);
 		if (diff < delta) {
 			state.isel = i;
 			delta = diff;
@@ -208,13 +252,18 @@ simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 //			var isany = false;
 //			for (var i=1; i<state.nlens+1; i++) {
 //				if (x > state.objects[i].data[0]) isany = true;
-		state.objects[state.isel].data[0] = x;
+		state.objects[state.isel].data[0] = x/2;
+		c.font = "25pt Arial";
+		c.text(round(x,2)+round(y,2),0,-10);
 	}
 	
 	return state;
 }
 
 function drawLens(c,x,y,t,h,n,sign) {
+	//
+	// returns focal length, relative to the lens 
+	//
 	var stold = c.strokeStyle;
 	var fold = c.fillStyle;
 	//
@@ -245,12 +294,21 @@ function drawLens(c,x,y,t,h,n,sign) {
 		c.arc(rightCenterX,y,radius,Math.PI-theAngle,Math.PI+theAngle,false);		
 		c.stroke();
 		//
-		// add an arc centered around the focal point (1/f = (n-1)*2/r for symmetric lens)
+		// add a circle centered around the focal point (1/f = (n-1)*2/r for symmetric lens)
 		//
 		var focal = radius / (2.*(n-1));
-		var arad = 1;
-		c.fillCircle(x-focal+(arad/2),y,arad);
-		c.fillCircle(x+focal+(arad/2),y,arad);
+		var arad = .75;
+		c.fillCircle(x-focal,y,arad);
+		c.fillCircle(x+focal,y,arad);
+		//
+		// debugging
+		//
+/*		c.beginPath();
+		c.moveTo(x,y-5);
+		c.lineTo(x-focal,y-5);
+		c.moveTo(x,y+5);
+		c.lineTo(x+focal,y+5);
+		c.stroke();*/
 	}
 	else {
 		c.strokeStyle = "#f00";
@@ -273,12 +331,12 @@ function drawLens(c,x,y,t,h,n,sign) {
 		c.arc(rightCenterX,y,radius,Math.PI-theAngle,Math.PI+theAngle,false);		
 		c.stroke();
 		//
-		// add an arc centered around the focal point
+		// add a circle centered around the focal point
 		//
 		var focal = radius / (2.*(n-1));
-		var arad = 1;
-		c.fillCircle(x-focal+(arad/2),y,arad);
-		c.fillCircle(x+focal+(arad/2),y,arad);
+		var arad = .75;
+		c.fillCircle(x-focal,y,arad);
+		c.fillCircle(x+focal,y,arad);
 		//
 		// now connect the upper and lower parts
 		//
