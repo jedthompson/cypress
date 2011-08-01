@@ -42,8 +42,8 @@ simulation.init_state = function(state) {
 	var t2 = t1;
 	var n1 = state["nSlider"];
 	var n2 = n1;
-	state.objects[1] = new Vector(x1,t1,h1,n1,0,1);
-	state.objects[2] = new Vector(x2,t2,h2,n2,0,-1);
+	state.objects[2] = new Vector(x1,t1,h1,n1,0,1);
+	state.objects[1] = new Vector(x2,t2,h2,n2,0,-1);
 	//
 	// for the ordered list.  it will be a list of vectors with components (x,index) where
 	// index points to state.objects 
@@ -150,6 +150,7 @@ simulation.render2d = function(state, c, w, h) {
 	//
 	oldLine = c.lineWidth;
 	c.lineWidth = .1;
+	//
 	// start at the object and draw the 3 rays.  the "thin lens" formula is that
 	//
 	//	1/xo + 1/xi = 1/f
@@ -168,7 +169,22 @@ simulation.render2d = function(state, c, w, h) {
 											// the y-position of the object (which is at 0)
 	var isign = state.objects[1].data[5];	// +- for pos/neg lenses
 	var dOL = lensX-objX;					// change these coordinates to distances
+	//
+	// now solve for the distances of the image to the lensX
+	//
+	var imgX = 1/focal - 1/dOL;
+	var imgX = 1./imgX;
+	//
+	// note:  if imgX<0 then we are inside the focal point
+	//
 	var dOf = dOL - focal;
+	var isInside = (dOf < 0);
+	//
+	// and of course the magnification
+	//
+	var imgY = imgX * objY/dOL;
+	var Ximg = imgX + lensX;   // remember, imgX = Ximg - lensX is the distance from the lens
+	var Yimg = -imgY;          // and imgY is positive downwards so the coordinate needs -1
 	//
 	// so there are several possibilities.  a + or - lens, and the object is either between the
 	// lens and the focal point or it's not.  gotta test on all 4
@@ -177,58 +193,113 @@ simulation.render2d = function(state, c, w, h) {
 		//
 		// positive lens
 		//
-		if (dOf > 0) {
-			//
-			// object is outside the focal point
-			//
-			//
-			// now solve for the distances of the image to the lensX
-			var imgX = 1/focal - 1/dOL;
-			// put in some logic for when imgX=0
-			var imgX = 1./imgX;
-			var imgY = imgX * objY/dOL;
-			var Ximg = imgX + lensX;   // remember, imgX = Ximg - lensX is the distance from the lens
-			var Yimg = -imgY;          // and imgY is positive downwards so the coordinate needs -1
-		/*	c.text("obj=("+round(objX,2)+","+round(objY,2)+")",0,h/2-5);
-			c.text("lensX="+round(lensX,2)+",f="+round(focal,2)+",dOL="+round(dOL,2),0,h/2-10);
-			c.text("img=("+round(imgX,2)+","+round(imgY,2)+")",0,h/2-15);
-			c.text("w/2="+round(w/2,2)+",h/2="+round(h/2,2),0,h/2-20);
-			c.text("o",0,0);*/
-			c.stroke();
-			//
-			//	1. horizontal to the lens from the object head
-			//
-			c.beginPath();
-			c.moveTo(objX,objY);
-			c.lineTo(lensX,objY);
-			c.stroke();
-			//
-			// now, then down through the focal point.  gotta do your trig here.
-			//
+/*		c.text("objX=("+round(objX,2)+",height="+round(objY,2)+")",0,h/2-5);
+		c.text("lensX="+round(lensX,2)+",f="+round(focal,2)+",dOL="+round(dOL,2)+",dOf="+round(dOf,2),0,h/2-10);
+		c.text("imgX=("+round(imgX,2)+",imgY="+round(imgY,2)+")",0,h/2-15);
+		c.text("Ximg=("+round(Ximg,2)+",Yimg="+round(Yimg,2)+")",0,h/2-20);
+		c.text("w/2="+round(w/2,2)+",h/2="+round(h/2,2),0,h/2-25);
+		c.text("o",0,0);*/
+		//
+		//	1. horizontal to the lens from the object head.   red here
+		//
+		c.strokeStyle = "#f00";
+		c.beginPath();
+		c.moveTo(objX,objY);
+		c.lineTo(lensX,objY);
+		c.stroke();
+		//
+		// now, then down through the focal point.  gotta do your trig here.
+		//
+		if (isInside) {
 			c.lineTo(Ximg,Yimg);
 			c.stroke();
-			//
-			// 2. from the object through the center of the lens
-			//
-			c.moveTo(objX,objY);
-			c.lineTo(Ximg,Yimg);
+			c.moveTo(lensX,objY);
+			c.lineTo(lensX+focal,0);
 			c.stroke();
-			//
-			// 3. from the object through the 1st focal length, then through the lens parallel
-			//
-			c.moveTo(objX,objY);
-			c.lineTo(lensX,Yimg);
-			c.stroke();
-			c.lineTo(Ximg,Yimg);
-			c.stroke();
-			//
-			// now draw the image
-			//
-			c.lineWidth = oldLine;
-			var v1 = new Vector(Ximg,0);
-			var v2 = new Vector(Ximg,Yimg);
-			vector2dTowards(c, v1, v2, imgY);
 		}
+		else {
+			c.lineTo(Ximg,Yimg);
+			c.stroke();
+		}
+		//
+		// 2. from the object through the center of the lens.  green
+		//
+		c.strokeStyle = "#0f0";
+		c.beginPath();
+		c.moveTo(objX,objY);
+		c.lineTo(Ximg,Yimg);
+		c.stroke();
+		if (isInside) {
+			c.moveTo(objX,objY);
+			c.lineTo(lensX,0);
+			c.stroke();
+		}
+		//
+		// 3. from the object through the 1st focal length, then through the lens parallel.  blue
+		//
+		c.strokeStyle = "#00f";
+		c.moveTo(objX,objY);
+		c.lineTo(lensX,Yimg);
+		c.stroke();
+		c.lineTo(Ximg,Yimg);
+		c.stroke();
+		//
+		// now draw the image
+		//
+		c.lineWidth = oldLine;
+		var v1 = new Vector(Ximg,0);
+		var v2 = new Vector(Ximg,Yimg);
+		if (isInside) vector2dTowards(c, v1, v2, -imgY);
+		else vector2dTowards(c, v1, v2, imgY);
+	} 
+	else {
+		//
+		// negative lens
+		//
+/*		c.text("objX="+round(objX,2)+",height="+round(objY,2),0,h/2-5);
+		c.text("lensX="+round(lensX,2)+",f="+round(focal,2)+",dOL="+round(dOL,2)+",dOf="+round(dOf,2),0,h/2-10);
+		c.text("imgX="+round(imgX,2)+",imgY="+round(imgY,2),0,h/2-15);
+		c.text("Ximg="+round(Ximg,2)+",Yimg="+round(Yimg,2),0,h/2-20);
+		c.text("w/2="+round(w/2,2)+",h/2="+round(h/2,2),0,h/2-25);
+		c.text("o",0,0);*/
+		//
+		//	1. horizontal to the lens from the object head.   red here
+		//
+		c.strokeStyle = "#f00";
+		c.beginPath();
+		c.moveTo(objX,objY);
+		c.lineTo(lensX,objY);
+		c.stroke();
+		//
+		// now, then down through the focal point on the same side of the object.
+		//
+		c.lineTo(Ximg,Yimg);
+		c.stroke();
+		//
+		// 2. from the object through the center of the lens.  green
+		//
+		c.strokeStyle = "#0f0";
+		c.beginPath();
+		c.moveTo(objX,objY);
+		c.lineTo(lensX,0);
+		c.stroke();
+		//
+		// 3. from the object through the 1st focal length, then through the lens parallel.  blue
+		//
+		c.strokeStyle = "#00f";
+		c.moveTo(objX,objY);
+		c.lineTo(lensX,Yimg);
+		c.stroke();
+		c.lineTo(Ximg,Yimg);
+		c.stroke();
+		//
+		// now draw the image
+		//
+		c.lineWidth = oldLine;
+		var v1 = new Vector(Ximg,0);
+		var v2 = new Vector(Ximg,Yimg);
+		if (isInside) vector2dTowards(c, v1, v2, imgY);
+		else vector2dTowards(c, v1, v2, -imgY);
 	}
 }
 
@@ -286,14 +357,14 @@ function drawLens(c,x,t,h,n,sign) {
 	//
 	// returns focal length, relative to the lens 
 	//
-	var stold = c.strokeStyle;
-	var fold = c.fillStyle;
+//	var stold = c.strokeStyle;
+//	var fold = c.fillStyle;
 	//
 	// positive lenses are blue, negative are red
 	//
 	if (sign > 0) {
-		c.strokeStyle = "#00f";
-		c.fillStyle = "#00f";
+//		c.strokeStyle = "#00f";
+//		c.fillStyle = "#00f";
 		//
 		// positive lens here
 		//
@@ -333,8 +404,8 @@ function drawLens(c,x,t,h,n,sign) {
 		c.stroke();*/
 	}
 	else {
-		c.strokeStyle = "#f00";
-		c.fillStyle = "#f00";
+//		c.strokeStyle = "#f00";
+//		c.fillStyle = "#f00";
 		//
 		// negative lens here
 		//
@@ -347,31 +418,34 @@ function drawLens(c,x,t,h,n,sign) {
 		var leftCenterX = x - xCenter - t;
 		var rightCenterX = x + xCenter + t;
 		c.beginPath();
-		c.arc(leftCenterX,y,radius,2.*Math.PI-theAngle,theAngle,false);
+		c.arc(leftCenterX,0,radius,2.*Math.PI-theAngle,theAngle,false);
 		c.stroke();
 		c.beginPath();
-		c.arc(rightCenterX,y,radius,Math.PI-theAngle,Math.PI+theAngle,false);		
+		c.arc(rightCenterX,0,radius,Math.PI-theAngle,Math.PI+theAngle,false);		
 		c.stroke();
 		//
 		// add a circle centered around the focal point
 		//
 		var focal = radius / (2.*(n-1));
 		var arad = .75;
-		c.fillCircle(x-focal,y,arad);
-		c.fillCircle(x+focal,y,arad);
+		c.fillCircle(x-focal,0,arad);
+		c.fillCircle(x+focal,0,arad);
 		//
 		// now connect the upper and lower parts
 		//
 		c.beginPath();
-		c.moveTo( x-t,y+halfHeight);
-		c.lineTo( x+t,y+halfHeight);
+		c.moveTo( x-t,halfHeight);
+		c.lineTo( x+t,halfHeight);
 		c.stroke();
-		c.moveTo( x-t,y-halfHeight);
-		c.lineTo( x+t,y-halfHeight);
+		c.moveTo( x-t,-halfHeight);
+		c.lineTo( x+t,-halfHeight);
 		c.stroke();
 		//
+		// focal point is negative....
+		//
+		focal = -focal;
 	}
-	c.fillStyle = fold;
-	c.strokeStyle = stold;
+//	c.fillStyle = fold;
+//	c.strokeStyle = stold;
 	return focal;
 }	
