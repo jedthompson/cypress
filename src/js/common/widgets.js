@@ -287,3 +287,60 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 	return widget;
 }
 
+function Button(x, y, width, height, func, min, max, title) {
+	if (!title) var title = "Button";
+	var widget;
+	var isDown = false;
+	this.func = func;
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+	this.title = title;
+	if(!min) {
+		this.min = 0;
+	} else {
+		this.min = min;
+	}
+	if(!max) {
+		this.max = 1;
+	} else {
+		this.max = max;
+	}
+	this.renderDefault = function(c, state) {
+		var curPos = (state[dataLoc]-min)/(max-min);
+		if (curPos > 1) {curPos = 1;}
+		if (curPos < 0) {curPos = 0;}
+		c.beginPath();
+		c.strokeRect(this.x,this.y-this.height/2,this.width,this.height);
+		c.stroke();
+
+		var oldfont = c.font;
+		c.font = "25pt Arial";
+		var tlen = this.title.length;
+		c.text(this.title,this.x,this.y-1); // TODO actually calculate the width of the text
+		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-1);
+		c.font = oldfont;
+	}
+
+	var listener = {};
+	listener.mouseUp = function(xev, yev, state, evnt) {
+		if(isDown) {
+			isDown = false;
+			this.func(false);
+		}
+		return state;
+	}
+	listener.mouseDown = function(xev, yev, state, evnt) {
+		isDown = true;
+		this.func(true);
+		return state;
+	}
+	listener.mouseMove = function(xev, yev, state, evnt) {
+		return state;
+	}
+	
+	widget = new Widget(x, y, width, height, dataLoc, this.renderDefault.bind(this), listener);
+	return widget;
+}
+
