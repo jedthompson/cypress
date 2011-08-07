@@ -20,12 +20,14 @@ function Widget(x, y, width, height, dataLoc, render, listener) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseDown(xpos, ypos, state, evnt, widgets) {
-	var dmin = 100;
+	var dmin = 1000;
 	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
 	    var widgetPosY = widgets[i].y;
 	    var mousePosY = ypos;
-	    adist = Math.abs( widgetPosY - mousePosY );
+	    var widgetPosX = widgets[i].x;
+	    var mousePosX= xpos;
+	    adist = Math.sqrt( Math.pow(widgetPosY-mousePosY,2) + Math.pow(widgetPosX-mousePosX,2) );
 	    if ( adist < dmin) {
 	    	dmin = adist;
 	    	iwidget = i;
@@ -47,12 +49,14 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseUp(xpos, ypos, state, evnt, widgets) {
-	var dmin = 100;
+	var dmin = 1000;
 	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
 	    var widgetPosY = widgets[i].y;
 	    var mousePosY = ypos;
-	    adist = Math.abs( widgetPosY - mousePosY );
+	    var widgetPosX = widgets[i].x;
+	    var mousePosX= xpos;
+	    adist = Math.sqrt( Math.pow(widgetPosY-mousePosY,2) + Math.pow(widgetPosX-mousePosX,2) );
 	    if ( adist < dmin) {
 	    	dmin = adist;
 	    	iwidget = i;
@@ -76,12 +80,14 @@ function handleMouseUp(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseMove(xpos, ypos, state, evnt, widgets) {
-	var dmin = 100;
+	var dmin = 1000;
 	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
 	    var widgetPosY = widgets[i].y;
 	    var mousePosY = ypos;
-	    adist = Math.abs( widgetPosY - mousePosY );
+	    var widgetPosX = widgets[i].x;
+	    var mousePosX= xpos;
+	    adist = Math.sqrt( Math.pow(widgetPosY-mousePosY,2) + Math.pow(widgetPosX-mousePosX,2) );
 	    if ( adist < dmin) {
 	    	dmin = adist;
 	    	iwidget = i;
@@ -217,9 +223,8 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		//
 		var oldfont = c.font;
 		c.font = "25pt Arial";
-		var tlen = title.length;
-		c.text(title,this.x - tlen - 17,this.y-1);
-		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-1);
+		c.text(title,this.x+5,this.y+5);
+		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-2);
 		c.font = oldfont;
 	}
 
@@ -284,6 +289,51 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		widget = new Widget(x, y, width, height, dataLoc, this.renderIOS.bind(this), iOSListener);
 	} else 
 		widget = new Widget(x, y, width, height, dataLoc, this.renderDefault.bind(this), listener);
+	return widget;
+}
+
+function Button(x, y, width, height, dataloc, func, title) {
+	if (!title) var title = "Button";
+	var widget;
+	var isDown = false;
+	this.func = func;
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+	this.title = title;
+	this.renderDefault = function(c, state) {
+		c.beginPath();
+		c.strokeRect(this.x,this.y-this.height/2,this.width,this.height);
+		c.stroke();
+		var oldfont = c.font;
+		c.font = "25pt Arial";
+		var tlen = this.title.length;
+		c.text(this.title,this.x,this.y-1); // TODO actually calculate the width of the text
+//		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-1);
+		c.font = oldfont;
+	}
+
+	var listener = {};
+	listener.mouseUp = function(xev, yev, state, evnt) {
+		if(isDown) {
+			isDown = false;
+			func(false);
+//			this.func(false);
+		}
+		return state;
+	}
+	listener.mouseDown = function(xev, yev, state, evnt) {
+		isDown = true;
+		func(true);
+//		this.func(true);
+		return state;
+	}
+	listener.mouseMove = function(xev, yev, state, evnt) {
+		return state;
+	}
+
+	widget = new Widget(x, y, width, height, dataloc, this.renderDefault.bind(this), listener);
 	return widget;
 }
 
