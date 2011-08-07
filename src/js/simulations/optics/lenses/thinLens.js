@@ -3,15 +3,31 @@ var simulation_name = "Thin Lens";
 var simulation = new Simulation(simulation_name);
 simulation.dt = 200;
 simulation.description = "Lenses using the thin lens equation.";
-debug = true;
-doline1 = true;
-doline2 = true;
-doline3 = false;
+var debug = false;
+var doline1 = true;
+var doline2 = true;
+var doline3 = false;
+var temp = null;
+var first = true;
+
 
 color = new Array("blue","green","red","yellow");
 
 simulation.init_state = function(state) {
+
 	state.cur = false;
+
+	return state;
+}
+//
+// Set up the widgets.  Here we make a slider to vary the index of refraction in the 2nd region
+//
+
+function bfunction(d) {
+//	if (d) alert("pushed");
+}
+
+simulation.setup = function(state) {
 	//
 	// create a set of objects.  the first one will always be the "object" object, that is it
 	// will be the thing that will have it's ray traced through the lenses.   it will have index
@@ -36,40 +52,48 @@ simulation.init_state = function(state) {
 	//
 	// here is the object
 	//
+	state["hSlider"] = 5;
 	state.objects[0] = new Vector(-130,0,state["hSlider"],0,0,0);	
 	//
 	// here are the lenses
 	//
-	var x1 = -60;
-	var x2 = +32;
-	var h1 = 40;
-	var h2 = h1;
-	var t1 = state["tSlider"];
-	var t2 = t1;
-	var n1 = state["nSlider"];
-	var n2 = n1;
-	state.objects[1] = new Vector(x1,t1,h1,n1,0,1);
-	state.objects[2] = new Vector(x2,t2,h2,n2,0,1);
+	state["tSlider1"] = 10;
+	state["tSlider2"] = 10;
+	state["nSlider1"] = 1.5;
+	state["nSlider2"] = 1.5;
+	state.objects[1] = new Vector(-60,state["tSlider1"],40,state["nSlider1"],0,1);
+	state.objects[2] = new Vector(32,state["tSlider2"],40,state["nSlider2"],0,-1);
 	//
 	// for the ordered list.  it will be a list of vectors with components (x,index) where
 	// index points to state.objects 
 	//
 	state.ordered = {};
-	return state;
-}
-//
-// Set up the widgets.  Here we make a slider to vary the index of refraction in the 2nd region
-//
-simulation.setup = function(state) {
+	//
+	// now make the widgets.  1 per object (height), and 2 per each lens (thickness and index of refr)
+	//
 	state.settingsWidgets = [];
-	state["tSlider"] = 12;
-	state["nSlider"] = 1.5;
-	state["hSlider"] = 5;
-	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "tSlider", 1, 20,"Thickness");
-	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "nSlider", 1, 3,"Refr Index");
-	state.settingsWidgets[2] = new Slider(-30, 0, 60, 2, "hSlider", 1, 50,"Obj Height");
-	
+	state.settingsWidgets[0] = new Slider(-200, 40, 60, 2, "hSlider", 1, 50,"Object Height");
+	for (var i=1; i<state.nlens+1; i++) {
+		var thick = String("tSlider"+i);
+		var index = String("nSlider"+i);
+		state.settingsWidgets[2*i-1] = new Slider(-140+70*i, 40, 60, 2, thick, 1, 20,"Lens "+i+" Thickness");
+		state.settingsWidgets[2*i] = new Slider(-140+70*i, 20, 60, 2, index, 1, 3,"Lens "+i+" Refr Index");
+	}
+	//
+	// and 2 buttons, one to add a positive lens, one to add a negative one
+	//
+	var buttonX = -200;
+	var buttonYP = 20;
+	var buttonYM = 0;
+	var buttonW= 35;
+	var buttonH = 10;
+	state.settingsWidgets[2*state.nlens+1] = new Button(buttonX,buttonYP,buttonW,buttonH,
+		temp, bfunction, "New +Lens");
+	state.settingsWidgets[2*state.nlens+2] = new Button(buttonX,buttonYM,buttonW,buttonH,
+		temp, bfunction, "New -Lens");
+
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
+	
 	
 	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
@@ -77,9 +101,32 @@ simulation.setup = function(state) {
 		// all lenses will be set to the same.  this will change later
 		//
 		state.objects[0].data[2] = state["hSlider"];
-		for (var i=1; i<state.nlens+1; i++) {
-			state.objects[i].data[1] = state["tSlider"];
-			state.objects[i].data[3] = state["nSlider"];
+		for (var i=1; i<=state.nlens; i++) {
+			var thick = String("tSlider"+i);
+			var index = String("nSlider"+i);
+			state.objects[i].data[1] = state[thick];
+			state.objects[i].data[3] = state[index];
+		}
+		//
+		// see if we've pushed the button to add a lens
+		//
+		var addPos = (x > buttonX) && (x < buttonX+buttonW) && 
+			(y > buttonYP-buttonH/2) && (y < buttonYP+buttonH/2);
+		var addNeg = (x > buttonX) && (x < buttonX+buttonW) && 
+			(y > buttonYM-buttonH/2) && (y < buttonYM+buttonH/2);
+		if (addPos)	{
+			//
+			// add a lens 
+			//
+			state.nlens++;
+			state.objects[state.nlens] = new Vector(0,5,40,1.1,0,1);
+		}
+		if (addNeg)	{
+			//
+			// add a lens 
+			//
+			state.nlens++;
+			state.objects[state.nlens] = new Vector(40,5,40,1.1,0,-1);
 		}
 		return state;
 	}
@@ -97,6 +144,8 @@ simulation.render2d = function(state, c, w, h) {
 	//
 	// draw the horizontal
 	//
+	state.width = w;
+	state.height = h;
 	c.beginPath();
 	c.moveTo(-w/2,0);
 	c.lineTo(w/2,0);
@@ -106,8 +155,9 @@ simulation.render2d = function(state, c, w, h) {
 	//
 	if (debug) {
 		c.fillCircle(0,0,1);
-		c.text(round(-w/2,1)+","+round(h/2,1),-w/2,h/2-5);
-		c.text(round(-w/2,1)+","+round(-h/2,1),-w/2,-h/2);
+		c.text("#lenses:"+state.nlens,-50,20);
+		c.text(round(-w/2,1)+","+round(h/2,1),-w/2+10,h/2-5);
+		c.text(round(-w/2,1)+","+round(-h/2,1),-w/2+10,-h/2);
 		var xc = 0;
 		var nl = 15;
 		var dx = 10;
@@ -126,9 +176,6 @@ simulation.render2d = function(state, c, w, h) {
 		c.lineWidth = oldline;
 	}
 	//
-	// sort the array of objects
-	//
-	//
 	// draw the object as a Vector and sort the objects from left to right
 	//
 	var xStart = state.objects[0].data[0];
@@ -142,12 +189,10 @@ simulation.render2d = function(state, c, w, h) {
 		var n1=state.objects[i].data[3];
 		var sl=state.objects[i].data[5];
 		state.objects[i].data[4] = drawLens(c,xl,tl,hl,n1,sl);
-		c.strokeStyle = "#000";
 		//
 		// prepare an array of vectors, with the x and "index" as elements, to be ordered
 		//
 		state.ordered[i-1] = new Vector(state.objects[i].data[0],i);
-//		alert("Inside 1st loop where we define state.ordered: "+i);
 	}
 	//
 	// order the lenses, left to right, use the bubble sort, it's easiest with so few lenses
