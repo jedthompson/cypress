@@ -1,3 +1,7 @@
+//
+// debug module, pops up new limited function window just for debugging.
+// DBG.write(string) to use
+//
 var DBG = {
 	write : function(txt){
 		if (!window.dbgwnd) {
