@@ -3,15 +3,15 @@ var simulation_name = "Thin Lens";
 var simulation = new Simulation(simulation_name);
 simulation.dt = 200;
 simulation.description = "Lenses using the thin lens equation.";
-var debug = false;
-var doline1 = true;
-var doline2 = true;
-var doline3 = false;
+var debug = true;
 var temp = null;
+var doline1 = true;
+var doline2 = false;
+var doline3 = true;
 var first = true;
 
 
-color = new Array("blue","green","red","yellow");
+//color = new Array("blue","green","red","yellow");
 
 simulation.init_state = function(state) {
 
@@ -38,31 +38,40 @@ simulation.setup = function(state) {
 	// index of the array.
 	// 
 	// note also that y=0 for the vertical coordinate of everything.  no off axis lenses, thank
-	// you.   and also not that the last variable will be 0 for the object, +1 for positive lenses
+	// you.   and also note that the last variable will be 0 for the object, +1 for positive lenses
 	// and -1 for negative lenses
 	//
-	state.isel = 0;
+	state.isel = -1;
 	state.objects = {};
-	state.nlens = 2;
-	//                                               0     1        2     3      4       5
-	// each object (lens) is described by a vector: (x,thickness,height,index,focalpt,posORneg)
-	// note that height is the full height of the lens (from top to bottom) and focalpt is along
-	// the x axis relative to the center of the lens
+	state.nlens = 1;
 	//
+	// each object (lens) is described by a vector: (x,focalpt,posORneg)
+	// x = position along the horizontal
+	// focalpt is the focal point of the lens.  
+	// posORneg tells which kind of lens
+	//
+	// all lenses will have thickness of 5 (or specified below) and a height of 40 (also specified
+	// below).  note that height is the full height of the lens (from top to bottom) and focalpt is 
+	// along the x axis relative to the center of the lens.   Note that the height, radius of 
+	// curvature, and index of refraction all go into the focal point.   but we'll just lump all of
+	// that into the focal point and let you change it at will.
 	//
 	// here is the object
 	//
 	state["hSlider"] = 5;
-	state.objects[0] = new Vector(-130,0,state["hSlider"],0,0,0);	
+	state.objectX = -130;
+	state.objectH = state["hSlider"];
 	//
-	// here are the lenses
+	// here are the lenses.  note:  all objects are lenses and vice versa (in a previous version
+	// of this code, the "object" was an object but that is no longer)
 	//
-	state["tSlider1"] = 10;
-	state["tSlider2"] = 10;
-	state["nSlider1"] = 1.5;
-	state["nSlider2"] = 1.5;
-	state.objects[1] = new Vector(-60,state["tSlider1"],40,state["nSlider1"],0,1);
-	state.objects[2] = new Vector(32,state["tSlider2"],40,state["nSlider2"],0,-1);
+	state.lensHeight = 70;   // full height, top to bottom
+	state.lensThick = 10
+	
+	state["fSlider1"] = 30;
+	state["fSlider2"] = 30;
+	state.objects[0] = new Vector(-60,state["fSlider1"],-1);
+	state.objects[1] = new Vector(50,state["fSlider2"],1);
 	//
 	// for the ordered list.  it will be a list of vectors with components (x,index) where
 	// index points to state.objects 
@@ -72,24 +81,27 @@ simulation.setup = function(state) {
 	// now make the widgets.  1 per object (height), and 2 per each lens (thickness and index of refr)
 	//
 	state.settingsWidgets = [];
+	//
+	// widgets: the 0th is for the object.  then come the lenses, then the buttons
+	//
+	//                                      x    y   w  h   dataloc  min max    title
 	state.settingsWidgets[0] = new Slider(-200, 40, 60, 2, "hSlider", 1, 50,"Object Height");
-	for (var i=1; i<state.nlens+1; i++) {
-		var thick = String("tSlider"+i);
-		var index = String("nSlider"+i);
-		state.settingsWidgets[2*i-1] = new Slider(-140+70*i, 40, 60, 2, thick, 1, 20,"Lens "+i+" Thickness");
-		state.settingsWidgets[2*i] = new Slider(-140+70*i, 20, 60, 2, index, 1, 3,"Lens "+i+" Refr Index");
+	for (var i=0; i<state.nlens; i++) {
+		var j = i+1;
+		var focal = String("fSlider"+j);
+		state.settingsWidgets[j] = new Slider(-100, 60-20*j, 60, 2, focal, 10, 100,"Lens "+j+" Focal pt");
 	}
 	//
-	// and 2 buttons, one to add a positive lens, one to add a negative one
+	// here are the 2 buttons, one to add a positive lens, one to add a negative one
 	//
 	var buttonX = -200;
 	var buttonYP = 20;
 	var buttonYM = 0;
 	var buttonW= 35;
 	var buttonH = 10;
-	state.settingsWidgets[2*state.nlens+1] = new Button(buttonX,buttonYP,buttonW,buttonH,
+	state.settingsWidgets[state.nlens+1] = new Button(buttonX,buttonYP,buttonW,buttonH,
 		temp, bfunction, "New +Lens");
-	state.settingsWidgets[2*state.nlens+2] = new Button(buttonX,buttonYM,buttonW,buttonH,
+	state.settingsWidgets[state.nlens+2] = new Button(buttonX,buttonYM,buttonW,buttonH,
 		temp, bfunction, "New -Lens");
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
@@ -98,14 +110,14 @@ simulation.setup = function(state) {
 	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
 		//
-		// all lenses will be set to the same.  this will change later
+		// store the object height and the focal lengths as changed by the sliders
 		//
-		state.objects[0].data[2] = state["hSlider"];
-		for (var i=1; i<=state.nlens; i++) {
-			var thick = String("tSlider"+i);
-			var index = String("nSlider"+i);
-			state.objects[i].data[1] = state[thick];
-			state.objects[i].data[3] = state[index];
+		state.objectH = state["hSlider"];
+		for (var i=0; i<state.nlens; i++) {
+			var j = i + 1;
+			var focal = String("fSlider"+j);
+			if (state.objects[i].data[2] > 0) state.objects[i].data[1] = state[focal];
+			else state.objects[i].data[1] = -1*state[focal];
 		}
 		//
 		// see if we've pushed the button to add a lens
@@ -116,17 +128,17 @@ simulation.setup = function(state) {
 			(y > buttonYM-buttonH/2) && (y < buttonYM+buttonH/2);
 		if (addPos)	{
 			//
-			// add a lens 
+			// add a lens at x=20
 			//
+			state.objects[state.nlens] = new Vector(20,40,1);
 			state.nlens++;
-			state.objects[state.nlens] = new Vector(0,5,40,1.1,0,1);
 		}
 		if (addNeg)	{
 			//
-			// add a lens 
+			// add a lens at x=-20
 			//
+			state.objects[state.nlens] = new Vector(-20,40,-1);
 			state.nlens++;
-			state.objects[state.nlens] = new Vector(40,5,40,1.1,0,-1);
 		}
 		return state;
 	}
@@ -176,29 +188,29 @@ simulation.render2d = function(state, c, w, h) {
 		c.lineWidth = oldline;
 	}
 	//
-	// draw the object as a Vector and sort the objects from left to right
+	// draw the object as a Vector and draw the lenses
 	//
-	var xStart = state.objects[0].data[0];
+	var xStart = state.objectX;
 	var v1 = new Vector(xStart,0);
-	var v2 = new Vector(xStart,state.objects[0].data[2]);
-	vector2dTowards(c, v1, v2, state.objects[0].data[2]);
-	for (var i=1; i<state.nlens+1; i++) {
+	var v2 = new Vector(xStart,state.objectH);
+	vector2dTowards(c, v1, v2, state.objectH);
+	for (var i=0; i<state.nlens; i++) {
 		var xl=state.objects[i].data[0];
-		var tl=state.objects[i].data[1];
-		var hl=state.objects[i].data[2];
-		var n1=state.objects[i].data[3];
-		var sl=state.objects[i].data[5];
-		state.objects[i].data[4] = drawLens(c,xl,tl,hl,n1,sl);
+		var fl=state.objects[i].data[1];
+		var sl=state.objects[i].data[2];
+		drawLens(c,xl,state.lensHeight,state.lensThick,fl,sl);
 		//
 		// prepare an array of vectors, with the x and "index" as elements, to be ordered
 		//
-		state.ordered[i-1] = new Vector(state.objects[i].data[0],i);
+		state.ordered[i] = new Vector(xl,i);
 	}
 	//
 	// order the lenses, left to right, use the bubble sort, it's easiest with so few lenses
 	//
-//	c.text(round(state.ordered[0].data[0],2)+","+state.ordered[0].data[1],0,-20);
-//	c.text(round(state.ordered[1].data[0],2)+","+state.ordered[1].data[1],0,-25);
+	if (debug) {
+		c.text(round(state.ordered[0].data[0],2)+","+state.ordered[0].data[1],0,-20);
+		if (state.nlens>1) c.text(round(state.ordered[1].data[0],2)+","+state.ordered[1].data[1],0,-25);
+	}
 	if (state.nlens > 1) {
 		var keep = true;	
 		while (keep) {
@@ -217,18 +229,20 @@ simulation.render2d = function(state, c, w, h) {
 			if (nswap == 0) keep = false;
 		}
 	}
-//	c.text(round(state.ordered[0].data[0],2)+","+state.ordered[0].data[1],20,-20);
-//	c.text(round(state.ordered[1].data[0],2)+","+state.ordered[1].data[1],20,-25);
+	if (debug) {
+		c.text(round(state.ordered[0].data[0],2)+","+state.ordered[0].data[1],20,-20);
+		if (state.nlens>1) c.text(round(state.ordered[1].data[0],2)+","+state.ordered[1].data[1],20,-25);
+	}
 	//
 	// now that we have drawn them and sorted them, we have to do the ray tracing.
 	//
-	var lensX = state.objects[1].data[0];	// this is a coordinated
-	var focal = state.objects[1].data[4];   // this is a distance, NOT a coordinate!
-	var objX = state.objects[0].data[0];	// this is a coordinate
-	var objY = state.objects[0].data[2];	// this is a coordinate, the height of the object, NOT
-											// the y-position of the object (which is at 0)
-	var isign = state.objects[1].data[5];	// +- for pos/neg lenses
-	var Image = rayTrace(lensX,focal,objX,objY,isign,color[0]);
+	var lensX = state.objects[0].data[0];	// this is a coordinated
+	var focal = state.objects[0].data[1];   // this is a distance, NOT a coordinate!
+	var objX = state.objectX;	// this is a coordinate
+	var objY = state.objectH;	// this is a coordinate, the height of the object, NOT
+								// the y-position of the object (which is at 0)
+	var isign = state.objects[0].data[2];	// +- for pos/neg lenses
+	var Image = rayTrace(true,lensX,focal,objX,objY,isign);
 	var Ximg = Image.data[0];
 	var Yimg = Image.data[1];
 	//
@@ -246,12 +260,12 @@ simulation.render2d = function(state, c, w, h) {
 	// now do the 2nd lens
 	//
 	if (state.nlens > 1) {
-		var lensX = state.objects[2].data[0];	// this is a coordinated
-		var focal = state.objects[2].data[4];   // this is a distance, NOT a coordinate!
+		var lensX = state.objects[1].data[0];	// this is a coordinated
+		var focal = state.objects[1].data[1];   // this is a distance, NOT a coordinate!
 		var objX = Ximg;
 		var objY = Yimg;
-		var isign = state.objects[2].data[5];	// +- for pos/neg lenses
-		var Image = rayTrace(lensX,focal,objX,objY,isign,color[1]);
+		var isign = state.objects[1].data[2];	// +- for pos/neg lenses
+		var Image = rayTrace(false,lensX,focal,objX,objY,isign);
 		var Ximg = Image.data[0];
 		var Yimg = Image.data[1];
 		if (debug) {
@@ -270,18 +284,22 @@ simulation.render2d = function(state, c, w, h) {
 }
 
 
-function drawLens(c,x,t,h,n,sign) {
+function drawLens(c,x,h,t,f,sign) {
 	//
-	// returns focal length, relative to the lens 
+	// draw the lenses.  no optics here, just geometry.  note:  h, r, and t are not independent
+	// of course.  t is twice the sagitta, and that's constant, and so is the height so we need to 
+	// find the radius of curvature for a constant h and t.
 	//
-//	var stold = c.strokeStyle;
-//	var fold = c.fillStyle;
+	// it's easy:  by pythagor, R^2 = (R-sag)^2 + (h/2)^2 and solve for R(sag,h) to get
+	// R = (h^2/8sag) + (sag/2)
 	//
-	// positive lenses are blue, negative are red
-	//
+	var halfHeight = h/2;
+	var halfThick = t/2;
+	var radius = h*h/(8*halfThick) + halfThick/2;
+//	var halfThick = r - Math.sqrt( r*r - halfHeight*halfHeight);
+//	var radius = r;
+	var focal = f;
 	if (sign > 0) {
-//		c.strokeStyle = "#00f";
-//		c.fillStyle = "#00f";
 		//
 		// positive lens here
 		//
@@ -291,10 +309,7 @@ function drawLens(c,x,t,h,n,sign) {
 		//
 		// r^2 = x^2 + h^2   and r = x + t/2.   solve for x = [h^2 - (t/2)^2 ]/t and tan(th)=y/x
 		//
-		var halfHeight = h/2;
-		var halfThick = t/2;
 		var xCenter = ( halfHeight*halfHeight - halfThick*halfThick ) / t;
-		var radius = xCenter + halfThick;
 		var tanTheta = halfHeight / xCenter;
 		var theAngle = Math.atan(tanTheta);
 		var leftCenterX = x - xCenter;
@@ -306,30 +321,15 @@ function drawLens(c,x,t,h,n,sign) {
 		//
 		// add a circle centered around the focal point (1/f = (n-1)*2/r for symmetric lens)
 		//
-		var focal = radius / (2.*(n-1));
 		var arad = .75;
 		c.fillCircle(x-focal,0,arad);
 		c.fillCircle(x+focal,0,arad);
-		//
-		// debugging
-		//
-/*		c.beginPath();
-		c.moveTo(x,y-5);
-		c.lineTo(x-focal,y-5);
-		c.moveTo(x,y+5);
-		c.lineTo(x+focal,y+5);
-		c.stroke();*/
 	}
 	else {
-//		c.strokeStyle = "#f00";
-//		c.fillStyle = "#f00";
 		//
 		// negative lens here
 		//
-		var halfHeight = h/2;
-		var halfThick = t/2;
 		var xCenter = ( halfHeight*halfHeight - halfThick*halfThick ) / t;
-		var radius = xCenter + halfThick;
 		var tanTheta = halfHeight / xCenter;
 		var theAngle = Math.atan(tanTheta);
 		var leftCenterX = x - xCenter - t;
@@ -343,7 +343,6 @@ function drawLens(c,x,t,h,n,sign) {
 		//
 		// add a circle centered around the focal point
 		//
-		var focal = radius / (2.*(n-1));
 		var arad = .75;
 		c.fillCircle(x-focal,0,arad);
 		c.fillCircle(x+focal,0,arad);
@@ -357,24 +356,23 @@ function drawLens(c,x,t,h,n,sign) {
 		c.moveTo( x-t,-halfHeight);
 		c.lineTo( x+t,-halfHeight);
 		c.stroke();
-		//
-		// focal point is negative....
-		//
-		focal = -focal;
 	}
-//	c.fillStyle = fold;
-//	c.strokeStyle = stold;
-	return focal;
+	return;
 }	
 
-function rayTrace(lensX,focal,objX,objY,isign,color) {	
+function rayTrace(first,lensX,focal,objX,objY,isign) {	
 	//
-	// start at the object and draw the 2 or 3 rays.  the "thin lens" formula is that.
+	// start at the object and draw the 3 rays.  use the "thin lens" formula for the image.
+	//
 	// notes: 
-	//   1. lensX, objX, and objY are ALL coordinates, but focal is a distance!!!!!   this
+	//	 1. the 3 lines are:   horizontal from the object, through the focal point (1)
+	//                         from the object through center of lens (2)
+	//                         through the focal point, then horizontal (3)
+	//
+	//   2. lensX, objX, and objY are ALL coordinates, but focal is a distance!!!!!   this
 	//		is important because of the convention for lenses (e.g. the left side of the lens 
 	//      has object>0 and image<0)
-	//   2. rayTrace returns a vector which is the coordinates of the image.  it will be up to
+	//   3. rayTrace returns a vector which is the coordinates of the image.  it will be up to
 	//      you to turn those into the new object and pipe to the next lens for tray tracing
 	//
 	//	1/xo + 1/xi = 1/f
@@ -382,8 +380,14 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 	//  and the magnification will be given by
 	//
 	//  yi/xi = yo/xo
+	//
+	//  if first=true then we just do the ray tracing from the object.  if it's false, then
+	//  that means that we are ray tracing an image of a previous lens, in which case we will
+	//  use the previous 3 lines equations and make them continue to the lens and then go through
+	//  the image, which we calculate.
+	//
 	oldColor = c.strokeStyle;
-	c.strokeStyle = color;
+	c.strokeStyle = "blue";
 	oldLine = c.lineWidth;
 	c.lineWidth = .1;
 	//
@@ -406,7 +410,8 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 	//
 	var imgY = imgX * objY/dOL;
 	//
-	// ok, now we have everything relative 
+	// ok, now we have everything relative to the lens.  calculate the image canvas coordinates
+	//
 	var Ximg = imgX + lensX;   // remember, imgX = Ximg - lensX is the distance from the lens
 	var Yimg = -imgY;          // and imgY is positive downwards so the coordinate needs -1
 	//
@@ -424,7 +429,7 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 		c.text("w/2="+round(w/2,2)+",h/2="+round(h/2,2),0,h/2-25);
 		c.text("o",0,0);*/
 		//
-		//	1. horizontal to the lens from the object head.   red here
+		//	1. horizontal to the lens from the object head
 		//
 		if (doline1) {
 			c.beginPath();
@@ -447,7 +452,7 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 			}
 		}
 		//
-		// 2. from the object through the center of the lens.  green
+		// 2. from the object through the center of the lens
 		//
 		if (doline2) {
 			c.beginPath();
@@ -461,7 +466,7 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 			}
 		}
 		//
-		// 3. from the object through the 1st focal length, then through the lens parallel.  blue
+		// 3. from the object through the 1st focal length, then through the lens parallel
 		//
 		if (doline3) {
 			c.moveTo(objX,objY);
@@ -482,7 +487,7 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 		c.text("w/2="+round(w/2,2)+",h/2="+round(h/2,2),0,h/2-25);
 		c.text("o",0,0);*/
 		//
-		//	1. horizontal to the lens from the object head.   red here
+		//	1. horizontal to the lens from the object head
 		//
 		if (doline1) {
 			c.beginPath();
@@ -496,7 +501,7 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 			c.stroke();
 		}
 		//
-		// 2. from the object through the center of the lens.  green
+		// 2. from the object through the center of the lens
 		//
 		if (doline2) {
 			c.beginPath();
@@ -505,7 +510,7 @@ function rayTrace(lensX,focal,objX,objY,isign,color) {
 			c.stroke();
 		}
 		//
-		// 3. from the object through the 1st focal length, then through the lens parallel.  blue
+		// 3. from the object through the 1st focal length, then through the lens parallel
 		//
 		if (doline3) {
 			c.strokeStyle = "#f00";
@@ -528,46 +533,157 @@ simulation.renderSettings = function(state, c, w, h) {
 	renderWidgets(state.settingsWidgets, c, state);
 }
 
+var selRadius = 3;
+var isObjX = false;
+var isObjH = false;
+var isLens = false;
+var isLensFocal = false;
+
 simulation.tabs["Simulation"].mouseUp = function(x, y, state, ev) {
 	state.cur = false;
+	isObjX = false;
+	isObjH = false;
+	isLens = false;
+	isLensFocal = false;
 	return state;
 }
 
 simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 	//
-	// mouse is down, so choose which object we are going to move
+	// mouse is down, so choose which object we are going to move.
+	// success will be because we are within some radius of the object.   how about +- 2 pixels?
 	//
-	state.cur = true;
 	//
-	// find out if we are near the object or one of the lenses
-	// default will be the object
+	// check the object (x position and height), the lenses, and the focal point of the lenses
 	//
-	state.isel = 0;
-	var delta = Math.abs( state.objects[0].data[0] - x/2 );
-	for (var i=1; i<state.nlens+1; i++) {
-		var diff = Math.abs(state.objects[i].data[0] - x/2);
-		if (diff < delta) {
+	state.cur = false;
+	state.isel = -1;
+	//
+	// check the object height to see if we are requesting to make it bigger
+	//
+	xcoord = x/2;
+	ycoord = (y+50)/2;
+	var xd = state.objectX - xcoord;
+	var yd = state.objectH - ycoord;
+	var delta = Math.sqrt( xd*xd + yd*yd );
+	if (delta < selRadius) {
+		isObjH = true;
+		state.cur = true;
+		return state;
+	}
+	//
+	// nope. check if it's the object to see if we are dragging it along the horizontal
+	//
+	if (Math.abs(xd) < selRadius) {
+		isObjX = true;
+		state.cur = true;
+		return state;
+	}
+	//
+	// nope.  check all the lens focal points
+	//
+//	DBG.write("checking focal points");
+	for (var i=0; i<state.nlens; i++) {
+		//
+		// remember, there are 2 focal points to check!, and focal point is relative to the lens!
+		// so focal = +-[x(focal) - x(lens)] depending on which of the 2 x(focal) you use.
+		// so solve for 
+		//		x(focal) = x(lens) +- focal 
+		//
+		var xobj1 = state.objects[i].data[0] + state.objects[i].data[1];
+		var xd1 = xobj1 - xcoord;
+		var yd = ycoord;
+		var delta1 = Math.sqrt( xd1*xd1 + yd*yd);
+		var xobj2 = state.objects[i].data[0] - state.objects[i].data[1];
+		var xd2 = xobj2 - xcoord;
+		var delta2 = Math.sqrt( xd2*xd2 + yd*yd);
+//		DBG.write("mouseDown x,y="+round(xcoord,1)+","+round(ycoord,1)+" focal["+i+"]="+
+//			state.objects[i].data[1]);
+		if ( (delta1 < selRadius) || (delta2 < selRadius) ) {
 			state.isel = i;
-			delta = diff;
+			isLensFocal = true;
+			state.cur = true;
+			return state;
+		}
+	}
+	//
+	// nope.  check all the lens
+	//
+	for (var i=0; i<state.nlens; i++) {
+		var xobj = state.objects[i].data[0];
+		var xd = Math.abs(xobj - xcoord);
+		if (xd < selRadius) {
+			state.isel = i;
+			isLens = true;
+			state.cur = true;
+			return state;
 		}
 	}
 	return state;
 }
 
 simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
+	var xcoord = x/2;
+	var ycoord = (y+50)/2;
 	if (state.cur) {
-		//
+		if (isObjH) {
+			state.objectH = ycoord;
+		}
+		else if (isObjX) {
+			state.objectX = xcoord;
+		}
+		else if (isLensFocal) {
+			state.objects[state.isel].data[1] = Math.abs(xcoord - state.objects[state.isel].data[0]);
+		}
+		else if (isLens) {
+			state.objects[state.isel].data[0] = xcoord;
+		}
+	}
+/*		//
 		// we probably shouldn't allow the object to be to the right of any lens, or the ray
 		// tracing won't make sense (left to right, that's the ticket)
 		//
-		var xcoord = x/2;
-		if ( (state.isel == 0) && (xcoord > state.objects[1].data[0]) ) {
-			xcoord = x/2-5;
-			state.cur = false;
-			alert("The object should always be the leftmost thing!");
+		if (state.isel == -1) {
+			//
+			// ok, we are moving the object.  check that it is always furthest to the left of any lens
+			//
+			if (xcoord > state.objects[0].data[0]) {
+				state.objectX = xcoord - 10;
+				alert("The object should always be the leftmost thing!");
+				state.cur = false;
+			}
+			else state.objectX = xcoord;
 		}
-		state.objects[state.isel].data[0] = xcoord;
-	}
-	
+		else {
+			//
+			// ok we are moving the lens.   check if it's coming too close to the object
+			//
+			if (xcoord < state.objectX) {
+				state.objects[state.isel].data[0] = xcoord + 10;
+				alert("The object should always be the leftmost thing!");
+				state.cur = false;
+			}
+			else state.objects[state.isel].data[0] = xcoord;
+		}
+}
+*/	
 	return state;
+}
+
+var DBG = {
+	write : function(txt){
+		if (!window.dbgwnd) {
+			window.dbgwnd = window.open("","debug","status=0,toolbar=0,location=0,menubar=0,directories=0,resizable=0,scrollbars=1,width=600,height=250");
+			window.dbgwnd.document.write('<html><head></head><body style="background-color:black"><div id="main" style="color:green;font-size:12px;font-family:Courier New;"></div></body></html>');
+		}
+		var x = window.dbgwnd.document.getElementById("main");
+		this.line=(this.line==null)?1:this.line+=1;
+		txt=this.line+': '+txt;
+		if (x.innerHTML == "") {
+			x.innerHTML = txt;
+		}
+		else {
+			x.innerHTML = txt + "<br/>" + x.innerHTML;
+		}
+	}
 }
