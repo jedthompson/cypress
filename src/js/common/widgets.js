@@ -308,8 +308,9 @@ function Button(x, y, width, height, dataloc, func, title) {
 		c.stroke();
 		var oldfont = c.font;
 		c.font = "25pt Arial";
-		var tlen = this.title.length;
-		c.text(this.title,this.x,this.y-1); // TODO actually calculate the width of the text
+		var tlen = this.title.length*3;  // 3 pixels per character?
+		var xoff = .5*(width-tlen);
+		c.text(this.title,this.x+xoff,this.y-2); // TODO actually calculate the width of the text
 //		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-1);
 		c.font = oldfont;
 	}
