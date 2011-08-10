@@ -297,6 +297,14 @@
 					<tag>thin lens</tag>
 				</tagset>
 			</simulation>
+			<simulation path="thinLens2">
+				<name>Thin Lens raw tracing for a double lens combination</name>
+				<description>See the thin lens equation in action for a single lens.</description>
+				<tagset>
+					<tag>lens</tag>
+					<tag>thin lens</tag>
+				</tagset>
+			</simulation>
 		</subcategory>
 
 
