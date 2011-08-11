@@ -9,6 +9,7 @@ desString += " case where the image is virtual, and thus behind the lens.";
 simulation.description = desString;
 var debug = true;
 var temp = null;
+var arrowLength = 1;
 DBG.enabled = false;
 
 //color = new Array("blue","green","red","yellow");
@@ -274,12 +275,12 @@ simulation.render2d = function(state, c, w, h) {
 	var imageEnd = new Vector(imgx, -himg);
 	drawLine(c, imageStart, imageEnd);
 	if (himg > 0) {
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+2,imageEnd.data[1]+2));
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-2,imageEnd.data[1]+2));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+arrowLength,imageEnd.data[1]+arrowLength));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-arrowLength,imageEnd.data[1]+arrowLength));
 	}
 	else {
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+2,imageEnd.data[1]-2));
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-2,imageEnd.data[1]-2));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+arrowLength,imageEnd.data[1]-arrowLength));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-arrowLength,imageEnd.data[1]-arrowLength));
 	}
 	c.strokeStyle = oldcolor2;
 	c.lineWidth = oldline2;
@@ -359,12 +360,12 @@ simulation.render2d = function(state, c, w, h) {
 	var imageEnd = new Vector(imgx, -himg);
 	drawLine(c, imageStart, imageEnd);
 	if (himg > 0) {
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+2,imageEnd.data[1]+2));
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-2,imageEnd.data[1]+2));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+arrowLength,imageEnd.data[1]+arrowLength));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-arrowLength,imageEnd.data[1]+arrowLength));
 	}
 	else {
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+2,imageEnd.data[1]-2));
-		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-2,imageEnd.data[1]-2));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]+arrowLength,imageEnd.data[1]-arrowLength));
+		drawLine(c, imageEnd, new Vector(imageEnd.data[0]-arrowLength,imageEnd.data[1]-arrowLength));
 	}
 	//
 	// turn debugging off so that we do not continually write to the new window
