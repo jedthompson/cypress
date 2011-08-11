@@ -288,9 +288,9 @@
 		</subcategory>
 
 		<subcategory path="lenses">
-			<name>Lenses</name>
+			<name>Lenses, ray tracing, Thin Lens formula</name>
 			<simulation path="thinLens">
-				<name>Thin Lens raw tracing for single lens</name>
+				<name>Single lens</name>
 				<description>See the thin lens equation in action for a single lens.</description>
 				<tagset>
 					<tag>lens</tag>
@@ -298,7 +298,7 @@
 				</tagset>
 			</simulation>
 			<simulation path="thinLens2">
-				<name>Thin Lens raw tracing for a double lens combination</name>
+				<name>Double lens combination</name>
 				<description>See the thin lens equation in action for a single lens.</description>
 				<tagset>
 					<tag>lens</tag>
