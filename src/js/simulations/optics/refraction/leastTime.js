@@ -48,6 +48,7 @@ simulation.step = function(state) {
 
 simulation.render2d = function(state, c, w, h) {
 	c.strokeStyle="#000";
+//	c.font = "20pt Arial";
 	//
 	// there will be 2 regions, one with n=1 and one with a variable n.  draw a box around 
 	// each boundary, use different colors.  leave 10 on the top
@@ -212,11 +213,10 @@ simulation.render2d = function(state, c, w, h) {
 		c.stroke();
 		var theta = String.fromCharCode(952);
 		var phi = String.fromCharCode(934);
-		c.text(theta,p2.data[0]+15,p2.data[1]-5);
-//		c.text("2",p2.data[0]+17,p2.data[1]-7);
-		c.text(phi,p2.data[0]-15,p2.data[1]+3);
-//		c.text(theta,p2.data[0]-15,p2.data[1]+3);
-//		c.text("1",p2.data[0]-13,p2.data[1]+1);
+		c.text(theta,p3.data[0]-(p3.data[0]-p2.data[0])/2,p2.data[1]-5);
+		c.text(phi,p1.data[0]+(p2.data[0]-p1.data[0])/2,p2.data[1]+5);
+//		c.text(theta,p2.data[0]+15,p2.data[1]-5);
+//		c.text(phi,p2.data[0]-15,p2.data[1]+3);
 		var dist1 = Math.sqrt( (p1.data[0]-p2.data[0])*(p1.data[0]-p2.data[0]) +
 							(p1.data[1]-p2.data[1])*(p1.data[1]-p2.data[1]) );
 		var time1 = dist1/state.vel1;
@@ -241,8 +241,8 @@ simulation.render2d = function(state, c, w, h) {
 		var theta2 = Math.abs( p2.data[1]-p3.data[1] )/dist2;
 		var snell1 = Math.sin(theta1);
 		var snell2 = state.n*Math.sin(theta2);
-		var dsnell = round(snell1/snell2,2);
-		timetot2 = round(timetot,2);
+		var dsnell = round(snell1/snell2,3);
+		timetot2 = round(timetot,3);
 		c.text("n1*sin("+phi+")/n2*sin("+theta+")="+dsnell+" and time="+timetot2,tnorm+5,state.curPath);
 		c.stroke();
 	}
@@ -264,12 +264,12 @@ simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 	state.vars[1] = x;
 	state.vars[2] = simulation.h/2;
 	state.vars[3] = y;
-	state.curPath = y;
+	state.curPath = (y+50)/2;
 	return state;
 }
 
 simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
-	if(state.curPath != null) state.curPath = y;
+	if(state.curPath != null) state.curPath = (y+50)/2;
 	return state;
 }
 /*
