@@ -162,7 +162,7 @@ function renderWidgets(widgets, context, state) {
  * @param max the maximum value of the slider.  If not provided, defaults to 1.
  */
 function Slider(x, y, width, height, dataLoc, min, max, title) {
-	if (!title) var title = "Slider";
+	if (!title) var title = dataLoc;
 	var widget;
 	var isTracking = false;
 	var xTrack = 0;
