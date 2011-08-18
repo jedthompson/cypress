@@ -26,7 +26,7 @@ simulation.init_state = function(state) {
 simulation.setup = function(state) {
 	state["nSlider"] = 1.5;
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Slider(-30, 20, 60, 2, "nSlider", 1, 5);
+	state.settingsWidgets[0] = new Slider(-30, 20, 60, 2, "nSlider", 1, 5," Index of Refraction (n2)");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
@@ -48,7 +48,7 @@ simulation.step = function(state) {
 
 simulation.render2d = function(state, c, w, h) {
 	c.strokeStyle="#000";
-//	c.font = "20pt Arial";
+	c.font = "30pt Arial";		
 	//
 	// there will be 2 regions, one with n=1 and one with a variable n.  draw a box around 
 	// each boundary, use different colors.  leave 10 on the top
@@ -82,14 +82,16 @@ simulation.render2d = function(state, c, w, h) {
 	var p1 = new Vector(-w/2+state.start1.data[0],h/2+state.start1.data[1]);
 	c.arc(p1.data[0],p1.data[1],1,0,2*Math.PI,false);
 	c.stroke();
-	c.text("n=1",p1.data[0],p1.data[1]+3);
+	var one = "1";
+	var two = "2";
+	c.text("n1=1",p1.data[0],p1.data[1]+3);
 //	c.text("v="+round(state.vel1,2),p1.data[0],p1.data[1]+3);
 	c.beginPath();
 	c.strokeStyle = "#00f";
 	var p3 = new Vector(state.start2.data[0],-h/2+state.start2.data[1]);
 	c.arc(p3.data[0],p3.data[1],1,0,2*Math.PI,false);
 //	c.text("v="+round(state.vel2,2),p3.data[0],p3.data[1]+3);
-	c.text("n="+round(state.n,2),p3.data[0],p3.data[1]+3);
+	c.text("n2="+round(state.n,2),p3.data[0],p3.data[1]+3);
 	c.stroke();
 	//
 	// a few definitions, for convenience.
@@ -200,8 +202,7 @@ simulation.render2d = function(state, c, w, h) {
 */
 		var p2 = new Vector(-w/4,state.curPath);
 		//
-		// start at the left object and draw a line to the center at various y values.
-		// include the normal lines
+		// start at the left object and draw a line to the center at "state.curPath"
 		//
 		c.beginPath();
 		c.lineWidth = .4;
@@ -211,22 +212,29 @@ simulation.render2d = function(state, c, w, h) {
 		c.moveTo(p1.data[0]+(p2.data[0]-p1.data[0])/2,p2.data[1]);
 		c.lineTo(p3.data[0]-(p3.data[0]-p2.data[0])/2,p2.data[1]);
 		c.stroke();
+		c.moveTo(p2.data[0],p2.data[1]);
+		c.lineTo(p3.data[0],p3.data[1]);
+		c.stroke();
+//		c.text(theta,p3.data[0]-(p3.data[0]-p2.data[0])/2,p2.data[1]-5);
+//		c.text(phi,p1.data[0]+(p2.data[0]-p1.data[0])/2,p2.data[1]+5);
+		var m2 = (p2.data[1]-p3.data[1])/(p2.data[0]-p3.data[0]);
+		var x2 = -4/m2;
+		if (x2 > .5*(p3.data[0]-p2.data[0]) ) x2 = .5*(p3.data[0]-p2.data[0]);
+		if (x2 < 5) x2 = 5;
 		var theta = String.fromCharCode(952);
+		c.text(theta,p2.data[0]+x2,p2.data[1]-2.5);
+		var m1 = (p1.data[1]-p2.data[1])/(p1.data[0]-p2.data[0]);
+		var x1 = -4/m1;
+		if (x1 > .5*(p2.data[0]-p1.data[0]) ) x1 = .5*(p2.data[0]-p1.data[0]);
+		if (x1 < 5) x1 = 5;
 		var phi = String.fromCharCode(934);
-		c.text(theta,p3.data[0]-(p3.data[0]-p2.data[0])/2,p2.data[1]-5);
-		c.text(phi,p1.data[0]+(p2.data[0]-p1.data[0])/2,p2.data[1]+5);
-//		c.text(theta,p2.data[0]+15,p2.data[1]-5);
-//		c.text(phi,p2.data[0]-15,p2.data[1]+3);
+		c.text(phi,p2.data[0]-x1,p2.data[1]+1);
 		var dist1 = Math.sqrt( (p1.data[0]-p2.data[0])*(p1.data[0]-p2.data[0]) +
 							(p1.data[1]-p2.data[1])*(p1.data[1]-p2.data[1]) );
 		var time1 = dist1/state.vel1;
 		//
 		// now draw a line to the 2nd object on the right
 		//
-		c.beginPath();
-		c.moveTo(p2.data[0],p2.data[1]);
-		c.lineTo(p3.data[0],p3.data[1]);
-		c.stroke();
 		var dist2 = Math.sqrt( (p3.data[0]-p2.data[0])*(p3.data[0]-p2.data[0]) +
 							(p3.data[1]-p2.data[1])*(p3.data[1]-p2.data[1]) );
 		var time2 = dist2/state.vel2;
@@ -234,6 +242,13 @@ simulation.render2d = function(state, c, w, h) {
 		var tnorm = timetot*50/timen;
 		c.beginPath();
 		c.arc(tnorm,state.curPath,.5,0,2*Math.PI,false);
+		c.stroke();
+		c.beginPath();
+		c.strokeStyle="#000";
+		c.lineWidth = .2;
+		c.moveTo(tnorm+5,state.curPath+1);
+		c.lineTo(tnorm+15,state.curPath+1);
+		c.stroke();
 		//
 		// now calculate n1*sin(theta1) - n2*sin(theta2)
 		//
@@ -243,8 +258,10 @@ simulation.render2d = function(state, c, w, h) {
 		var snell2 = state.n*Math.sin(theta2);
 		var dsnell = round(snell1/snell2,3);
 		timetot2 = round(timetot,3);
-		c.text("n1*sin("+phi+")/n2*sin("+theta+")="+dsnell+" and time="+timetot2,tnorm+5,state.curPath);
-		c.stroke();
+//		c.text("n1*sin("+phi+")/n2*sin("+theta+")="+dsnell+"    Total time="+timetot2,tnorm+5,state.curPath);
+		c.text("n1*sin("+phi+")",tnorm+5,state.curPath+2);
+		c.text("n2*sin("+theta+")",tnorm+5,state.curPath-2);
+		c.text("="+dsnell+"    Total time="+timetot2,tnorm+17,state.curPath);
 	}
 }
 
