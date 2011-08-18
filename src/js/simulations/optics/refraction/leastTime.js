@@ -1,7 +1,7 @@
 var simulation_name = "Principle of Least Time";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 200;
+simulation.dt = 50;
 simulation.description="Here we can see Snell's law from the principle of least time.   Click on the Settings and adjust the index of refraction in the region to the right, and then click on the boundary to minimize the travel time yourself and see Snell's Law.";
 
 simulation.init_state = function(state) {
