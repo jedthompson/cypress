@@ -6,7 +6,7 @@ JSCOMMON := $(shell find src/js/common -type f -regex .*\.js)
 JSSIMULATIONS := $(wildcard src/js/simulations/*/*/*.js)
 OUT_JSSIMULATIONS := $(subst src/js/,build/js/,${JSSIMULATIONS})
 
-SRC_GR := $(shell find src/gr -type f)
+SRC_GR := $(shell find src/gr -type f -not -regex ".*/unused/.*")
 OUT_GR := $(subst src/gr,build/gr,${SRC_GR})
 
 SRC_CSS := $(wildcard src/css/*.css)
