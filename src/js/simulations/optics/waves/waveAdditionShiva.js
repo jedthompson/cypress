@@ -30,8 +30,8 @@ simulation.init_state = function(state) {
 //
 simulation.setup = function(state) {
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "vel1", 1, 10);
-	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "wavelength1", 10, 50);
+	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "vel1", 1, 10, "Velocity 1");
+	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "wavelength1", 10, 50, "Velocity 2");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
