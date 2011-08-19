@@ -57,13 +57,13 @@ simulation.setup = function(state) {
 	//
 	// here is the object
 	//
-	state.objectX = -130;
+	state.objectX = -90;
 	state.objectH = 5;
 	//
 	// here are the lenses.  note:  all objects are lenses and vice versa (in a previous version
 	// of this code, the "object" was an object but that is no longer)
 	//
-	state.lensHeight = 80;   // full height, top to bottom
+	state.lensHeight = 70;   // full height, top to bottom
 	state.lensThick = 10
 	state.objects[0] = new Vector(-60,30,1);
 	state.objects[1] = new Vector(60,30,1);
