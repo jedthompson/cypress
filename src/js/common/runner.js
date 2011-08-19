@@ -57,7 +57,8 @@ function run_simulation(sim) {
 		canvas2.style.top = h1;
 		canvas2.height = h2;
 		
-		sim.currentTab = "Description";
+		sim.currentTab = "Settings";
+//		sim.currentTab = "Description";
 		sim.doubleTab = true;
 		sim.canvas2 = canvas2;
 		canvas2.width = canvas.width;
