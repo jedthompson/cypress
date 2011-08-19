@@ -20,6 +20,7 @@ simulation.init_state = function(state) {
 	state.vars = [];
 	return state;
 }
+
 //
 // Set up the widgets.  Here we make a slider to vary the index of refraction in the 2nd region
 //
@@ -243,12 +244,10 @@ simulation.render2d = function(state, c, w, h) {
 		c.beginPath();
 		c.arc(tnorm,state.curPath,.5,0,2*Math.PI,false);
 		c.stroke();
-		c.beginPath();
-		c.strokeStyle="#000";
-		c.lineWidth = .2;
-		c.moveTo(tnorm+5,state.curPath+1);
-		c.lineTo(tnorm+15,state.curPath+1);
-		c.stroke();
+		//
+		// scale things!
+		//
+		var sc = (w/250);
 		//
 		// now calculate n1*sin(theta1) - n2*sin(theta2)
 		//
@@ -258,10 +257,23 @@ simulation.render2d = function(state, c, w, h) {
 		var snell2 = state.n*Math.sin(theta2);
 		var dsnell = round(snell1/snell2,3);
 		timetot2 = round(timetot,3);
-//		c.text("n1*sin("+phi+")/n2*sin("+theta+")="+dsnell+"    Total time="+timetot2,tnorm+5,state.curPath);
-		c.text("n1*sin("+phi+")",tnorm+5,state.curPath+2);
-		c.text("n2*sin("+theta+")",tnorm+5,state.curPath-2);
-		c.text("="+dsnell+"    Total time="+timetot2,tnorm+17,state.curPath);
+		var s1 = new String("n1*sin"+phi);
+		c.text(s1,tnorm+5,state.curPath+2);
+		var s2 = new String("n2*sin"+theta);
+		c.text(s2,tnorm+5,state.curPath-2*sc);
+		c.text("="+dsnell+"    Total time="+timetot2,tnorm+17*sc,state.curPath);
+//		c.text("width="+round(w,2)+" height="+round(h,2)+" string width=",tnorm+5,state.curPath+30);
+		//
+		// this line is for the ratio (poor man's typesetting)
+		//
+		c.beginPath();
+		c.strokeStyle="#000";
+		c.lineWidth = .2;
+		c.moveTo(tnorm+5,state.curPath+1);
+		c.lineTo(tnorm+15*sc,state.curPath+1);
+//		c.moveTo(tnorm+5,state.curPath+3);
+//		c.lineTo(tnorm+7,state.curPath+3);
+		c.stroke();
 	}
 }
 
