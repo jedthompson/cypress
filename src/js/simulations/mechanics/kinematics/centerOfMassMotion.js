@@ -69,20 +69,21 @@ simulation.render2d = function(state, c, w, h) {
 	c.beginPath();
 	c.moveTo(state.history1[state.t].data[0], state.history1[state.t].data[1]);
 	c.lineTo(state.history2[state.t].data[0], state.history2[state.t].data[1]);
-	c.closePath();
+	//c.closePath();
 	c.stroke();
 	
 	//Draw mass 1
 	c.beginPath();
+	//c.moveTo(state.history1[state.t].data[0], state.history1[state.t].data[1]);
 	c.arc(state.history1[state.t].data[0], state.history1[state.t].data[1], state.mass1/2, 0, 2*Math.PI, false);
-	c.closePath();
+	//c.closePath();
 	c.strokeStyle = "f00";
 	c.stroke();
 	
 	//Draw mass 2
 	c.beginPath();
 	c.arc(state.history2[state.t].data[0], state.history2[state.t].data[1], state.mass2/2, 0, 2*Math.PI, false);
-	c.closePath();
+	//c.closePath();
 	c.strokeStyle = "00f";
 	c.stroke();
 	
