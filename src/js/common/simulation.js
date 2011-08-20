@@ -188,17 +188,16 @@ function Simulation(name) {
 			this.callMouseFunc(this.mouseDown,ev);
 		if(!sim.doubleTab && this.tabs[this.currentTab].mouseDown != null)
 			this.callMouseFunc(this.tabs[this.currentTab].mouseDown, ev);
-		else if(this.tabs[this.currentTab].mouseDown != null)
+		else if(this.tabs["Simulation"].mouseDown != null)
 			this.callMouseFunc(this.tabs["Simulation"].mouseDown, ev);
 	}
-	//this.mouseDownListener = mouseDownListener.bind(this);
 
 	function mouseUpListener(ev) {
 		if (this.mouseUp != null)
 			this.callMouseFunc(this.mouseUp,ev);
 		if(!sim.doubleTab && this.tabs[this.currentTab].mouseUp != null)
 			this.callMouseFunc(this.tabs[this.currentTab].mouseUp, ev);
-		else if(this.tabs[this.currentTab].mouseUp != null)
+		else if(this.tabs["Simulation"].mouseUp != null)
 			this.callMouseFunc(this.tabs["Simulation"].mouseUp, ev);
 	}
 	
@@ -207,7 +206,7 @@ function Simulation(name) {
 			this.callMouseFunc(this.mouseMove,ev);
 		if(!sim.doubleTab && this.tabs[this.currentTab].mouseMove != null)
 			this.callMouseFunc(this.tabs[this.currentTab].mouseMove, ev);
-		else if(this.tabs[this.currentTab].mouseMove != null)
+		else if(this.tabs["Simulation"].mouseMove != null)
 			this.callMouseFunc(this.tabs["Simulation"].mouseMove, ev);
 	}
 
