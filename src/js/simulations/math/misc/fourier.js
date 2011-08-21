@@ -1,4 +1,4 @@
-var simulation_name = "Thin Lens";
+var simulation_name = "Fourier";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 100;
