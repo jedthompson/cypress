@@ -20,7 +20,7 @@ function Widget(x, y, width, height, dataLoc, render, listener) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseDown(xpos, ypos, state, evnt, widgets) {
-	var dmin = 1000;
+	/*var dmin = 1000;
 	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
 	    var widgetPosY = widgets[i].y;
@@ -33,7 +33,12 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
 	    	iwidget = i;
 	    }
 	}
-	if (iwidget > -1) widgets[iwidget].listener.mouseDown(xpos, ypos, state, evnt);
+	if (iwidget > -1) widgets[iwidget].listener.mouseDown(xpos, ypos, state, evnt);*/
+	
+	//A temporary fix until "locking" events works
+	for(var i = 0; i < widgets.length; i++) {
+		state = widgets[i].listener.mouseDown(xpos, ypos, state, evnt);
+	}
 	return state;
 }
 
@@ -49,7 +54,7 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseUp(xpos, ypos, state, evnt, widgets) {
-	var dmin = 1000;
+	/*var dmin = 1000;
 	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
 	    var widgetPosY = widgets[i].y;
@@ -62,7 +67,12 @@ function handleMouseUp(xpos, ypos, state, evnt, widgets) {
 	    	iwidget = i;
 	    }
 	}
-	if (iwidget > -1) state = widgets[iwidget].listener.mouseUp(xpos, ypos, state, evnt);
+	if (iwidget > -1) state = widgets[iwidget].listener.mouseUp(xpos, ypos, state, evnt);*/
+	
+	//A temporary fix until "locking" events works
+	for(var i = 0; i < widgets.length; i++) {
+		state = widgets[i].listener.mouseUp(xpos, ypos, state, evnt);
+	}
 	return state;
 }
 
@@ -80,7 +90,7 @@ function handleMouseUp(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseMove(xpos, ypos, state, evnt, widgets) {
-	var dmin = 1000;
+	/*var dmin = 1000;
 	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
 	    var widgetPosY = widgets[i].y;
@@ -93,7 +103,12 @@ function handleMouseMove(xpos, ypos, state, evnt, widgets) {
 	    	iwidget = i;
 	    }
 	}
-	if (iwidget > -1) state = widgets[iwidget].listener.mouseMove(xpos, ypos, state, evnt);
+	if (iwidget > -1) state = widgets[iwidget].listener.mouseMove(xpos, ypos, state, evnt);*/
+	
+	//A temporary fix until "locking" events works
+	for(var i = 0; i < widgets.length; i++) {
+		state = widgets[i].listener.mouseMove(xpos, ypos, state, evnt);
+	}
 	return state;
 }
 
@@ -216,7 +231,7 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		//
 		// this is the part you grab onto...
 		//
-		c.fillRect(this.x + curPos*width, this.y-3, 4, 6);
+		c.fillRect(this.x + curPos*width, this.y-this.height/2-2, 4, this.height+4);
 		c.stroke();
 		//
 		// now for the titles
@@ -236,7 +251,9 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		return state;
 	}
 	listener.mouseDown = function(xev, yev, state, evnt) {
-		isTracking = true;
+		//isTracking = true;
+		
+		isTracking = (xev > x && xev < x + width) && (yev < y + height/2 + 2 && yev > y - height/2 - 2);
 		return state;
 	}
 	listener.mouseMove = function(xev, yev, state, evnt) {
@@ -317,7 +334,7 @@ function Button(x, y, width, height, dataloc, func, title) {
 
 	var listener = {};
 	listener.mouseUp = function(xev, yev, state, evnt) {
-		if(isDown) {
+		if(isDown && (xev > x && xev < x + width) && (yev > y - width/2 && yev < y + width/2)) {
 			isDown = false;
 			func(false);
 //			this.func(false);
@@ -325,8 +342,10 @@ function Button(x, y, width, height, dataloc, func, title) {
 		return state;
 	}
 	listener.mouseDown = function(xev, yev, state, evnt) {
-		isDown = true;
-		func(true);
+		if((xev > x && xev < x + width) && (yev > y - width/2 && yev < y + width/2)) {
+			isDown = true;
+			func(true);
+		}
 //		this.func(true);
 		return state;
 	}
