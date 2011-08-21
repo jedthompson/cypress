@@ -44,7 +44,7 @@ simulation.setup = function(state) {
 	state.x1 = 0;  // ditto
 	state.y0sin = 0; // ditto
 	state.sinAmp = [];
-	state.period = 60;
+	state.period = 40;
 	state.npoints = 1200; // this must be large, to prevent unevenly-size waves
 	state.x1plot = 0;
 	state.x2plot = 0;
@@ -55,7 +55,7 @@ simulation.setup = function(state) {
 	//
 	// square wave?
 	//
-	//for (var i=1; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/i;
+	for (var i=0; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/(i+1);
 	//
 	state = simulation.init_state(simulation.state);
 	return state;
