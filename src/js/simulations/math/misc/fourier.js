@@ -1,14 +1,14 @@
 var simulation_name = "Fourier Synthesis";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 20;
+simulation.dt = 100;
 desString = "Fourier sythesis....";
 simulation.description = desString;
 debug = true;
 ifirst = true;
 DBG.enabled = false;
 first = true;
-nsines = 20;
+nsines = 30;
 var temp = null;
 
 simulation.init_state = function(state) {
@@ -18,28 +18,38 @@ simulation.init_state = function(state) {
 	//
 	// these arrays are vectors.   [0/1]=x/y coordinate to grab, [2]=amp, [3]=display value
 	//
-	for (var i=0; i<nsines; i++) state.sinAmp[i] = new Vector(0,0,0,false);
 	//
 	// square wave?
 	//
 	if (state.doSquare) {
 		state.ampl = state.hScale*4/Math.PI;
-		for (var i=0; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/(i+1);
+		for (var i=0; i<nsines; i++) state.sinAmp[i] = new Vector(0,0,0,false);
+		for (var i=0; i<nsines; i++) state.cosAmp[i] = new Vector(0,0,0,false);
+		for (var i=1; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/i;
 	}
 	if (state.doTriangle) {
 		state.ampl = state.hScale*8/(Math.PI*Math.PI);
+		for (var i=0; i<nsines; i++) state.sinAmp[i] = new Vector(0,0,0,false);
+		for (var i=0; i<nsines; i++) state.cosAmp[i] = new Vector(0,0,0,false);
 		for (var i=1; i<nsines; i=i+2 ) {
-			var powe = .5*(i);
+			var powe = .5*(i-1);
 			var nume = Math.pow(-1,powe);
-			state.sinAmp[i].data[2] = nume/((i+1)*i);
+			state.sinAmp[i].data[2] = nume/(i*i);
 		}
 	}
 	if (state.doSawtooth) {
 		state.ampl = state.hScale/Math.PI;
+		for (var i=0; i<nsines; i++) state.sinAmp[i] = new Vector(0,0,0,false);
+		for (var i=0; i<nsines; i++) state.cosAmp[i] = new Vector(0,0,0,false);
 		state.cosAmp[0].data[2] = .5*Math.PI;
-		for (var i=0; i<nsines; i++ ) {
-			state.sinAmp[i].data[2] = 1/(i+1);
+		for (var i=1; i<nsines; i++ ) state.sinAmp[i].data[2] = 1/i;
+	}
+	if (state.pleaseZero) {
+		for (var i=0; i<nsines; i++) {
+			state.sinAmp[i].data[2] = 0;
+			state.cosAmp[i].data[2] = 0;
 		}
+		state.pleaseZero = false;
 	}
 	return state;
 }
@@ -60,6 +70,8 @@ simulation.setup = function(state) {
 	state.doSquare = true;
 	state.doTriangle = false;
 	state.doSawtooth = false;
+	state.pleaseSwap = false;
+	state.pleaseZero = false;
 	var buttonX0 = -100;
 	var buttonY0 = 20;
 	var buttonX1 = 0;
@@ -68,7 +80,11 @@ simulation.setup = function(state) {
 	var buttonY2 = 20;
 	var buttonX3 = 0;
 	var buttonY3 = 0;
-	var buttonW = 50;
+	var buttonX4 = -100;
+	var buttonY4 = 0;
+	var buttonX5 = -100;
+	var buttonY5 = -20;
+	var buttonW = 70;
 	var buttonH = 10;
 	state.settingsWidgets = [];
 	state.settingsWidgets[0] = new Button(buttonX0,buttonY0,buttonW,buttonH,
@@ -79,27 +95,24 @@ simulation.setup = function(state) {
 		temp, bfunction, "Triangle Wave");
 	state.settingsWidgets[3] = new Button(buttonX3,buttonY3,buttonW,buttonH,
 		temp, bfunction, "Sawtooth Wave");
+	state.settingsWidgets[4] = new Button(buttonX4,buttonY4,buttonW,buttonH,
+		temp, bfunction, "Swap Sin/Cos");
+	state.settingsWidgets[5] = new Button(buttonX5,buttonY5,buttonW,buttonH,
+		temp, bfunction, "Set All=0");
 
-	state.hScale = 50;   // length of amplitude on the canvas if amp=1
+//	state.hScale = 20;   // length of amplitude on the canvas if amp=1
+	state.hScale = 40;   // length of amplitude on the canvas if amp=1
 	state.x0 = 0;  // coord for amplitudes filled in render2d once we know the width 
-	state.x1 = 0;  // ditto
+	state.x1 = 1;  // ditto
 	state.y0sin = 0; // ditto
-	state["period"] = 10;
-	state.settingsWidgets[4] = new Slider(buttonX0, 35, 60, 2, "period", 1, 100,"Wavelength");
+	state.y0cos = 0; // ditto
+	state["period"] = 15;
+	state.settingsWidgets[6] = new Slider(buttonX0, 35, 60, 2, "period", 1, 40,"Wavelength");
 	state.sinAmp = [];
-	state.period = 40;
-	state.npoints = 1200; // this must be large, to prevent unevenly-size waves
-	state.x1plot = 0;
+	state.cosAmp = [];
+	state.npoints = 200;
+	state.x1plot = 10;
 	state.x2plot = 0;
-	//
-	// these arrays are vectors.   [0/1]=x/y coordinate to grab, [2]=amp
-	//
-	for (var i=0; i<nsines; i++) state.sinAmp[i] = new Vector(0,0,0);
-	//
-	// square wave?
-	//
-	for (var i=0; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/(i+1);
-	//
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 
@@ -111,7 +124,7 @@ simulation.setup = function(state) {
 		//
 		var resetAmps = (x > buttonX0) && (x < buttonX0+buttonW) && 
 			(y > buttonY0-buttonH/2) && (y < buttonY0+buttonH/2);
-		if (resetAmps) state = simulation.init_state(simulation.state);
+		if (resetAmps) 	state = simulation.init_state(simulation.state);
 		//
 		// which waveform to synthesize?
 		//
@@ -121,6 +134,7 @@ simulation.setup = function(state) {
 			(y > buttonY2-buttonH/2) && (y < buttonY2+buttonH/2);
 		var pleaseSawtooth = (x > buttonX3) && (x < buttonX3+buttonW) && 
 			(y > buttonY3-buttonH/2) && (y < buttonY3+buttonH/2);
+		
 		if (pleaseSquare) {
 			state.doSquare = true;
 			state.doTriangle = false;
@@ -139,6 +153,31 @@ simulation.setup = function(state) {
 			state.doSawtooth = true;
 			state = simulation.init_state(simulation.state);
 		}
+		//
+		// swap?  (just for fun)
+		//
+		state.pleaseSwap = (x > buttonX4) && (x < buttonX4+buttonW) && 
+			(y > buttonY4-buttonH/2) && (y < buttonY4+buttonH/2);
+		if (state.pleaseSwap) {
+			for (var i=0; i<nsines; i++) {
+				var tamp = state.sinAmp[i].data[2];
+				state.sinAmp[i].data[2] = state.cosAmp[i].data[2];
+				state.cosAmp[i].data[2] = tamp;
+			}
+			state.pleaseSwap = false;
+		}
+		//
+		// set all to zero?  (just for fun)
+		//
+		state.pleaseZero = (x > buttonX5) && (x < buttonX5+buttonW) && 
+			(y > buttonY5-buttonH/2) && (y < buttonY5+buttonH/2);
+		if (state.pleaseZero) {
+			state.doSquare = false;
+			state.doTriangle = false;
+			state.doSawtooth = false;
+			state = simulation.init_state(simulation.state);
+		}
+		//
 		return state;
 	}
 	state = simulation.init_state(simulation.state);
@@ -153,8 +192,10 @@ simulation.step = function(state) {
 simulation.render2d = function(state, c, w, h) {
 	state.x0 = -w/2 + 15;
 	state.x1 = -10;
-	state.y0sin = -h/2+5;
-	state.x2plot = w/2;
+//	state.y0sin = -h/4 + 15;
+	state.y0sin = 5;
+	state.y0cos = -h/2 + 5;
+	state.x2plot = w/2-10;
 	//
 	// draw the horizontal to divide into 2.  right panel will have the wave,left will have the
 	// fourier components
@@ -189,16 +230,28 @@ simulation.render2d = function(state, c, w, h) {
 		if (first) DBG.write("sin["+i+"] x/y="+round(x,1)+"/"+round(yc,1));
 		x = x + deltax;
 	}
+	var x = state.x0;
+	var y = state.y0cos;
+	c.text("Cosines",-w/2+1,y-1);
+	for (var i=0; i<nsines; i++) {
+		var amp = state.cosAmp[i].data[2]*state.hScale;
+		drawAmp(c, new Vector(x,y), new Vector(x,y+amp) );
+		c.text(i,x-1,y-3);
+		state.cosAmp[i].data[0] = x;
+		var yc = y+amp;
+		state.cosAmp[i].data[1] = yc;
+		x = x + deltax;
+	}
 	//
 	// if something is changing, report it...
 	//
 	if (state.cur) {
 		if (issine) {
-			if (state.isel > -1) c.text(round(state.sinAmp[state.isel].data[2],2),
+			if (state.isel > -1) c.text(round(state.sinAmp[state.isel].data[2],3),
 				state.sinAmp[state.isel].data[0],state.y0sin+state.hScale+2);
 		}
 		else {
-			if (state.isel > -1) c.text(round(state.cosAmp[state.isel].data[2],2),
+			if (state.isel > -1) c.text(round(state.cosAmp[state.isel].data[2],3),
 				state.cosAmp[state.isel].data[0],state.y0cos+state.hScale+2);
 		}
 	}
@@ -214,13 +267,14 @@ simulation.render2d = function(state, c, w, h) {
 		y = 0;
 		var xcenter = x + .5*dx;
 		for (var i=0; i<nsines; i++) {
-			var phase = (i+1)*Math.PI*xcenter/state.period;
+			var phase = i*Math.PI*xcenter/state.period;
 			if (ifirst) DBG.write("i="+i+" phase="+round(phase,2)+" sinAmp="+round(state.sinAmp[i].data[2],2));
 			var ysin = state.sinAmp[i].data[2]*Math.sin(phase);
-			y += ysin;
+			var ycos = state.cosAmp[i].data[2]*Math.cos(phase);
+			y += ysin + ycos;
 		}
 		ifirst = false;
-		y = y*state.ampl;
+		y = .5*y*state.ampl;
 		state.path[n] = new Vector(state.x1plot+xcenter,y);
 //		if (first) DBG.write("n="+n+" x/y= "+round(x,2)+"/"+round(y,2));
 		x += dx;
@@ -274,11 +328,21 @@ simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 		xamps = state.sinAmp[i].data[0] - xcoord;
 		yamps = state.sinAmp[i].data[1] - ycoord;
 		var rs = Math.sqrt( xamps*xamps + yamps*yamps);
+		xampc = state.cosAmp[i].data[0] - xcoord;
+		yampc = state.cosAmp[i].data[1] - ycoord;
+		var rc = Math.sqrt( xampc*xampc + yampc*yampc);
 		if ( rs < 2 ) {
 			state.isel = i;
 			issine = true;
 			state.cur = true;
 			DBG.write("Found it! sin wave amplitude isel="+state.isel);
+			return state;
+		}
+		else if ( rc < 2 ) {
+			state.isel = i;
+			issine = false;
+			state.cur = true;
+			DBG.write("Found it! cos wave amplitude isel="+state.isel);
 			return state;
 		}
 	}
@@ -299,10 +363,12 @@ simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
 		//
 		if (issine) {
 			var deltaH = ycoord - state.y0sin;
-			var v = deltaH/state.hScale;
-			if (v<0) v=0;
-			state.sinAmp[state.isel].data[2] = v;
+			state.sinAmp[state.isel].data[2] = deltaH/state.hScale;
 			DBG.write(" Rescaling sin amplitude to "+state.sinAmp[state.isel].data[2]);
+		}
+		else {
+			var deltaH = ycoord - state.y0cos;
+			state.cosAmp[state.isel].data[2] = deltaH/state.hScale;
 		}
 	}
 	return state;
