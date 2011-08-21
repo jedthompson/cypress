@@ -2,12 +2,20 @@ var simulation_name = "Block on an Inclined Plane";
 
 // create the simulation
 var simulation = new Simulation(simulation_name);
-simulation.description = "The block on an inclined plane is a classic physics demonstration that illustrates friction, gravity, and the normal force, among other concepts.  As the incline gets steeper, the normal force grows smaller due to gravity being pointed less and less towards the inclined plane.  As the normal force decreases in magnitude, so does the frictional force, and so the block accelerates faster.  The block also accelerates faster if the coefficient of kinetic friction is decreased.";
+destring ="The block on an inclined plane is a classic physics demonstration that illustrates friction, ";
+destring += "gravity, and the normal force, among other concepts.  As the incline gets steeper, the ";
+destring += "normal force grows smaller due to gravity being pointed more and more orthogonal to the ";
+destring += "inclined plane.  As the normal force decreases in magnitude, so does the frictional force, ";
+destring += "and so the block accelerates faster down the plane.  The block also accelerates faster if ";
+destring += "the coefficient of kinetic friction is decreased.   Note that using a coordinate system ";
+destring += "that is centered on the block and parallel and perpendicular to the inclined plane makes ";
+destring += "the calculation of the net acceleration very easy!";
+simulation.description = destring;
 
 // The number of milliseconds in between consecutive calls to
 // simulation.step(). (Simulation.render2d() is called immediately after step
 // regardless of this value.) Rule of thumb: keep it in between 15 and 35.
-simulation.dt = 20;
+simulation.dt = 100;
 
 // This function transforms a state variable into a correct initial state for
 // the simulation. It is called below, when the simulation is first loaded, and
@@ -16,7 +24,11 @@ simulation.dt = 20;
 // reaches the end of the ramp.
 simulation.init_state = function(state){
 	//Initialize variables
-	state.mu=0.2;
+	state.showComponents = true;
+	state.x0 = simulation.getWidth()/4;
+	state.lengthX = 60;
+	state.y0 = -simulation.getHeight()/2;
+	state.mu = state["muSlider"];
 	state.thetaD=state["thetaSlider"];
 	state.g = 9.8;
 	state.t = 0;
@@ -32,14 +44,15 @@ simulation.init_state = function(state){
 	state.thetaR = state.thetaD*2*Math.PI/360;
 	
 	//Calculate initial position
-	state.xPos = 40-(60/Math.tan(state.thetaR));
-	if(state.xPos < -40) {state.xPos = -40;}
-	state.yPos = -30+((40-state.xPos)*Math.tan(state.thetaR));
+	state.xPos = state.x0-(state.lengthX/Math.tan(state.thetaR));
+//	if(state.xPos < -40) {state.xPos = -40;}
+	state.yPos = state.y0+((state.x0-state.xPos)*Math.tan(state.thetaR));
 	state.xInit = state.xPos;
 	state.yInit = state.yPos;
 	
 	//Calculate acceleration
-	state.acc = (state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(state.thetaR));
+	state.scaleit = 3.
+	state.acc = state.scaleit*((state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(state.thetaR)));
 	if(state.acc <= 0) {state.acc = 0;}
 	state.xAcc = state.acc*Math.cos(state.thetaR);
 	state.yAcc = -(state.acc*Math.sin(state.thetaR));
@@ -50,8 +63,12 @@ simulation.init_state = function(state){
 // Set up the widgets
 simulation.setup = function(state) {
 	state["thetaSlider"] = 30;
+	state["muSlider"] = 0.4;
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Slider(-30, 20, 60, 9/4.8, "thetaSlider", 1, 89);
+	var theta = String.fromCharCode(952);
+	var strsld = "Incline Angle ("+theta+")";
+	state.settingsWidgets[0] = new Slider(-30, 20, 70, 2, "thetaSlider", 1, 89, strsld);
+	state.settingsWidgets[1] = new Slider(-30, 0, 70, 2, "muSlider", 0, 1,"Friction");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
@@ -59,8 +76,9 @@ simulation.setup = function(state) {
 		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
 		state.thetaD = state["thetaSlider"];
 		state.thetaR = state.thetaD*2*Math.PI/360;
+		state.mu = state["muSlider"];
 	
-		state.xInit = 40-(60/Math.tan(state.thetaR));
+/*		state.xInit = 40-(60/Math.tan(state.thetaR));
 		if(state.xInit < -40) {state.xInit = -40;}
 		state.yInit = -30+((40-state.xInit)*Math.tan(state.thetaR));
 	
@@ -68,6 +86,8 @@ simulation.setup = function(state) {
 		if(state.acc <= 0) {state.acc = 0;}
 		state.xAcc = state.acc*Math.cos(state.thetaR);
 		state.yAcc = -(state.acc*Math.sin(state.thetaR));
+*/
+		state = simulation.init_state(simulation.state);
 		return state;
 	}
 	
@@ -82,7 +102,7 @@ simulation.step = function(state) {
 	state.xPos = state.xInit + (0.5*state.xAcc*state.t*state.t);
 	state.yPos = state.yInit + (0.5*state.yAcc*state.t*state.t);
 	
-	if(state.yPos < -30) {
+	if(state.yPos < state.y0) {
 		// When the block has finished falling, we reset the simulation
 		// so it can fall again.
 		state = simulation.init_state(state);
@@ -105,13 +125,18 @@ simulation.render2d = function(state, c, w, h) {
 	
 	//Code to draw the inclined plane
 	c.beginPath();
-	c.moveTo(-40,-30);
-	c.lineTo(40,-30); // so, a line from (-40, -30) to (40, -30)
+	c.moveTo(state.x0,state.y0);
 	c.lineTo(state.xInit,state.yInit);
-	c.lineTo(-40,-30);
-	c.strokeStyle="#000"; // the color of the stroke, as a hexidecimal RGB value
-	c.stroke(); // draw the path we created
-	
+	c.lineTo(state.xInit,state.y0);
+	c.lineTo(state.x0,state.y0);
+	c.stroke();
+	var theta = String.fromCharCode(952);
+	var oldfont = c.font;
+	c.font = "30pt Arial";
+	c.text(theta,state.x0-15,state.y0+1);
+//	c.font = oldfont;
+	c.font = "24pt Fixed";
+
 	//Code to draw the box
 	c.beginPath(); // begin a new path (discarding old path data)
 	var x1=state.xPos-2*Math.cos(state.thetaR);
@@ -131,15 +156,60 @@ simulation.render2d = function(state, c, w, h) {
 
 	//Code to display force vectors
 	if(state.displayForceVectors) {
+		var gravity = state.scaleit*state.g;
 		var xC = (x3+x1)/2;
 		var yC = (y3+y1)/2;
-		vector2dAtAngle(xC,yC,state.g*2,270,c);
-		vector2dAtAngle(xC,yC,state.g*2*Math.cos(state.thetaR),90-state.thetaD,c);
-		if(state.mu != 0) {
-			if(state.acc <= 0) {drawVector(xC,yC,state.g*2*Math.sin(state.thetaR),180+(state.thetaD),c);}
-			if(state.acc <= 0) {drawVector(xC,yC,state.g*2*Math.sin(state.thetaR),180+(state.thetaD),c);}
-			else {drawVector(xC,yC,state.mu*state.g*2*Math.cos(state.thetaR),180+(state.thetaD),c);}
+		vector2dAtAngle(xC,yC,gravity,270,c);
+		c.text("G",xC-1,yC-gravity-3.3);
+		if (state.showComponents) {
+			var x0 = xC;
+			var y0 = yC - gravity;
+			var gx = gravity*Math.sin(state.thetaR);
+			oldwidth = c.lineWidth;
+			oldcolor = c.fillStyle;
+			c.fillStyle = "red";
+			c.lineWidth = 0.1;
+			c.beginPath();
+			c.moveTo(x0,y0);
+			c.lineTo(x0 - gx*Math.cos(state.thetaR), y0 + gx*Math.sin(state.thetaR));
+			c.lineTo(xC,yC);
+			c.stroke();
+			c.lineWidth = oldwidth;
+			c.fillStyle = oldcolor;
 		}
+		//
+		var fN = state.g*Math.cos(state.thetaR);
+		var fNx = state.scaleit*fN*Math.sin(state.thetaR);
+		var fNy = state.scaleit*fN*Math.cos(state.thetaR);
+		vector2dAtAngle(xC,yC,fN*state.scaleit,90-state.thetaD,c);
+		c.text("N",xC+fNx+1,yC+fNy+1);
+		var ff = fN*state.mu;
+		if(state.mu != 0) {
+			var fx = state.mu*gravity*Math.cos(state.thetaR);
+			var fy = state.mu*gravity*Math.sin(state.thetaR);
+			drawVector(xC,yC,state.mu*gravity*Math.cos(state.thetaR),180+(state.thetaD),c);
+			c.text("f",xC-fx-.5,yC+fy+.5);
+		}
+		if (state.acc > 0) {
+			var accMag = gravity*Math.sin(state.thetaR) - fN;
+			var accx = accMag*Math.cos(state.thetaR);
+			var accy = accMag*Math.cos(state.thetaR);
+			drawVectorColor(xC,yC,accMag,360+state.thetaD,c,"blue");
+			oldcolor = c.fillStyle;
+			c.fillStyle = "blue";
+			c.text("a",xC+accx+.5,yC-accy);
+			c.fillStyle = oldcolor;
+		}
+
+		c.text("N: normal 'acceleration'   "+round(fN,2),state.x0,45);
+		c.text("G: gravity 'acceleration'  "+round(state.g,2),state.x0,40);
+		c.text("   down the plane             "+round(state.g*Math.sin(state.thetaR),2),state.x0,35);
+		c.text("   normal to the plane        "+round(state.g*Math.cos(state.thetaR),2),state.x0,30);		
+		c.text("f: friction 'acceleration' "+round(ff,2),state.x0,25);
+		oldcolor = c.fillStyle;
+		c.fillStyle = "blue";
+		c.text("a: net acceleration        "+round(state.acc/state.scaleit,2)+" down the incline",state.x0,20);
+		c.fillStyle = oldcolor;
 	}
 }
 
@@ -157,6 +227,7 @@ function drawVectorColor(a,b,c,d,context,color) {
 	vector2dAtAngle(a,b,c,(360-d),context,color);
 }
 
+/*
 // Similar to render2d, but for a different tab.
 simulation.renderForceDiagram = function(state, c, w, h) {
 	//Code to draw the box
@@ -225,3 +296,4 @@ simulation.renderForceDiagram = function(state, c, w, h) {
 // as the renderer.
 simulation.addTab('Force Diagram', simulation.renderForceDiagram);
 
+*/
