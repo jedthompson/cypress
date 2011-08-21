@@ -1,7 +1,7 @@
 var simulation_name = "Fourier";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 100;
+simulation.dt = 20;
 desString = "Fourier sythesis....";
 simulation.description = desString;
 debug = true;
@@ -39,15 +39,15 @@ simulation.setup = function(state) {
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 */
-	state.hScale = 20;   // length of amplitude on the canvas if amp=1
+	state.hScale = 100;   // length of amplitude on the canvas if amp=1
 	state.x0 = 0;  // coord for amplitudes filled in render2d once we know the width 
-	state.x1 = 1;  // ditto
+	state.x1 = 0;  // ditto
 	state.y0sin = 0; // ditto
 	state.y0cos = 0; // ditto
 	state.sinAmp = [];
 	state.cosAmp = [];
-	state.period = 8;
-	state.npoints = 200;
+	state.period = 60;
+	state.npoints = 1200; // this must be large, to prevent unevenly-size waves
 	state.x1plot = 10;
 	state.x2plot = 0;
 	//
@@ -58,7 +58,7 @@ simulation.setup = function(state) {
 	//
 	// square wave?
 	//
-	for (var i=1; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/i;
+	//for (var i=1; i<nsines; i=i+2 ) state.sinAmp[i].data[2] = 1/i;
 	//
 	state = simulation.init_state(simulation.state);
 	return state;
@@ -127,8 +127,8 @@ simulation.render2d = function(state, c, w, h) {
 	for (var n=0; n<state.npoints; n++) {
 		y = 0;
 		var xcenter = x + .5*dx;
-		for (var i=1; i<nsines; i++) {
-			var phase = i*Math.PI*xcenter/state.period;
+		for (var i=0; i<nsines; i++) {
+			var phase = (i+1)*Math.PI*xcenter/state.period;
 			if (ifirst) DBG.write("i="+i+" phase="+round(phase,2)+" sinAmp="+round(state.sinAmp[i].data[2],2));
 			var ysin = state.sinAmp[i].data[2]*Math.sin(phase);
 			var ycos = state.cosAmp[i].data[2]*Math.cos(phase);
