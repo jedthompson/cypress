@@ -18,15 +18,6 @@
 
 		<subcategory path="gravity">
 			<name>Gravity</name>
-			<simulation path="bowlingBallAndTennisBall">
-				<name>Bowling Ball and Tennis Ball</name>
-				<description>TODO Description</description>
-				<tagset>
-					<tag>gravity</tag>
-					<tag>momentum</tag>
-					<tag>energy</tag>
-				</tagset>
-			</simulation>
 			<simulation path="constantAccG">
 				<name>Constant Acceleration due to Gravity</name>
 				<description>In this demonstration, one can see that even though an object may have horizontal speed, the acceleration due to gravity will remain the same as if it had no horizontal speed and thus it will fall just as fast as a ball released from rest.</description>
@@ -380,5 +371,21 @@
 			</simulation>
 		</subcategory>
 	</category>
+
+	<category path="math">
+		<name>Mathematics</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="fourier">
+				<name>Fourier Analysis</name>
+				<description>TODO Description</description>
+				<tagset>
+					<tag>fourier</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
 </simulations>
 
