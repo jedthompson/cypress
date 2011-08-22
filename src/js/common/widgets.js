@@ -1,3 +1,14 @@
+/*FOR ALL WIDGETS:
+ * x and y indicate the CENTER POINT of the widget
+ * This is to preserve similarity to the center of the screen being located at (0,0)
+ * 
+ * The following two values determine whether the widget is locked.  This allows other code to override
+ * the locking system if necessary by setting isWidgetLocked to false.
+ */
+isWidgetLocked = false;
+lockedWidget = null;
+
+
 function Widget(x, y, width, height, dataLoc, render, listener) {
 	this.x = x;
 	this.y = y;
@@ -20,24 +31,14 @@ function Widget(x, y, width, height, dataLoc, render, listener) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseDown(xpos, ypos, state, evnt, widgets) {
-	/*var dmin = 1000;
-	var iwidget = -1;
 	for(var i = 0; i < widgets.length; i++) {
-	    var widgetPosY = widgets[i].y;
-	    var mousePosY = ypos;
-	    var widgetPosX = widgets[i].x;
-	    var mousePosX= xpos;
-	    adist = Math.sqrt( Math.pow(widgetPosY-mousePosY,2) + Math.pow(widgetPosX-mousePosX,2) );
-	    if ( adist < dmin) {
-	    	dmin = adist;
-	    	iwidget = i;
-	    }
-	}
-	if (iwidget > -1) widgets[iwidget].listener.mouseDown(xpos, ypos, state, evnt);*/
-	
-	//A temporary fix until "locking" events works
-	for(var i = 0; i < widgets.length; i++) {
-		state = widgets[i].listener.mouseDown(xpos, ypos, state, evnt);
+		var widg = widgets[i];
+		if(xpos > widg.x - widg.width/2 && xpos < widg.x + widg.width/2 && ypos > widg.y - widg.height/2 && ypos < widg.y + widg.height/2) {
+			isWidgetLocked = true;
+			lockedWidget = widg;
+			state = widg.listener.mouseDown(xpos, ypos, state, evnt);
+			break;
+		}
 	}
 	return state;
 }
@@ -54,24 +55,10 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseUp(xpos, ypos, state, evnt, widgets) {
-	/*var dmin = 1000;
-	var iwidget = -1;
-	for(var i = 0; i < widgets.length; i++) {
-	    var widgetPosY = widgets[i].y;
-	    var mousePosY = ypos;
-	    var widgetPosX = widgets[i].x;
-	    var mousePosX= xpos;
-	    adist = Math.sqrt( Math.pow(widgetPosY-mousePosY,2) + Math.pow(widgetPosX-mousePosX,2) );
-	    if ( adist < dmin) {
-	    	dmin = adist;
-	    	iwidget = i;
-	    }
-	}
-	if (iwidget > -1) state = widgets[iwidget].listener.mouseUp(xpos, ypos, state, evnt);*/
-	
-	//A temporary fix until "locking" events works
-	for(var i = 0; i < widgets.length; i++) {
-		state = widgets[i].listener.mouseUp(xpos, ypos, state, evnt);
+	if(isWidgetLocked) {
+		state = lockedWidget.listener.mouseUp(xpos, ypos, state, evnt);
+		isWidgetLocked = false;
+		lockedWidget = null;
 	}
 	return state;
 }
@@ -90,24 +77,8 @@ function handleMouseUp(xpos, ypos, state, evnt, widgets) {
  * @return A modified state with any changes performed by the various widgets
  */
 function handleMouseMove(xpos, ypos, state, evnt, widgets) {
-	/*var dmin = 1000;
-	var iwidget = -1;
-	for(var i = 0; i < widgets.length; i++) {
-	    var widgetPosY = widgets[i].y;
-	    var mousePosY = ypos;
-	    var widgetPosX = widgets[i].x;
-	    var mousePosX= xpos;
-	    adist = Math.sqrt( Math.pow(widgetPosY-mousePosY,2) + Math.pow(widgetPosX-mousePosX,2) );
-	    if ( adist < dmin) {
-	    	dmin = adist;
-	    	iwidget = i;
-	    }
-	}
-	if (iwidget > -1) state = widgets[iwidget].listener.mouseMove(xpos, ypos, state, evnt);*/
-	
-	//A temporary fix until "locking" events works
-	for(var i = 0; i < widgets.length; i++) {
-		state = widgets[i].listener.mouseMove(xpos, ypos, state, evnt);
+	if(isWidgetLocked) {
+		state = lockedWidget.listener.mouseMove(xpos, ypos, state, evnt);
 	}
 	return state;
 }
@@ -225,13 +196,13 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		//
 		// slider is a rectangle for now
 		//
-		c.strokeRect(this.x,this.y-this.height/2,this.width,this.height);
+		c.strokeRect(this.x-this.width/2,this.y-this.height/2+2,this.width,this.height-4);
 		c.stroke();
 		c.beginPath();
 		//
 		// this is the part you grab onto...
 		//
-		c.fillRect(this.x + curPos*width, this.y-this.height/2-2, 4, this.height+4);
+		c.fillRect(this.x - this.width/2 + curPos*width, this.y-this.height/2, 4, this.height);
 		c.stroke();
 		//
 		// now for the titles
@@ -239,7 +210,7 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		var oldfont = c.font;
 		c.font = "25pt Arial";
 		c.text(title,this.x+5,this.y+5);
-		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-2);
+		c.text(round(state[dataLoc],1),this.x + this.width/2+1,this.y-2);
 		c.font = oldfont;
 	}
 
@@ -253,12 +224,12 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 	listener.mouseDown = function(xev, yev, state, evnt) {
 		//isTracking = true;
 		
-		isTracking = (xev > x && xev < x + width) && (yev < y + height/2 + 2 && yev > y - height/2 - 2);
+		isTracking = (xev > x - width/2 && xev < x + width/2) && (yev < y + height/2 && yev > y - height/2);
 		return state;
 	}
 	listener.mouseMove = function(xev, yev, state, evnt) {
 		if(isTracking) {
-			var pos = (xev - x) * ((max-min)/width) + min;
+			var pos = (xev - x + width/2) * ((max-min)/width) + min;
 			if(pos >= min && pos <= max) {
 				state[dataLoc] = pos;
 			} else if(pos < min) {
@@ -321,30 +292,30 @@ function Button(x, y, width, height, dataloc, func, title) {
 	this.title = title;
 	this.renderDefault = function(c, state) {
 		c.beginPath();
-		c.strokeRect(this.x,this.y-this.height/2,this.width,this.height);
+		c.strokeRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
 		c.stroke();
 		var oldfont = c.font;
 		c.font = "25pt Arial";
 		var tlen = this.title.length*3;  // 3 pixels per character?
 		var xoff = .5*(width-tlen);
-		c.text(this.title,this.x+xoff,this.y-2); // TODO actually calculate the width of the text
+		c.text(this.title,this.x+xoff-this.width/2,this.y-2); // TODO actually calculate the width of the text
 //		c.text(round(state[dataLoc],1),this.x + this.width+1,this.y-1);
 		c.font = oldfont;
 	}
 
 	var listener = {};
 	listener.mouseUp = function(xev, yev, state, evnt) {
-		if(isDown && (xev > x && xev < x + width) && (yev > y - width/2 && yev < y + width/2)) {
+		if(isDown && (xev > x - width/2 && xev < x + width/2) && (yev > y - width/2 && yev < y + width/2)) {
 			isDown = false;
-			func(false);
+			state = func(false, state);
 //			this.func(false);
 		}
 		return state;
 	}
 	listener.mouseDown = function(xev, yev, state, evnt) {
-		if((xev > x && xev < x + width) && (yev > y - width/2 && yev < y + width/2)) {
+		if((xev > x - width/2 && xev < x + width/2) && (yev > y - width/2 && yev < y + width/2)) {
 			isDown = true;
-			func(true);
+			state = func(true, state);
 		}
 //		this.func(true);
 		return state;

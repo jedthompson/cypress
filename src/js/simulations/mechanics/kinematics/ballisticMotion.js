@@ -52,16 +52,20 @@ simulation.init_state = function(state) {
 	return state;
 }
 
-function bfunction(d) {
-//	if (d) alert("pushed");
+function bfunction(d, state) {
+	if (!d) {
+		//state = simulation.init_state(simulation.state);
+		state.dopause = !state.dopause;
+	}
+	return state;
 }
 var temp = null;
 simulation.setup = function(state) {
 	state["theta"] = 60;
 	state["speed"] = 40;
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Slider(-30, 40, 70, 2, "theta", 0, 90,"Initial angle");
-	state.settingsWidgets[1] = new Slider(-30, 20, 70, 2, "speed", 0, 100,"Initial speed");
+	state.settingsWidgets[0] = new Slider(-30, 40, 70, 6, "theta", 0, 90,"Initial angle");
+	state.settingsWidgets[1] = new Slider(-30, 20, 70, 6, "speed", 0, 100,"Initial speed");
 	var buttonX = -30;
 	var buttonY = 0;
 	var buttonW= 80;
@@ -70,24 +74,7 @@ simulation.setup = function(state) {
 			"Toggle Auto Restart");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
-	
-	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
-		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
-		state.theta = state["theta"];
-		state = simulation.init_state(simulation.state);
-		//
-		// did we push a button?
-		//
-		var buttonPush = (x > buttonX) && (x < buttonX+buttonW) && 
-			(y > buttonY-buttonH/2) && (y < buttonY+buttonH/2);
-		if (  buttonPush ) {
-//			if (state.dopause) state.settingsWidgets[2].title = "Enable Auto Restart";
-//			else state.settingsWidgets[2].title = "disable Auto Restart";
-			state.dopause = !state.dopause;
-		}
-		return state;
-	}
-	
+
 	state = simulation.init_state(simulation.state);
 	return state;
 }
@@ -125,7 +112,7 @@ simulation.step = function(state) {
 	
 	//
 	// reset once the upper path gets back to zero
-	if(state.pos1.data[1] < state.initpos.data[1]) {
+	if(state.pos1.data[1] < state.initpos.data[1] && !state.dopause) {
 		state = simulation.init_state(state);
 
 	}
@@ -167,7 +154,7 @@ simulation.render2d = function(state, c, w, h) {
 		c.arc(state.mark2.data[0],state.mark2.data[1],1,0,2*Math.PI,false);
 		c.stroke();
 		c.lineWidth = 0.1;
-		if (state.dopause) sim.paused = true;
+		//if (state.dopause) sim.paused = true;
 	}
 	//
 	// draw a circle around the object on the path
