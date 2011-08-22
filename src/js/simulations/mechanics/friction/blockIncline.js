@@ -67,8 +67,8 @@ simulation.setup = function(state) {
 	state.settingsWidgets = [];
 	var theta = String.fromCharCode(952);
 	var strsld = "Incline Angle ("+theta+")";
-	state.settingsWidgets[0] = new Slider(-30, 20, 70, 2, "thetaSlider", 1, 89, strsld);
-	state.settingsWidgets[1] = new Slider(-30, 0, 70, 2, "muSlider", 0, 1,"Friction");
+	state.settingsWidgets[0] = new Slider(-30, 20, 70, 6, "thetaSlider", 1, 89, strsld);
+	state.settingsWidgets[1] = new Slider(-30, 0, 70, 6, "muSlider", 0, 1,"Friction");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
