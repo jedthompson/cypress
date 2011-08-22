@@ -1,7 +1,7 @@
 var simulation_name = "Fourier Synthesis";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 100;
+simulation.dt = 20;
 desString = "Fourier sythesis....";
 simulation.description = desString;
 debug = true;
