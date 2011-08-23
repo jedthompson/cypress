@@ -110,7 +110,7 @@ simulation.setup = function(state) {
 	state.settingsWidgets[6] = new Slider(buttonX0, 35, 60, 6, "period", 1, 40,"Wavelength");
 	state.sinAmp = [];
 	state.cosAmp = [];
-	state.npoints = 200;
+	state.npoints = 800;
 	state.x1plot = 10;
 	state.x2plot = 0;
 
