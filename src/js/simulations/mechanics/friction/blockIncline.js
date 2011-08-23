@@ -33,7 +33,7 @@ simulation.init_state = function(state){
 	state.g = 9.8;
 	state.t = 0;
 	state.displayForceVectors = true;
-	
+
 	//Check to see if values are valid
 	if(state.mu < 0) {state.mu = 0;}
 	if(state.thetaD <= 0.01) {state.thetaD = .01;}
@@ -71,25 +71,19 @@ simulation.setup = function(state) {
 	state.settingsWidgets[1] = new Slider(-30, 0, 70, 6, "muSlider", 0, 1,"Friction");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
+		
 	
-	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
+	state.debugX = 0;
+	state.debugY = 0;
+	
+	/*simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
 		state.thetaD = state["thetaSlider"];
 		state.thetaR = state.thetaD*2*Math.PI/360;
 		state.mu = state["muSlider"];
-	
-/*		state.xInit = 40-(60/Math.tan(state.thetaR));
-		if(state.xInit < -40) {state.xInit = -40;}
-		state.yInit = -30+((40-state.xInit)*Math.tan(state.thetaR));
-	
-		state.acc = (state.g*Math.sin(state.thetaR))-(state.mu*state.g*Math.cos(state.thetaR));
-		if(state.acc <= 0) {state.acc = 0;}
-		state.xAcc = state.acc*Math.cos(state.thetaR);
-		state.yAcc = -(state.acc*Math.sin(state.thetaR));
-*/
 		state = simulation.init_state(simulation.state);
 		return state;
-	}
+	}*/
 	
 	state = simulation.init_state(simulation.state);
 	return state;
@@ -102,7 +96,7 @@ simulation.step = function(state) {
 	state.xPos = state.xInit + (0.5*state.xAcc*state.t*state.t);
 	state.yPos = state.yInit + (0.5*state.yAcc*state.t*state.t);
 	
-	if(state.yPos < state.y0) {
+	if(state.yPos < state.y0 || state.thetaSlider != state.thetaD || state.muSlider != state.mu) {
 		// When the block has finished falling, we reset the simulation
 		// so it can fall again.
 		state = simulation.init_state(state);
@@ -217,6 +211,7 @@ simulation.render2d = function(state, c, w, h) {
 // widgets library.
 simulation.renderSettings = function(state, c, w, h) {
 	renderWidgets(state.settingsWidgets, c, state);
+	c.drawCircle(state.debugX, state.debugY, 2);
 }
 
 function drawVector(a,b,c,d,context) {

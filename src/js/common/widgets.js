@@ -40,6 +40,8 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
 			break;
 		}
 	}
+		state.debugX = xpos;
+		state.debugY = ypos;
 	return state;
 }
 
@@ -157,6 +159,7 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 	this.y = y;
 	this.width = width;
 	this.height = height;
+	this.sliderDisp = 2;
 	//this.device = _platform;
 	if(!min) {
 		this.min = 0;
@@ -196,7 +199,7 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 		//
 		// slider is a rectangle for now
 		//
-		c.strokeRect(this.x-this.width/2,this.y-this.height/2+2,this.width,this.height-4);
+		c.strokeRect(this.x-this.width/2,this.y-this.height/2+this.sliderDisp,this.width,this.height-2*this.sliderDisp);
 		c.stroke();
 		c.beginPath();
 		//
@@ -305,17 +308,23 @@ function Button(x, y, width, height, dataloc, func, title) {
 
 	var listener = {};
 	listener.mouseUp = function(xev, yev, state, evnt) {
-		if(isDown && (xev > x - width/2 && xev < x + width/2) && (yev > y - width/2 && yev < y + width/2)) {
+		if(isDown && (xev > x - width/2 && xev < x + width/2) && (yev > y - height/2 && yev < y + height/2)) {
 			isDown = false;
-			state = func(false, state);
+			var stateTemp = func(false, state);
+			if(stateTemp) {
+				state = stateTemp;
+			}
 //			this.func(false);
 		}
 		return state;
 	}
 	listener.mouseDown = function(xev, yev, state, evnt) {
-		if((xev > x - width/2 && xev < x + width/2) && (yev > y - width/2 && yev < y + width/2)) {
+		if((xev > x - width/2 && xev < x + width/2) && (yev > y - height/2 && yev < y + height/2)) {
 			isDown = true;
-			state = func(true, state);
+			var stateTemp = func(true, state);
+			if(stateTemp) {
+				state = stateTemp;
+			}
 		}
 //		this.func(true);
 		return state;
