@@ -25,8 +25,11 @@ simulation.init_state = function(state) {
 // Set up the widgets.  Here we make a slider to vary the index of refraction in the 2nd region
 //
 
-function bfunction(d) {
-//	if (d) alert("pushed");
+function bfunction(d, state) {
+	if (!d)	{
+		state.objects[0].data[2] = -state.objects[0].data[2];
+	}
+	return state;
 }
 
 simulation.setup = function(state) {
@@ -77,7 +80,7 @@ simulation.setup = function(state) {
 	// make buttons for what you want.
 	// start with a button to toggle the sign of the lens
 	//
-	var buttonX = -200;
+	var buttonX = 0;
 	var buttonY = 20;
 	var buttonW= 50;
 	var buttonH = 10;
@@ -87,7 +90,7 @@ simulation.setup = function(state) {
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
 	
-	simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
+	/*simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
 		//
 		// see if we've pushed the button 
@@ -101,7 +104,7 @@ simulation.setup = function(state) {
 			state.objects[0].data[2] = -state.objects[0].data[2];
 		}
 		return state;
-	}
+	}*/
 	
 	state = simulation.init_state(simulation.state);
 	return state;
