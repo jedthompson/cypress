@@ -1,4 +1,4 @@
-var simulation_name = "Thin Lens";
+var simulation_name = "Thin Lenses (2 lenses)";
 
 var simulation = new Simulation(simulation_name);
 simulation.dt = 200;
@@ -14,10 +14,14 @@ DBG.enabled = false;
 
 //color = new Array("blue","green","red","yellow");
 
+
 simulation.init_state = function(state) {
 	state.cur = false;
 	return state;
 }
+
+
+
 //
 // Set up the widgets.  Here we make a slider to vary the index of refraction in the 2nd region
 //
@@ -67,7 +71,7 @@ simulation.setup = function(state) {
 	//
 	// here is the object
 	//
-	state.objectX = -90;
+	state.objectX = -100;
 	state.objectH = 5;
 	//
 	// here are the lenses.  note:  all objects are lenses and vice versa (in a previous version
@@ -96,32 +100,7 @@ simulation.setup = function(state) {
 		temp, bfunction2, "Toggle Sign (right)");
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
-	
-	
-	/*simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
-		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
-		//
-		// see if we've pushed the button 
-		//
-		var changeSign = (x > buttonX) && (x < buttonX+buttonW) && 
-			(y > buttonY1-buttonH/2) && (y < buttonY1+buttonH/2);
-		if (changeSign)	{
-			//
-			// change the sign, positive/negative
-			//
-			state.objects[0].data[2] = -state.objects[0].data[2];
-		}
-		changeSign = (x > buttonX) && (x < buttonX+buttonW) && 
-			(y > buttonY2-buttonH/2) && (y < buttonY2+buttonH/2);
-		if (changeSign)	{
-			//
-			// change the sign, positive/negative
-			//
-			state.objects[1].data[2] = -state.objects[1].data[2];
-		}
-		return state;
-	}*/
-	
+		
 	state = simulation.init_state(simulation.state);
 	return state;
 }
