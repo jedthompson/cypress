@@ -3,7 +3,7 @@
 var simulation_name = "Wave addition, Shiva machine technique";
 
 var simulation = new Simulation(simulation_name);
-simulation.dt = 20;   // 20 ms
+simulation.dt = 50;   // 20 ms
 simulation.description = "In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.";
 
 simulation.init_state = function(state) {
@@ -14,7 +14,7 @@ simulation.init_state = function(state) {
 	state.ypos1 = 30;
 
 	state.phase2 = 0;    // initialize to zero
-	state.amp2 = state.amp1;     // initialize amplitude
+	state.amp2 = 10;     // initialize amplitude
 	state.vel2 = -4;
 	state.wavelength2 = 20;
 	state.ypos2 = 0;
@@ -30,8 +30,13 @@ simulation.init_state = function(state) {
 //
 simulation.setup = function(state) {
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Slider(-30, 40, 60, 2, "vel1", 1, 10, "Velocity 1");
-	state.settingsWidgets[1] = new Slider(-30, 20, 60, 2, "wavelength1", 10, 50, "Velocity 2");
+	state.settingsWidgets[0] = new Slider(-40, 40, 60, 4, "vel1", 0, 10, "Velocity 1");
+	state.settingsWidgets[1] = new Slider(-40, 20, 60, 4, "wavelength1", 10, 50, "Wavelength 1");
+	state.settingsWidgets[2] = new Slider(-40, 0, 60, 4, "amp1", 1, 50, "Amplitude 1");
+	state.settingsWidgets[3] = new Slider(40, 40, 60, 4, "vel2", -10, 0, "Velocity 2");
+	state.settingsWidgets[4] = new Slider(40, 20, 60, 4, "wavelength2", 10, 50, "Wavelength 2");
+	state.settingsWidgets[5] = new Slider(40, 0, 60, 4, "amp2", 1, 50, "Amplitude 2");
+	
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 	
