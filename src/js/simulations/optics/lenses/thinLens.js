@@ -127,7 +127,7 @@ simulation.render2d = function(state, c, w, h) {
 	c.lineTo(w/2,0);
 	c.stroke();
 	//
-	// for debugging....
+	// for debugging.... 
 	//
 	if (DBG.enabled) {
 		c.fillCircle(0,0,1);
