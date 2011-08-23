@@ -40,8 +40,6 @@ function handleMouseDown(xpos, ypos, state, evnt, widgets) {
 			break;
 		}
 	}
-		state.debugX = xpos;
-		state.debugY = ypos;
 	return state;
 }
 
@@ -82,6 +80,8 @@ function handleMouseMove(xpos, ypos, state, evnt, widgets) {
 	if(isWidgetLocked) {
 		state = lockedWidget.listener.mouseMove(xpos, ypos, state, evnt);
 	}
+		state.debugX = xpos;
+		state.debugY = ypos;
 	return state;
 }
 

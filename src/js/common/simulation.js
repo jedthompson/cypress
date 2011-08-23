@@ -171,15 +171,13 @@ function Simulation(name) {
 			elem = this.canvas;
 		else
 			elem = this.canvas2;
-		w = this.width;
-		h = this.height;
+		w = elem.width;
+		h = elem.height;
 		sf = (w>h)?(h/100):(w/100);
 		var absX = ev.clientX - elem.offsetLeft;
 		var absY = ev.clientY - elem.offsetTop;
-		var x = absX/sf;
-		var y = absY/sf;
-		x = (x-w/(2*sf))*2;
-		y = -(y-h/(2*sf))*2 - 50;
+		var x = (absX - w/2)/sf;
+		var y = -absY/sf + h/sf/2;
 		this.state = f(x, y, this.state, ev, elem);
 	}
 
