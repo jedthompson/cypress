@@ -321,8 +321,8 @@ simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 	// state.sinAmp and state.cosAMP data[0]=x and data[1]=y within +- 1 in x and y
 	//
 	var dr = 2;
-	var xcoord = x/2;
-	var ycoord = (y+50)/2;
+	var xcoord = x;
+	var ycoord = y;
 	DBG.write("Mousedown x="+round(xcoord,1)+" y="+round(ycoord,1));
 	for (var i=0; i<nsines; i++) {
 		xamps = state.sinAmp[i].data[0] - xcoord;
@@ -350,8 +350,9 @@ simulation.tabs["Simulation"].mouseDown = function(x, y, state, ev) {
 }
 
 simulation.tabs["Simulation"].mouseMove = function(x, y, state, ev) {
-	var xcoord = x/2;
-	var ycoord = (y+50)/2;
+	var xcoord = x;
+	var ycoord = (y);
+	//alert(xcoord + "," + ycoord);
 	if (state.cur) {
 		//
 		// if isel = -1, error!!!
