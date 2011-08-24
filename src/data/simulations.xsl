@@ -13,18 +13,18 @@
         <h1>Simulations</h1>
           <div id="simulations">
           <xsl:for-each select="simulations/category">
-            <div class="category">
+            <div class="category" id="{@path}">
               <div class="category-name">
                 <xsl:value-of select="name" />
               </div>
               <xsl:for-each select="subcategory">
-                <div class="subcategory">
+                <div class="subcategory" id="{../@path}/{@path}">
                   <div class="subcategory-name">
                     <xsl:value-of select="name" />
                   </div>
                   <xsl:for-each select="simulation">
-                    <div class="simulation">
-                      <div class="simulation-name" onclick="window.location='simulation.html?{../../@path}/{../@path}/{@path}'">
+                    <div class="simulation" id="{../../@path}/{../@path}/{@path}">
+                      <div class="simulation-name" onclick="ep='{../../@path}/{../@path}/{@path}'; localStorage.setItem('description', document.getElementById(ep+'/description').innerHTML); window.location='simulation.html?'+ep;">
                         <xsl:value-of select="name" />
                       </div>
                       <div class="simulation-tags">
@@ -35,7 +35,7 @@
                         </div>
                         </xsl:for-each>
                       </div>
-                      <div class="description">
+                      <div class="description" id="{../../@path}/{../@path}/{@path}/description">
                         <xsl:value-of select="description" />
                       </div>
                     </div>
