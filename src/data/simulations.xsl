@@ -35,6 +35,9 @@
                         </div>
                         </xsl:for-each>
                       </div>
+                      <div class="description">
+                        <xsl:value-of select="description" />
+                      </div>
                     </div>
                   </xsl:for-each>
                 </div>
