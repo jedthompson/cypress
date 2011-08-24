@@ -80,8 +80,6 @@ function handleMouseMove(xpos, ypos, state, evnt, widgets) {
 	if(isWidgetLocked) {
 		state = lockedWidget.listener.mouseMove(xpos, ypos, state, evnt);
 	}
-		state.debugX = xpos;
-		state.debugY = ypos;
 	return state;
 }
 
@@ -283,16 +281,20 @@ function Slider(x, y, width, height, dataLoc, min, max, title) {
 	return widget;
 }
 
-function Button(x, y, width, height, dataloc, func, title) {
+function Button(x, y, width, height, funcUp, title, funcDown, dataloc) {
 	if (!title) var title = "Button";
 	var widget;
 	var isDown = false;
-	this.func = func;
+	this.funcUp = funcUp;
+	if(funcDown) {this.funcDown = funcDown;}
+	else {this.funcDown = null;}
 	this.x = x;
 	this.y = y;
 	this.width = width;
 	this.height = height;
 	this.title = title;
+	if(dataloc) {this.dataloc = dataloc;}
+	else {this.dataloc = null;}
 	this.renderDefault = function(c, state) {
 		c.beginPath();
 		c.strokeRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
@@ -310,20 +312,24 @@ function Button(x, y, width, height, dataloc, func, title) {
 	listener.mouseUp = function(xev, yev, state, evnt) {
 		if(isDown && (xev > x - width/2 && xev < x + width/2) && (yev > y - height/2 && yev < y + height/2)) {
 			isDown = false;
-			var stateTemp = func(false, state);
+			var stateTemp = funcUp(state);
 			if(stateTemp) {
 				state = stateTemp;
 			}
-//			this.func(false);
+			if(dataloc != null) {
+				state[dataloc] = true;
+			}
 		}
 		return state;
 	}
 	listener.mouseDown = function(xev, yev, state, evnt) {
 		if((xev > x - width/2 && xev < x + width/2) && (yev > y - height/2 && yev < y + height/2)) {
 			isDown = true;
-			var stateTemp = func(true, state);
-			if(stateTemp) {
-				state = stateTemp;
+			if(funcDown != null) {
+				var stateTemp = funcDown(state);
+				if(stateTemp) {
+					state = stateTemp;
+				}
 			}
 		}
 //		this.func(true);
