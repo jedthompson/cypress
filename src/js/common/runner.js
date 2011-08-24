@@ -38,7 +38,8 @@ function run_simulation(sim) {
 
 	// set up the description
 	description = document.getElementById("description");
-	description.innerHTML = sim.description;
+	//description.innerHTML = sim.description;
+	description.innerHTML = localStorage.getItem('description');
 
 	// add a downstairs canvas if the display is big enough
 	if (canvas.height > 400 && !sim.forceNoDoubleTab) {
