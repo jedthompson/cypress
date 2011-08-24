@@ -71,11 +71,6 @@ simulation.setup = function(state) {
 	state.settingsWidgets[1] = new Slider(-30, 0, 70, 6, "muSlider", 0, 1,"Friction");
 	
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
-		
-	
-	state.debugX = 0;
-	state.debugY = 0;
-	
 	/*simulation.tabs["Settings"].mouseUp = function(x, y, state, ev) {
 		state = handleMouseUp(x, y, state, ev, state.settingsWidgets);
 		state.thetaD = state["thetaSlider"];
@@ -211,7 +206,6 @@ simulation.render2d = function(state, c, w, h) {
 // widgets library.
 simulation.renderSettings = function(state, c, w, h) {
 	renderWidgets(state.settingsWidgets, c, state);
-	c.drawCircle(state.debugX, state.debugY, 2);
 }
 
 function drawVector(a,b,c,d,context) {

@@ -87,18 +87,12 @@ simulation.setup = function(state) {
 	var buttonW = 70;
 	var buttonH = 10;
 	state.settingsWidgets = [];
-	state.settingsWidgets[0] = new Button(buttonX0,buttonY0,buttonW,buttonH,
-		temp, bfunctionRA, "Reset Amplitudes");
-	state.settingsWidgets[1] = new Button(buttonX1,buttonY1,buttonW,buttonH,
-		temp, bfunctionSQ, "Square Wave");
-	state.settingsWidgets[2] = new Button(buttonX2,buttonY2,buttonW,buttonH,
-		temp, bfunctionTR, "Triangle Wave");
-	state.settingsWidgets[3] = new Button(buttonX3,buttonY3,buttonW,buttonH,
-		temp, bfunctionST, "Sawtooth Wave");
-	state.settingsWidgets[4] = new Button(buttonX4,buttonY4,buttonW,buttonH,
-		temp, bfunctionSW, "Swap Sin/Cos");
-	state.settingsWidgets[5] = new Button(buttonX5,buttonY5,buttonW,buttonH,
-		temp, bfunctionZ, "Set All=0");
+	state.settingsWidgets[0] = new Button(buttonX0,buttonY0,buttonW,buttonH, bfunctionRA, "Reset Amplitudes");
+	state.settingsWidgets[1] = new Button(buttonX1,buttonY1,buttonW,buttonH, bfunctionSQ, "Square Wave");
+	state.settingsWidgets[2] = new Button(buttonX2,buttonY2,buttonW,buttonH, bfunctionTR, "Triangle Wave");
+	state.settingsWidgets[3] = new Button(buttonX3,buttonY3,buttonW,buttonH, bfunctionST, "Sawtooth Wave");
+	state.settingsWidgets[4] = new Button(buttonX4,buttonY4,buttonW,buttonH, bfunctionSW, "Swap Sin/Cos");
+	state.settingsWidgets[5] = new Button(buttonX5,buttonY5,buttonW,buttonH, bfunctionZ, "Set All=0");
 
 //	state.hScale = 20;   // length of amplitude on the canvas if amp=1
 	state.hScale = 40;   // length of amplitude on the canvas if amp=1
@@ -116,59 +110,48 @@ simulation.setup = function(state) {
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 
-function bfunctionRA(d, state) {
-	if (!d)	{
+function bfunctionRA(state) {
 			state.doSquare = false;
 			state.doTriangle = false;
 			state.doSawtooth = false;
 			state = simulation.init_state(simulation.state);
-	}
 	return state;
 }
-function bfunctionSQ(d, state) {
-	if (!d)	{
+function bfunctionSQ(state) {
 			state.doSquare = true;
 			state.doTriangle = false;
 			state.doSawtooth = false;
 			state = simulation.init_state(simulation.state);
-	}
 	return state;
 }
-function bfunctionTR(d, state) {
-	if (!d)	{
+function bfunctionTR(state) {
 			state.doSquare = false;
 			state.doTriangle = true;
 			state.doSawtooth = false;
 			state = simulation.init_state(simulation.state);
-	}
 	return state;
 }
-function bfunctionST(d, state) {
+function bfunctionST(state) {
 			state.doSquare = false;
 			state.doTriangle = false;
 			state.doSawtooth = true;
-			state = simulation.init_state(simulation.state);	if (!d)	{
-	}
+			state = simulation.init_state(simulation.state);
 	return state;
 }
-function bfunctionSW(d, state) {
-	if (!d)	{
+function bfunctionSW(state) {
 			for (var i=0; i<nsines; i++) {
 				var tamp = state.sinAmp[i].data[2];
 				state.sinAmp[i].data[2] = state.cosAmp[i].data[2];
 				state.cosAmp[i].data[2] = tamp;
 			}
 			state.pleaseSwap = false;
-	}
 	return state;
 }
-function bfunctionZ(d, state) {
-	if (!d)	{
+function bfunctionZ(state) {
 			state.doSquare = false;
 			state.doTriangle = false;
 			state.doSawtooth = false;
 			state = simulation.init_state(simulation.state);
-	}
 	return state;
 }
 
