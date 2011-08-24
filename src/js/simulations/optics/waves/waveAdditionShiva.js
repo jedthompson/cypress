@@ -15,7 +15,7 @@ simulation.init_state = function(state) {
 
 	state.phase2 = 0;    // initialize to zero
 	state.amp2 = 10;     // initialize amplitude
-	state.vel2 = -4;
+	state.vel2 = 4;
 	state.wavelength2 = 20;
 	state.ypos2 = 0;
     
@@ -33,7 +33,7 @@ simulation.setup = function(state) {
 	state.settingsWidgets[0] = new Slider(-40, 40, 60, 4, "vel1", 0, 10, "Velocity 1");
 	state.settingsWidgets[1] = new Slider(-40, 20, 60, 4, "wavelength1", 10, 50, "Wavelength 1");
 	state.settingsWidgets[2] = new Slider(-40, 0, 60, 4, "amp1", 1, 50, "Amplitude 1");
-	state.settingsWidgets[3] = new Slider(40, 40, 60, 4, "vel2", -10, 0, "Velocity 2");
+	state.settingsWidgets[3] = new Slider(40, 40, 60, 4, "vel2", 0, 10, "Velocity 2");
 	state.settingsWidgets[4] = new Slider(40, 20, 60, 4, "wavelength2", 10, 50, "Wavelength 2");
 	state.settingsWidgets[5] = new Slider(40, 0, 60, 4, "amp2", 1, 50, "Amplitude 2");
 	
@@ -48,7 +48,7 @@ simulation.setup = function(state) {
 
 simulation.step = function(state) {
 	state.phase1 += 2*Math.PI * (simulation.dt*0.001)*state.vel1/state.wavelength1;
-	state.phase2 += 2*Math.PI * (simulation.dt*0.001)*state.vel2/state.wavelength2;
+	state.phase2 += -2*Math.PI * (simulation.dt*0.001)*state.vel2/state.wavelength2;
 	return state;
 }
 
@@ -86,7 +86,7 @@ simulation.render2d = function(state, c, w, h) {
        var xphase1 = 2*Math.PI*i/state.wavelength1;
        var xphase2 = 2*Math.PI*i/state.wavelength2;
        var xamp1 = state.amp1 * Math.sin(xphase1 - state.phase1);
-       var xamp2 = state.amp1 * Math.sin(xphase2 - state.phase2);
+       var xamp2 = state.amp2 * Math.sin(xphase2 - state.phase2);
        c.lineTo(-w/2+i, state.ypos3 + xamp1 + xamp2 );
        c.strokeStyle="#00f";
        c.stroke();       
