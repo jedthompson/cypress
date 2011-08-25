@@ -141,10 +141,10 @@ simulation.setup = function(state) {
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 
-function bfunctionRA(d, state) {
-	state.doSquare = false;
-	state.doTriangle = false;
-	state.doSawtooth = false;
+function bfunctionRA(state) {
+	//state.doSquare = false;
+	//state.doTriangle = false;
+	//state.doSawtooth = false;
 	state = simulation.init_state(simulation.state);
 	return state;
 }
@@ -191,7 +191,7 @@ function bfunctionZ(state) {
 	state = simulation.init_state(simulation.state);
 	return state;
 }
-function bfunctionD(d, state) {
+function bfunctionD(state) {
 	for (var i=0; i<nsines; i++) state.sinAmp[i].data[3] = false;
 	for (var i=0; i<nsines; i++) state.cosAmp[i].data[3] = false;
 	return state;
