@@ -1,0 +1,76 @@
+/*
+	Stylesheet for the list of simulations
+*/
+
+body {
+
+}
+
+h1 {
+	text-align: center;
+}
+
+#container {
+	display: block;
+	width: 680px;
+	font-family: helvetica, arial, sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#simulations {
+	display: block;
+	font-family: helvetica, arial, sans-serif;
+	letter-spacing: 0.4px;
+}
+
+.category {
+	margin-left: 10px;
+	font-size: 120%;
+	padding: 10px;
+	width: 100%;
+}
+
+.category-name {
+	font-weight: bold;
+}
+
+.subcategory {
+	margin-left: 10px;
+	font-size: 90%;
+	width: 100%;
+	padding: 5px;
+}
+
+.subcategory-name {
+	font-style: italic;
+}
+
+.simulation {
+	margin-left: 10px;
+	font-size: 90%;
+	padding: 2px;
+	width: 100%;
+}
+
+.simulation-name {
+	display: inline;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.simulation-tags {
+	float: right;
+	width: 380px;
+	font-size: 80%;
+}
+
+.description {
+	display: none;
+}
+
+.tag {
+	display: inline;
+	padding: 0 2px;
+}
+

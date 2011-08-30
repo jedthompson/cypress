@@ -1,0 +1,398 @@
+<?xml version="1.0"?>
+<simulations>
+ 	<category path="mechanics">
+		<name>Classical Mechanics</name>
+		<subcategory path="friction">
+			<name>Friction</name>
+			<simulation path="blockIncline">
+				<name>Block on an Inclined Plane</name>
+				<description>The block on an inclined plane is a classic physics demonstration that illustrates friction, gravity, and the normal force, among other concepts.  As the incline gets steeper, the normal force grows smaller due to gravity being pointed less and less towards the inclined plane.  As the normal force decreases in magnitude, so does the frictional force, and so the block accelerates faster.  The block also accelerates faster if the coefficient of kinetic friction is decreased.</description>
+				<tagset>
+					<tag>friction</tag>
+					<tag>block</tag>
+					<tag>ramp</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="gravity">
+			<name>Gravity</name>
+			<simulation path="bowlingBallAndTennisBall">
+				<name>Bowling Ball and Tennis Ball</name>
+				<description>TODO Description</description>
+				<tagset>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+			<simulation path="constantAccG">
+				<name>Constant Acceleration due to Gravity</name>
+				<description>In this demonstration, one can see that even though an object may have horizontal speed, the acceleration due to gravity will remain the same as if it had no horizontal speed and thus it will fall just as fast as a ball released from rest.</description>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>constant</tag>
+					<tag>acceleration</tag>
+					<tag>falling</tag>
+					<tag>balls</tag>
+				</tagset>
+			</simulation>
+			<simulation path="gravity">
+				<name>Planetary Attraction</name>
+				<description>In this simulation, the inverse-square law can easily be observed as the force of attraction between the two bodies grows greatly when they get nearer to each other.</description>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>attraction</tag>
+					<tag>mass</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="kinematics">
+			<name>Kinematics</name>
+			<simulation path="ballisticMotion">
+				<name>Ballistic Motion</name>
+				<description>Here, one can observe that gravity only affects the y component of the velocity and that the x component remains constant.  One can also see that gravity always induces a parabolic trajectory in a launched particle.</description>
+				<tagset>
+					<tag>gravity</tag>
+					<tag>ballistic</tag>
+					<tag>parabola</tag>
+					<tag>motion</tag>
+					<tag>projectile</tag>
+				</tagset>
+			</simulation>
+			<simulation path="centerOfMassMotion">
+				<name>Center of Mass Motion</name>
+				<description>Here, one can see that even though the mass distribution may be irregular and an object may gyrate strangely as it is thrown, the center of mass traces a smooth, parabolic path through space.</description>
+				<tagset>
+					<tag>center</tag>
+					<tag>mass</tag>
+					<tag>parabola</tag>
+					<tag>motion</tag>
+					<tag>projectile</tag>
+				</tagset>
+			</simulation>
+			<simulation path="cycloid">
+				<name>Cycloid</name>
+				<description>A cycloid is the curve traced out by a point on the edge of a rolling cylinder.  Here, one can see the cycloid traced out when a cylinder of arbitrary radius rolls without slipping along a plane.</description>
+				<tagset>
+					<tag>rolling</tag>
+					<tag>ball</tag>
+					<tag>sphere</tag>
+					<tag>curve</tag>
+					<tag>circle</tag>
+					<tag>cycloid</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="oscillations">
+			<name>Oscillations</name>
+			<simulation path="simplePendulum">
+				<name>Simple Pendulum</name>
+				<description>In this demonstration of a simple pendulum, one can see how the period of the pendulum is independent of the weight of the bob and (ideally) the amplitude. (It actually does depend on the amplitude in real life because simple pendulums only approximate reality for small theta.)  The pendulum then oscillates around its equilibrium (the point where all the forces balance).</description>
+				<tagset>
+					<tag>pendulum</tag>
+					<tag>simple</tag>
+					<tag>oscillation</tag>
+					<tag>harmonic</tag>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="momentum">
+				<name>Momentum</name>
+				<description>This simulation shows how momentum is always conserved.  Momentum, the product of the mass and velocity of an object is a vector and the net momentum (the sum of all the individual momentums of all the bodies in a system) is always conserved.</description>
+				<tagset>
+					<tag>momentum</tag>
+					<tag>conservation</tag>
+					<tag>motion</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="em">
+		<name>Electricity and Magnetism</name>
+		<subcategory path="eFields">
+			<name>Electric Fields</name>
+			<simulation path="eFieldMotion">
+				<name>Charged Particle in an Electric Field</name>
+				<description>In this simulation, one can see how a small positive test charge moves in an electric field generated by multiple point charges.</description>
+				<tagset>
+					<tag>charge</tag>
+					<tag>particle</tag>
+					<tag>electric</tag>
+					<tag>field</tag>
+					<tag>force</tag>
+				</tagset>
+			</simulation>
+			<simulation path="rotatingCharge">
+				<name>Electric Field of a Rotating Charge</name>
+				<description>When a charged particle rotates about some axis, its electric field generates a pulsing pattern (as long as the particle is moving at a speed comparable to the speed of light, or the speed at which the electric field propagates.)</description>
+				<tagset>
+					<tag>rotate</tag>
+					<tag>electric</tag>
+					<tag>field</tag>
+					<tag>charge</tag>
+					<tag>electron</tag>
+					<tag>lines</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="charge-mf">
+				<name>Charged Particle in Magnetic Field</name>
+				<description>When a moving particle with an electric charge is subjected to a magnetic field, it accelerates in the direction of the cross product of the particles velocity and the magnetic field.  Thus if the particle is moving perpendicular to a constant magnetic field, it will curve in a circular path</description>
+				<tagset>
+					<tag>charge</tag>
+					<tag>magnet</tag>
+					<tag>field</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+	
+	<category path="optics">
+		<name>Optics</name>
+
+		<subcategory path="waves">
+			<name>Waves</name>
+			<simulation path="doppler">
+				<name>Doppler Effect</name>
+				<description>When a moving particle emits spherical waves, the waves undergo the Doppler effect.  This causes them to shift in frequency in front of and behind the particle.  This effect can be easily observed in reality when a sound source of constant frequency passes a stationary observer.</description>
+				<tagset>
+					<tag>redshift</tag>
+					<tag>blueshift</tag>
+					<tag>star</tag>
+					<tag>sound</tag>
+				</tagset>
+			</simulation>
+			<simulation path="longitudinal">
+				<name>Longitudinal Waves</name>
+				<description>Longitudinal waves occur when a spring or some other compressible material (the ground, the air, etc.) is rapidly compressed and decompressed.  This causes sound, earthquakes, and many other effects.</description>
+				<tagset>
+					<tag>particle</tag>
+					<tag>sound</tag>
+					<tag>collated</tag>
+					<tag>light</tag>
+				</tagset>
+			</simulation>
+			<simulation path="transverse">
+				<name>Transverse Waves</name>
+				<description>Transverse waves are akin to waves of light or standing waves on a string.  They have a frequency (number of waves per unit time), an amplitude (how "tall" the waves are), and a speed at which they propagate through space.</description>
+				<tagset>
+					<tag>light</tag>
+					<tag>amplitude</tag>
+					<tag>frequency</tag>
+				</tagset>
+			</simulation>
+			<simulation path="waveAddition">
+				<name>Interference of Two Waves</name>
+				<description>In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.</description>
+				<tagset>
+					<tag>wave</tag>
+					<tag>sound</tag>
+					<tag>light</tag>
+					<tag>interference</tag>
+					<tag>addition</tag>
+					<tag>oscilloscope</tag>
+				</tagset>
+			</simulation>
+			<simulation path="waveAdditionShiva">
+				<name>Interference, Shiva Machine style</name>
+				<description>In this simulation, one can see how waves add.  The first two waves are independent of each other, while the bottom wave shows their sum.  If one of the waves propagates faster than the other, the waves will go through a cycle of adding constructively and destructively.</description>
+				<tagset>
+					<tag>wave</tag>
+					<tag>sound</tag>
+					<tag>light</tag>
+					<tag>interference</tag>
+					<tag>addition</tag>
+					<tag>oscilloscope</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="color">
+			<name>Color</name>
+			<simulation path="subtractiveColor">
+				<name>Subtractive Color Combinations</name>
+				<description>TODO</description>
+				<tagset>
+					<tag>color</tag>
+					<tag>subtractive</tag>
+					<tag>mixing</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+		
+		<subcategory path="diffraction">
+			<name>Diffraction</name>
+			<simulation path="diffractionSlit">
+				<name>Diffraction Through a Thin Slit</name>
+				<description>Because light has wave-like qualities, when it passes through a thin slit, it diffracts in a radial pattern away from the slit.</description>
+				<tagset>
+					<tag>light</tag>
+					<tag>diffraction</tag>
+					<tag>slit</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+			<simulation path="doubleSlit">
+				<name>Double Slit Diffraction Interference</name>
+				<description>As shown in the famous Young experiment, light behaves like a wave in that it diffracts.  This means that when passed through two slits, collated light will create an interference pattern.</description>
+				<tagset>
+					<tag>light</tag>
+					<tag>diffraction</tag>
+					<tag>slit</tag>
+					<tag>two</tag>
+					<tag>double</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+			<simulation path="huygensPrinciple">
+				<name>Huygen's Wavefront Propagation</name>
+				<description>According to Huygen's Propagation of Wavefronts Principle, the path of a wavefront through a slit can be found by regarding every point in the slit as a light source and letting each light source release a spherical wavefront of light.  The net wavefront is then the outer edge of all the individual wavefronts.</description>
+				<tagset>
+					<tag>Huygen</tag>
+					<tag>light</tag>
+					<tag>slit</tag>
+					<tag>thin</tag>
+					<tag>diffraction</tag>
+					<tag>pinhole</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="refraction">
+			<name>Refraction</name>
+			<simulation path="refraction">
+				<name>Refraction</name>
+				<description>When light passes from one medium to another, the difference in speeds of light between the mediums causes the light to refract.  This refraction is a changing in the direction of the light proportional to the difference in speeds of light between the mediums.</description>
+				<tagset>
+					<tag>light</tag>
+					<tag>speed</tag>
+					<tag>refraction</tag>
+					<tag>snell</tag>
+					<tag>wave</tag>
+				</tagset>
+			</simulation>
+			<simulation path="leastTime">
+				<name>Principle of Least Time</name>
+				<description>Here we can see Snell's law from the principle of least time.</description>
+				<tagset>
+					<tag>light</tag>
+					<tag>speed</tag>
+					<tag>refraction</tag>
+					<tag>snell</tag>
+					<tag>wave</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+		<subcategory path="lenses">
+			<name>Lenses, ray tracing, Thin Lens formula</name>
+			<simulation path="thinLens">
+				<name>Single lens</name>
+				<description>See the thin lens equation in action for a single lens.</description>
+				<tagset>
+					<tag>lens</tag>
+					<tag>thin lens</tag>
+				</tagset>
+			</simulation>
+			<simulation path="thinLens2">
+				<name>Double lens combination</name>
+				<description>See the thin lens equation in action for a single lens.</description>
+				<tagset>
+					<tag>lens</tag>
+					<tag>thin lens</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+
+
+	</category>
+
+	<category path="thermodynamics">
+		<name>Thermodynamics</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="gasDiffusion">
+				<name>Gas Diffusion</name>
+				<description>In this simulation, the two gases start on separate sides of the box, but gradually diffuse until each side has approximately the same number of blue gas particles and red gas particles as the other.</description>
+				<tagset>
+					<tag>entropy</tag>
+					<tag>gas</tag>
+					<tag>diffusion</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="nuclear">
+		<name>Nuclear Physics</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="goldFoil">
+				<name>Gold Foil Experiment</name>
+				<description>This simulation models the famous experiment performed by Rutherford that gave us our first idea of a nucleus.  Alpha particles (helium nuclei with a positive charge) were fired at a very thin piece of gold foil, with the expectation that they would easily penetrate the weak material, and indeed most of them did.  But a few alpha particles ricocheted back, having come near the extremely positive nucleus of the gold atom.  The fact that only a few bounced back indicates how small the nucleus really is compared to the rest of the atom.</description>
+				<tagset>
+					<tag>gold</tag>
+					<tag>foil</tag>
+					<tag>nucleus</tag>
+					<tag>proton</tag>
+					<tag>alpha</tag>
+					<tag>particle</tag>
+				</tagset>
+			</simulation>
+			<simulation path="decay">
+				<name>Nuclear Decay</name>
+				<description>This demonstration illustrates how radioactive particles with a certain half-life decay over time.  As can be seen, the rate of decay at the beginning of the simulation is much larger than nearer to the end of the simulation, because there are more particles with the same chance of decaying per unit time, so more particles decay per unit time.</description>
+				<tagset>
+					<tag>exponential</tag>
+					<tag>decay</tag>
+					<tag>radioactive</tag>
+					<tag>half-life</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="relativity">
+		<name>Relativity</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="gravitational-waves">
+				<name>Gravitational Waves</name>
+				<description>TODO Description</description>
+				<tagset>
+					<tag>gravity</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+	<category path="math">
+		<name>Mathematics</name>
+
+		<subcategory path="misc">
+			<name>Miscellaneous</name>
+			<simulation path="fourier">
+				<name>Fourier Analysis</name>
+				<description>TODO Description</description>
+				<tagset>
+					<tag>fourier</tag>
+				</tagset>
+			</simulation>
+		</subcategory>
+	</category>
+
+</simulations>
+
