@@ -201,7 +201,7 @@ simulation.setup = function(state) {
 
 	generateDefaultWidgetHandler(simulation, 'Settings', state.settingsWidgets);
 
-function bfunctionRA(d, state) {
+function bfunctionRA(state) {
 	state = simulation.init_state(simulation.state);
 	return state;
 }
