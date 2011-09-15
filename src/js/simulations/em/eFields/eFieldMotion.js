@@ -80,7 +80,7 @@ simulation.render2d = function(state, c, w, h) {
 	
 	for(var i = 0; i < state.charges.length; i++) {
 		c.beginPath();
-		c.arc(state.charges[i].cx, state.charges[i].cy, state.chargeRad, 0, 2*Math.PI, false);
+		c.circle(state.charges[i].cx, state.charges[i].cy, state.chargeRad);
 		if(state.charges[i].charge > 0) {
 			c.strokeStyle="#f00";
 		}else if(state.charges[i].charge < 0) {
