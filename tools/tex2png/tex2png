@@ -127,7 +127,7 @@ fi
 
 
 
-latex -halt-on-error -output-directory="$tmpdir" "$tmpdir/content.tex" >/dev/null || exit 1
+latex -halt-on-error -output-directory="$tmpdir" "$tmpdir/content.tex" || exit 1
 while [ ! -e "$tmpdir/content.dvi" ] || [ ! -s "$tmpdir/content.dvi" ]; do
   sleep 0.1
 done

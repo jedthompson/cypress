@@ -37,6 +37,13 @@
                       </div>
                       <div class="description" id="{../../@path}/{../@path}/{@path}/description">
                         <xsl:value-of select="description" />
+                        <div class="equations">
+                          <xsl:for-each select="equations/equation">
+                            <div class="equation">
+                              <xsl:value-of select="." />
+                            </div>
+                          </xsl:for-each>
+                        </div>
                       </div>
                     </div>
                   </xsl:for-each>
