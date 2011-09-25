@@ -27,6 +27,7 @@ MARKDOWN := perl tools/markdown/Markdown.pl
 #CLOSURE := java -jar tools/closure-compiler/compiler.jar --language_in ECMASCRIPT5
 #CLOSURE_FILE_PREFIX := --js
 CLOSURE := @cat
+TEXIFY := TEX2PNG=tools/tex2png/tex2png IMGDIR=build/gr/all/math HTMLIMGDIR=../gr/all/math tools/texify/texify.pl
 
 .PHONY: all doc js test tests clean
 
@@ -46,7 +47,8 @@ ${OUT_DATA}: ${SRC_DATA}
 	${MKDIR} build/data
 	${CP} $(subst build/data,src/data,$@) $@
 build/html/simulations.xhtml: $(subst src/data,build/data,$(wildcard src/data/simulations.*))
-	${XSLTPROC} build/data/simulations.xsl build/data/simulations.xml > build/html/simulations.xhtml
+	${MKDIR} build/gr/all/math
+	${XSLTPROC} build/data/simulations.xsl build/data/simulations.xml | ${TEXIFY} > build/html/simulations.xhtml
 
 build/html/simulations.html : build/html/simulations.xhtml
 	${CP} build/html/simulations.xhtml $@
