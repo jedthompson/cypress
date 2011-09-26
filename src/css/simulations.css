@@ -69,16 +69,6 @@ h1 {
 	display: none;
 }
 
-.equations {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.equation {
-	border: 1px solid black;
-	padding: 3px;
-}
-
 .tag {
 	display: inline;
 	padding: 0 2px;
