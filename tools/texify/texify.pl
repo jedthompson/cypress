@@ -23,6 +23,8 @@ my $htmlimgdir = $ENV{HTMLIMGDIR};
 my $content = "";
 $content .= $_ while <>;
 
+`rm -f "/tmp/texify.log"`;
+
 my %eqns = ();
 while ($content =~ m'\[latex\](.*?)\[/latex\]'misg) {
 	my $entire = $&;
@@ -30,7 +32,7 @@ while ($content =~ m'\[latex\](.*?)\[/latex\]'misg) {
 	my $latex = $1;
 	my $fname = sha256_hex($latex).".png";
 	$eqns{$entire} = [$latex, $fname];
-	open TEX, "| $t2p -i -T -o $imgdir/$fname > /dev/null";
+	open TEX, "| $t2p -i -T -o $imgdir/$fname >> /tmp/texify.log";
 	print TEX "\$$latex\$";
 	close TEX;
 }
