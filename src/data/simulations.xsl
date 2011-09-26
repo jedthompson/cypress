@@ -40,7 +40,7 @@
                         <div class="equations">
                           <xsl:for-each select="equations/equation">
                             <div class="equation">
-                              <xsl:value-of select="." />
+                              [latex]<xsl:value-of select="." />[/latex]
                             </div>
                           </xsl:for-each>
                         </div>

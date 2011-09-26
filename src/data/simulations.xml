@@ -14,9 +14,9 @@
           <tag>gravity</tag>
         </tagset>
         <equations>
-          <equation>[latex]$\LaTeX$[/latex]</equation>
-          <equation>[latex]$I'm NOT in math mode now!$[/latex]</equation>
-          <equation>[latex]F=\sum{ma}$ - but that \textit{was} math mode$[/latex]</equation>
+          <equation>$\LaTeX$</equation>
+          <equation>$I'm NOT in math mode now!$</equation>
+          <equation>F=\sum{ma}$ - but that \textit{was} math mode$</equation>
         </equations>
       </simulation>
     </subcategory>
@@ -65,6 +65,9 @@
           <tag>motion</tag>
           <tag>projectile</tag>
         </tagset>
+        <equations>
+          <equation>hello</equation>
+        </equations>
       </simulation>
       <simulation path="centerOfMassMotion">
         <name>Center of Mass Motion</name>
