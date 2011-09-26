@@ -66,7 +66,10 @@
           <tag>projectile</tag>
         </tagset>
         <equations>
-          <equation>hello</equation>
+          <equation>\vec v_x = k</equation>
+          <equation>\vec v_y = \vec at</equation>
+          <equation>x = \vec v_xt + x_0</equation>
+          <equation>y = \frac{1}{2} \vec at^2 + \vec v_0t + y_0</equation>
         </equations>
       </simulation>
       <simulation path="centerOfMassMotion">
